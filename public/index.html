@@ -293,29 +293,66 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .code-close-btn{background:none;border:1.5px solid var(--bd);border-radius:9px;padding:7px 20px;font-size:12px;color:var(--muted);cursor:pointer;font-family:inherit;margin-top:8px}
 
 /* Preview lock banner */
-.preview-lock{background:linear-gradient(135deg,var(--navy),#152d58);border-radius:14px;padding:18px 20px;margin:16px 0;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden}
-.preview-lock::before{content:'';position:absolute;top:-20px;right:-20px;width:100px;height:100px;background:radial-gradient(circle,rgba(198,160,60,.18),transparent 70%)}
+/* ── Preview Lock Banner ─────────────────────────────────── */
+.preview-lock{background:linear-gradient(135deg,var(--navy),#152d58);border-radius:14px;padding:18px 20px;margin:16px 0;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden;flex-wrap:wrap}
+.preview-lock::before{content:'';position:absolute;top:-20px;right:-20px;width:120px;height:120px;background:radial-gradient(circle,rgba(198,160,60,.18),transparent 70%);pointer-events:none}
 .pl-icon{font-size:32px;flex-shrink:0}
 .pl-text h4{font-size:14px;font-weight:800;color:#fff;margin-bottom:3px}
 .pl-text p{font-size:11px;color:rgba(255,255,255,.65);margin:0}
 .pl-actions{margin-right:auto;display:flex;flex-direction:column;gap:6px;flex-shrink:0}
-.pl-pay-btn{padding:9px 16px;border-radius:9px;border:none;background:linear-gradient(135deg,var(--gold),var(--gold-l));color:var(--navy);font-family:inherit;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;transition:all .2s}
-.pl-pay-btn:hover{transform:translateY(-1px)}
+.pl-pay-btn{padding:9px 16px;border-radius:9px;border:none;background:linear-gradient(135deg,var(--gold),var(--gold-l));color:var(--navy);font-family:inherit;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;transition:all .2s;box-shadow:0 4px 14px rgba(198,160,60,.35)}
+.pl-pay-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(198,160,60,.45)}
 .pl-code-btn{padding:7px 16px;border-radius:9px;border:1.5px solid rgba(255,255,255,.25);background:transparent;color:rgba(255,255,255,.8);font-family:inherit;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s}
-.pl-code-btn:hover{border-color:rgba(255,255,255,.5)}
+.pl-code-btn:hover{border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.07)}
 
-/* Watermark on preview */
-.preview-wm-overlay{position:absolute;inset:0;pointer-events:none;z-index:10;display:flex;align-items:center;justify-content:center;overflow:hidden}
-.preview-wm-text{font-size:48px;font-weight:900;color:rgba(7,23,47,.08);transform:rotate(-35deg);white-space:nowrap;user-select:none;font-family:'Cairo',sans-serif;letter-spacing:3px}
+/* ── Pro Slide Viewer ────────────────────────────────────── */
+.psv-wrap{background:#0d0d1a;border-radius:16px;overflow:hidden;margin-top:14px;box-shadow:0 12px 48px rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.06)}
 
-/* Preview container */
-.preview-container{position:relative;background:#1a1a2e;border-radius:14px;overflow:hidden;margin-top:14px;min-height:200px}
-.preview-slides-viewer{width:100%;aspect-ratio:16/9;position:relative}
-.preview-nav{display:flex;align-items:center;justify-content:center;gap:12px;padding:10px;background:rgba(0,0,0,.6)}
-.pn-btn{background:rgba(255,255,255,.15);border:none;border-radius:8px;padding:6px 14px;color:#fff;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
-.pn-btn:hover{background:rgba(255,255,255,.28)}
-.pn-btn:disabled{opacity:.35;cursor:not-allowed}
-.pn-counter{color:rgba(255,255,255,.7);font-size:12px;font-weight:600;min-width:60px;text-align:center}
+/* Stage & Viewer */
+.psv-stage{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#0a0a18;display:flex;align-items:center;justify-content:center;cursor:grab}
+.psv-stage:active{cursor:grabbing}
+.psv-stage.zoom-active{cursor:zoom-out}
+.psv-slide-img{width:100%;height:100%;object-fit:contain;display:none;user-select:none;-webkit-user-select:none;pointer-events:none;transition:opacity .22s ease}
+.psv-slide-img.active{display:block;animation:slideIn .25s ease}
+@keyframes slideIn{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:scale(1)}}
+
+/* Watermark overlay (CSS layer for extra protection) */
+.psv-wm{position:absolute;inset:0;pointer-events:none;z-index:12;overflow:hidden;display:flex;flex-direction:column;justify-content:space-around;align-items:center;gap:0}
+.psv-wm-row{display:flex;gap:0;white-space:nowrap;transform:rotate(-28deg);width:200%}
+.psv-wm-text{font-size:clamp(11px,1.8vw,22px);font-weight:900;color:rgba(255,255,255,0.09);letter-spacing:2px;font-family:'Cairo',sans-serif;white-space:nowrap;padding:0 40px;user-select:none}
+
+/* Loading overlay */
+.psv-loading{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:20;background:#0a0a18}
+.psv-spinner{width:44px;height:44px;border:3px solid rgba(198,160,60,.15);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.psv-loading-txt{font-size:13px;color:rgba(255,255,255,.55);font-family:'Cairo',sans-serif}
+.psv-loading-sub{font-size:11px;color:rgba(255,255,255,.3);font-family:'Cairo',sans-serif}
+.psv-progress-bar{width:140px;height:3px;background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden;margin-top:4px}
+.psv-progress-fill{height:100%;background:var(--gold);border-radius:2px;transition:width .4s ease;width:0%}
+
+/* Prev/Next arrows */
+.psv-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:15;background:rgba(0,0,0,.55);border:1px solid rgba(255,255,255,.12);border-radius:10px;color:rgba(255,255,255,.9);font-size:18px;width:38px;height:52px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;backdrop-filter:blur(6px)}
+.psv-arrow:hover{background:rgba(198,160,60,.6);border-color:rgba(198,160,60,.7)}
+.psv-arrow:disabled{opacity:.2;cursor:not-allowed;pointer-events:none}
+.psv-arrow-prev{right:10px}
+.psv-arrow-next{left:10px}
+
+/* Toolbar */
+.psv-toolbar{display:flex;align-items:center;gap:8px;padding:9px 14px;background:rgba(255,255,255,.04);border-top:1px solid rgba(255,255,255,.07)}
+.psv-counter{font-size:12px;color:rgba(255,255,255,.6);font-family:'Cairo',sans-serif;font-weight:600;flex:1;text-align:center}
+.psv-dots{display:flex;gap:5px;align-items:center;justify-content:center;flex:1;overflow:hidden;max-width:240px;flex-wrap:nowrap}
+.psv-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:all .2s;flex-shrink:0}
+.psv-dot.active{background:var(--gold);transform:scale(1.35)}
+.psv-dot:hover:not(.active){background:rgba(255,255,255,.45)}
+.psv-fullscreen-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:7px;color:rgba(255,255,255,.7);padding:5px 9px;font-size:12px;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap}
+.psv-fullscreen-btn:hover{background:rgba(255,255,255,.16);color:#fff}
+
+/* Slide count badge */
+.psv-badge{position:absolute;top:10px;left:10px;z-index:16;background:rgba(0,0,0,.65);border:1px solid rgba(198,160,60,.4);border-radius:8px;padding:4px 10px;font-size:11px;color:var(--gold-l);font-family:'Cairo',sans-serif;font-weight:700;backdrop-filter:blur(4px)}
+
+/* Security overlay (prevents right-click save context) */
+.psv-sec-overlay{position:absolute;inset:0;z-index:11;background:transparent}
+
 
 @media(max-width:900px){
   .mpick{grid-template-columns:1fr 1fr}}
@@ -1844,7 +1881,8 @@ async function generate(){
     const isFallback = false; // v17: single unified engine, no fallbacks
     // تحويل base64 → Blob (للمعاينة فقط — ملف PPTX الحقيقي على الخادم)
     setP(100,t('modal_ok'));await sl(300);
-    showOk(json.data,d.studentName,false,json.filename,json.presentation_id,json.degree||d.degree||'licence',json.title_ar||d.titleAr||'',json.preview_slides||[]);
+    // v20: لا نستقبل json.data (PPTX) هنا — الملف الحقيقي على السيرفر فقط
+    showOk(null,d.studentName,false,json.filename,json.presentation_id,json.degree||d.degree||'licence',json.title_ar||d.titleAr||'',json.preview_slides||[],json.preview_token||'');
     localStorage.removeItem('mp_v4');
   }catch(e){
     clearTimeout(_timeoutId);
@@ -1886,134 +1924,202 @@ function cancelGen(){
 function setP(p,m){document.getElementById('pfill').style.width=p+'%';document.getElementById('plbl').textContent=m||p+'%';}
 // ══ PAYMENT STATE ══
 let _currentPresId = null;
-let _currentB64 = null;
-let _currentFilename = null;
+// ══════════════════════════════════════════════════════════════
+// v20 — نظام المعاينة الاحترافية (Pro Slide Viewer)
+// الملف الحقيقي لا يُرسل للمتصفح إطلاقاً — صور WebP فقط
+// ══════════════════════════════════════════════════════════════
 let _currentStudentName = null;
 let _currentDegree = null;
 let _currentTitleAr = null;
 let _currentOrderId = null;
 let _selectedMethod = null;
 let _receiptFile = null;
-let _previewSlideIdx = 0;
 
-function showOk(b64Data, name, isFallback, serverFilename, presId, degree, titleAr, inlineSlides){
-  _currentPresId = presId;
-  _currentB64 = b64Data;
-  _currentFilename = serverFilename || 'presentation.pptx';
-  _currentStudentName = name;
-  _currentDegree = degree || 'licence';
-  _currentTitleAr = titleAr || '';
-  _previewSlideIdx = 0;
-  _previewSlides = (inlineSlides && inlineSlides.length) ? inlineSlides : [];
-  closeM();
-  showLockedPreviewBanner();
-  if(_previewSlides.length){
-    // صور المعاينة وصلت مباشرة مع الـ response — اعرضها فوراً
-    showPreviewSlide(0);
-    const msg = document.getElementById('previewLoadingMsg');
-    if(msg) msg.style.display = 'none';
-  } else {
-    // لم تصل صور — استخدم الـ polling لجلبها من السيرفر
-    loadRealPreview(presId);
-  }
-}
+// ── حالة نظام المعاينة ──────────────────────────────────────
+const PSV = {
+  slides: [],
+  idx: 0,
+  token: '',
+  loaded: new Set(),
+};
 
-function showLockedPreviewBanner(){
-  let existing = document.getElementById('resultBanner');
-  if(existing) existing.remove();
-  const banner = document.createElement('div');
-  banner.id = 'resultBanner';
-  banner.style.cssText = 'margin-top:20px;animation:fu .3s ease';
-  banner.innerHTML = `
+function _buildViewerHTML(slideCount) {
+  const wm = 'مذكرتي Pro — معاينة فقط &nbsp;&nbsp; ';
+  const wmRow = `<div class="psv-wm-row">${wm.repeat(12)}</div>`;
+  const wmRows = wmRow.repeat(5);
+  const sc = slideCount ? slideCount : '...';
+  return `
     <div class="preview-lock">
       <div class="pl-icon">🔒</div>
       <div class="pl-text">
-        <h4>العرض جاهز — محمي حتى الدفع</h4>
-        <p>أدّ 800 دج للحصول على ملف PPTX الكامل القابل للتعديل</p>
+        <h4>العرض الحقيقي — محمي حتى الدفع</h4>
+        <p>أدِّ 800 دج للحصول على ملف PPTX الكامل القابل للتعديل</p>
       </div>
       <div class="pl-actions">
         <button class="pl-pay-btn" onclick="openPayOv()">💳 اشتري الآن — 800 دج</button>
         <button class="pl-code-btn" onclick="openCodeOv()">🔑 عندي كود</button>
       </div>
     </div>
-    <div class="preview-container" id="previewContainer">
-      <div id="previewSlideWrap" style="position:relative;width:100%;aspect-ratio:16/9;background:#0a0f1e;border-radius:10px;display:flex;align-items:center;justify-content:center;overflow:hidden">
-        <div id="previewLoadingMsg" style="text-align:center;color:rgba(255,255,255,.6)">
-          <div style="font-size:32px;margin-bottom:10px;animation:mspin 1.5s linear infinite;display:inline-block">⚙️</div>
-          <div style="font-size:13px">جاري تحميل معاينة الشرائح...</div>
-        </div>
-        <img id="previewImg" src="" alt="شريحة"
-          style="display:none;width:100%;height:100%;object-fit:contain;user-select:none;-webkit-user-select:none;pointer-events:none"
-          oncontextmenu="return false" draggable="false">
-        <div style="position:absolute;inset:0;pointer-events:none;display:flex;flex-direction:column;justify-content:space-around;align-items:center;overflow:hidden">
-          <div style="transform:rotate(-30deg);font-size:clamp(14px,2.5vw,26px);font-weight:900;color:rgba(255,255,255,0.13);white-space:nowrap;letter-spacing:3px">مذكرتي Pro — معاينة فقط &nbsp;&nbsp; مذكرتي Pro — معاينة فقط</div>
-          <div style="transform:rotate(-30deg);font-size:clamp(14px,2.5vw,26px);font-weight:900;color:rgba(255,255,255,0.13);white-space:nowrap;letter-spacing:3px">مذكرتي Pro — معاينة فقط &nbsp;&nbsp; مذكرتي Pro — معاينة فقط</div>
-          <div style="transform:rotate(-30deg);font-size:clamp(14px,2.5vw,26px);font-weight:900;color:rgba(255,255,255,0.13);white-space:nowrap;letter-spacing:3px">مذكرتي Pro — معاينة فقط &nbsp;&nbsp; مذكرتي Pro — معاينة فقط</div>
-        </div>
+    <div class="psv-wrap" id="psvWrap">
+      <div class="psv-loading" id="psvLoading">
+        <div class="psv-spinner"></div>
+        <div class="psv-loading-txt">جاري تحميل المعاينة الحقيقية...</div>
+        <div class="psv-loading-sub">يُعرض التصميم الفعلي للشرائح</div>
+        <div class="psv-progress-bar"><div class="psv-progress-fill" id="psvProgressFill"></div></div>
       </div>
-      <div class="preview-nav">
-        <button class="pn-btn" id="prevSlideBtn" onclick="previewPrev()" disabled>&#8594; السابقة</button>
-        <span class="pn-counter" id="slideCounter">جاري التحميل...</span>
-        <button class="pn-btn" id="nextSlideBtn" onclick="previewNext()" disabled>التالية &#8592;</button>
+      <div class="psv-stage" id="psvStage" oncontextmenu="return false" ondragstart="return false" ondrop="return false">
+        <div class="psv-sec-overlay" oncontextmenu="return false" ondragstart="return false"></div>
+        <div class="psv-badge" id="psvBadge" style="display:none">📊 <span id="psvSlideCount">${sc}</span> شريحة</div>
+        <div class="psv-wm" aria-hidden="true">${wmRows}</div>
+        <img id="psvImg" class="psv-slide-img" alt="معاينة الشريحة" draggable="false" oncontextmenu="return false" ondragstart="return false">
+        <button class="psv-arrow psv-arrow-prev" id="psvPrev" onclick="psvGo(PSV.idx-1)" title="السابقة" disabled>›</button>
+        <button class="psv-arrow psv-arrow-next" id="psvNext" onclick="psvGo(PSV.idx+1)" title="التالية" disabled>‹</button>
+      </div>
+      <div class="psv-toolbar">
+        <span class="psv-counter" id="psvCounter">جاري التحميل...</span>
+        <div class="psv-dots" id="psvDots"></div>
+        <button class="psv-fullscreen-btn" onclick="psvFullscreen()">⛶ ملء الشاشة</button>
       </div>
     </div>
-    <button class="bnew" style="margin-top:10px" onclick="if(confirm('سيتم حذف العرض الحالي وإنشاء عرض جديد.')){localStorage.removeItem('mp_v4');location.reload()}">🔄 إنشاء عرض جديد</button>
-  `;
-  const bgen = document.getElementById('bgen');
-  if(bgen && bgen.parentNode) bgen.parentNode.insertBefore(banner, bgen.nextSibling);
-  else document.querySelector('.main').appendChild(banner);
-  setTimeout(()=>banner.scrollIntoView({behavior:'smooth',block:'center'}), 150);
+    <button class="bnew" style="margin-top:10px" onclick="if(confirm('سيتم حذف العرض الحالي وإنشاء عرض جديد.')){localStorage.removeItem('mp_v4');location.reload()}">🔄 إنشاء عرض جديد</button>`;
 }
 
-function renderPptxPreview(b64Data){ /* غير مستخدمة */ }
-function pptxNext(){ previewNext(); }
-function pptxPrev(){ previewPrev(); }
-// ── polling fallback للمعاينة من السيرفر ────────────────────────────────────
-async function loadRealPreview(presId, attempt){
-  attempt = attempt || 0;
-  const MAX = 15, RETRY_MS = 3000;
+function showOk(b64Data_IGNORED, name, isFallback, serverFilename, presId, degree, titleAr, inlineSlides, previewToken) {
+  _currentPresId = presId;
+  _currentFilename = serverFilename || 'presentation.pptx';
+  _currentStudentName = name;
+  _currentDegree = degree || 'licence';
+  _currentTitleAr = titleAr || '';
+  PSV.slides = []; PSV.idx = 0; PSV.token = previewToken || ''; PSV.loaded.clear();
+  closeM();
+  let existing = document.getElementById('resultBanner');
+  if (existing) existing.remove();
+  const banner = document.createElement('div');
+  banner.id = 'resultBanner';
+  banner.style.cssText = 'margin-top:20px;animation:fu .3s ease';
+  banner.innerHTML = _buildViewerHTML(inlineSlides ? inlineSlides.length : null);
+  const bgen = document.getElementById('bgen');
+  if (bgen && bgen.parentNode) bgen.parentNode.insertBefore(banner, bgen.nextSibling);
+  else document.querySelector('.main').appendChild(banner);
+  setTimeout(() => banner.scrollIntoView({ behavior: 'smooth', block: 'center' }), 150);
+  if (inlineSlides && inlineSlides.length) {
+    psvLoadSlides(inlineSlides);
+  } else {
+    psvPollPreview(presId, previewToken, 0);
+  }
+}
+
+function psvLoadSlides(slides) {
+  PSV.slides = slides;
+  const dotsEl = document.getElementById('psvDots');
+  if (dotsEl) {
+    const maxDots = Math.min(slides.length, 18);
+    dotsEl.innerHTML = Array.from({length: maxDots}, (_, i) =>
+      `<div class="psv-dot${i===0?' active':''}" onclick="psvGo(${i})" title="شريحة ${i+1}"></div>`
+    ).join('');
+  }
+  const badge = document.getElementById('psvBadge');
+  const countEl = document.getElementById('psvSlideCount');
+  if (badge) badge.style.display = 'block';
+  if (countEl) countEl.textContent = slides.length;
+  const loading = document.getElementById('psvLoading');
+  if (loading) { loading.style.opacity='0'; setTimeout(()=>{ if(loading) loading.style.display='none'; },300); }
+  psvGo(0);
+  const next = document.getElementById('psvNext');
+  if (next) next.disabled = slides.length <= 1;
+  _psvPreloadNext(0);
+}
+
+function psvGo(idx) {
+  if (!PSV.slides.length) return;
+  idx = Math.max(0, Math.min(idx, PSV.slides.length - 1));
+  PSV.idx = idx;
+  const img = document.getElementById('psvImg');
+  if (img) {
+    img.classList.remove('active');
+    const b64 = PSV.slides[idx];
+    const mime = (b64.startsWith('/9j/') || b64.startsWith('iVBOR')) ? 'jpeg' : 'webp';
+    void img.offsetWidth;
+    img.src = 'data:image/' + mime + ';base64,' + b64;
+    img.classList.add('active');
+    PSV.loaded.add(idx);
+  }
+  const dots = document.querySelectorAll('.psv-dot');
+  const maxDots = Math.min(PSV.slides.length, 18);
+  const di = Math.floor(idx / PSV.slides.length * maxDots);
+  dots.forEach((d, i) => d.classList.toggle('active', i === Math.min(di, maxDots-1)));
+  const ctr = document.getElementById('psvCounter');
+  if (ctr) ctr.textContent = 'الشريحة ' + (idx+1) + ' من ' + PSV.slides.length;
+  const prev = document.getElementById('psvPrev');
+  const next = document.getElementById('psvNext');
+  if (prev) prev.disabled = idx <= 0;
+  if (next) next.disabled = idx >= PSV.slides.length - 1;
+  _psvPreloadNext(idx);
+}
+
+function _psvPreloadNext(i) {
+  [i+1, i+2].forEach(n => {
+    if (n < PSV.slides.length && !PSV.loaded.has(n)) {
+      const pi = new Image();
+      const b64 = PSV.slides[n];
+      const mime = (b64.startsWith('/9j/') || b64.startsWith('iVBOR')) ? 'jpeg' : 'webp';
+      pi.src = 'data:image/' + mime + ';base64,' + b64;
+      PSV.loaded.add(n);
+    }
+  });
+}
+
+async function psvPollPreview(presId, token, attempt) {
+  const MAX = 20, RETRY_MS = 2500;
+  const progress = document.getElementById('psvProgressFill');
+  if (progress) progress.style.width = Math.min(90, attempt * 5) + '%';
   try {
     const r = await fetch('/preview/' + presId);
-    if(!r.ok) throw new Error('HTTP ' + r.status);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
     const j = await r.json();
-    if(j.slides && j.slides.length){
-      _previewSlides = j.slides;
-      showPreviewSlide(0);
-      const msg = document.getElementById('previewLoadingMsg');
-      if(msg) msg.style.display = 'none';
-    } else if(attempt < MAX){
-      setTimeout(()=>loadRealPreview(presId, attempt+1), RETRY_MS);
+    if (j.slides && j.slides.length) {
+      if (progress) progress.style.width = '100%';
+      if (j.preview_token) PSV.token = j.preview_token;
+      psvLoadSlides(j.slides);
+    } else if (attempt < MAX) {
+      setTimeout(() => psvPollPreview(presId, token, attempt+1), RETRY_MS);
     } else {
-      const msg = document.getElementById('previewLoadingMsg');
-      if(msg) msg.innerHTML = '<div style="font-size:13px;color:rgba(255,200,100,.8)">⚠️ تعذّر تحميل المعاينة — اشتر للتحميل</div>';
+      const loading = document.getElementById('psvLoading');
+      if (loading) loading.innerHTML = '<div style="font-size:28px">⚠️</div><div style="font-size:13px;color:rgba(255,200,100,.8);margin-top:8px">تعذّر تحميل المعاينة</div><button onclick="psvPollPreview('' + presId + '','' + token + '',0)" style="margin-top:12px;padding:7px 16px;background:var(--gold);border:none;border-radius:8px;color:var(--navy);font-weight:700;cursor:pointer;font-family:inherit">إعادة المحاولة</button>';
     }
   } catch(e) {
-    if(attempt < MAX) setTimeout(()=>loadRealPreview(presId, attempt+1), RETRY_MS);
-    else console.warn('Preview load failed:', e);
+    if (attempt < MAX) setTimeout(() => psvPollPreview(presId, token, attempt+1), RETRY_MS);
   }
 }
 
-function showPreviewSlide(idx){
-  if(!_previewSlides.length) return;
-  idx = Math.max(0, Math.min(idx, _previewSlides.length-1));
-  _previewSlideIdx = idx;
-  const img = document.getElementById('previewImg');
-  const loading = document.getElementById('previewLoadingMsg');
-  if(img){
-    img.src = 'data:image/jpeg;base64,' + _previewSlides[idx];
-    img.style.display = 'block';
-    if(loading) loading.style.display = 'none';
-  }
-  const total = _previewSlides.length;
-  const ctr = document.getElementById('slideCounter');
-  if(ctr) ctr.textContent = 'الشريحة '+(idx+1)+' من '+total;
-  const prev = document.getElementById('prevSlideBtn');
-  const next = document.getElementById('nextSlideBtn');
-  if(prev) prev.disabled = idx <= 0;
-  if(next) next.disabled = idx >= total-1;
+document.addEventListener('keydown', (e) => {
+  if (!PSV.slides.length) return;
+  if (e.key === 'ArrowLeft') psvGo(PSV.idx + 1);
+  if (e.key === 'ArrowRight') psvGo(PSV.idx - 1);
+});
+
+function psvFullscreen() {
+  const wrap = document.getElementById('psvWrap');
+  if (!wrap) return;
+  if (!document.fullscreenElement) { wrap.requestFullscreen && wrap.requestFullscreen(); }
+  else { document.exitFullscreen && document.exitFullscreen(); }
 }
-function previewNext(){ showPreviewSlide(_previewSlideIdx+1); }
-function previewPrev(){ showPreviewSlide(_previewSlideIdx-1); }
+
+(function initSwipe() {
+  let sx = 0;
+  document.addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; }, {passive:true});
+  document.addEventListener('touchend', (e) => {
+    if (!PSV.slides.length) return;
+    const dx = sx - e.changedTouches[0].clientX;
+    if (Math.abs(dx) > 50) { dx > 0 ? psvGo(PSV.idx+1) : psvGo(PSV.idx-1); }
+  }, {passive:true});
+})();
+
+function renderPptxPreview() {}
+function pptxNext() { psvGo(PSV.idx+1); }
+function pptxPrev() { psvGo(PSV.idx-1); }
+function previewNext() { psvGo(PSV.idx+1); }
+function previewPrev() { psvGo(PSV.idx-1); }
 
 // ══ PAYMENT OVERLAY ══
 const CCP_INFO=`<div class="pi-row"><span class="pi-label">رقم الحساب CCP</span><span class="pi-val">000 12345678</span></div><div class="pi-row"><span class="pi-label">المفتاح / Clé</span><span class="pi-val">67</span></div><div class="pi-row"><span class="pi-label">اسم المستفيد</span><span class="pi-val">مذكرتي Pro</span></div><div class="pi-row"><span class="pi-label">المبلغ</span><span class="pi-val">800 دج</span></div>`;

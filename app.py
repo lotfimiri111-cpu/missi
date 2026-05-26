@@ -1,18 +1,17 @@
 """
-Flask API — مذكرتي Pro v18 — Payment Edition
-Adds: order creation, receipt upload, admin panel, code redemption, protected download.
-
-ENV:
-  ADMIN_PASSWORD_HASH  sha256 hex of admin password (default: sha256("admin1234"))
-  DB_PATH              sqlite path (default: mathkarati_payments.db)
-  STORAGE_DIR          where receipts & generated pptx are stored (default: ./storage)
-  SECRET_KEY           flask secret for sessions
+Flask API — مذكرتي Pro v20 — Secure Preview Edition
+الفرق عن v18:
+- لا يُرسل ملف PPTX للواجهة الأمامية قبل الدفع إطلاقاً
+- معاينة بجودة حقيقية (LibreOffice) مع جميع الشرائح
+- Signed Preview Sessions مؤقتة
+- Download Token آمن بعد الدفع فقط
 """
 import base64
 import hashlib
 import io
 import logging
 import os
+import re
 import sys
 import threading
 import time
@@ -34,12 +33,19 @@ from core.payment_models import (
     list_orders, redeem_code, reject_order, store_pptx,
     new_download_code, get_db,
 )
-from core.preview import get_cached_preview, pptx_to_preview_images, set_cached_preview
+from core.preview import (
+    generate_preview_async,
+    generate_preview_sync,
+    get_preview_session,
+    get_preview_slides,
+    get_cached_preview,
+    set_cached_preview,
+)
 from engine.pipeline import get_pipeline
 
 # ── App Setup ─────────────────────────────────────────────────────────────────
 app = Flask(__name__, static_folder="public", static_url_path="")
-app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-change-in-prod-v18")
+app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-change-in-prod-v20")
 
 logging.basicConfig(
     level=logging.INFO,
@@ -104,6 +110,11 @@ def _cors(r):
     r.headers["Access-Control-Allow-Origin"] = "*"
     r.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS, PUT, DELETE"
     r.headers["Access-Control-Allow-Headers"] = "Content-Type, X-Admin-Token"
+    # منع cache للـ preview endpoints
+    if "/preview/" in request.path or "/slide/" in request.path:
+        r.headers["Cache-Control"] = "no-store, no-cache, must-revalidate"
+        r.headers["X-Content-Type-Options"] = "nosniff"
+        r.headers["X-Frame-Options"] = "SAMEORIGIN"
     return r
 
 
@@ -138,7 +149,7 @@ def ping():
 @app.route("/health")
 def health():
     pipeline = get_pipeline()
-    return jsonify({"status": "ok", "version": "18.0", "font": pipeline._font})
+    return jsonify({"status": "ok", "version": "20.0", "font": pipeline._font})
 
 
 @app.route("/warmup")
@@ -147,19 +158,7 @@ def warmup():
     return jsonify({"status": "ready"})
 
 
-# ── Background Preview Generator ──────────────────────────────────────────────
-def _generate_preview_bg(presentation_id: str, pptx_path: Path):
-    """يولّد المعاينة في الخلفية ويحفظها في الـ cache فور جاهزية الـ PPTX."""
-    try:
-        log.info(f"Preview BG start: {presentation_id}")
-        slides = pptx_to_preview_images(str(pptx_path), watermark=True)
-        set_cached_preview(presentation_id, slides)
-        log.info(f"Preview BG done: {presentation_id} — {len(slides)} slides")
-    except Exception as exc:
-        log.warning(f"Preview BG failed for {presentation_id}: {exc}")
-
-
-# ── Generate ──────────────────────────────────────────────────────────────────
+# ── Generate — لا يُرسل PPTX للواجهة الأمامية ────────────────────────────────
 @app.route("/generate", methods=["POST"])
 def generate():
     t0 = time.monotonic()
@@ -183,73 +182,98 @@ def generate():
     pptx_path = STORAGE_DIR / "pptx" / f"{presentation_id}.pptx"
     pptx_path.write_bytes(result.data)
 
-    # ── توليد المعاينة متزامناً وإرسالها مع الـ response فوراً ─────────────
-    preview_slides = []
-    try:
-        preview_slides = pptx_to_preview_images(str(pptx_path), watermark=True)
-        set_cached_preview(presentation_id, preview_slides)
-        log.info(f"Preview ready inline: {presentation_id} — {len(preview_slides)} slides")
-    except Exception as exc:
-        log.warning(f"Inline preview failed, falling back to BG thread: {exc}")
-        threading.Thread(
-            target=_generate_preview_bg,
-            args=(presentation_id, pptx_path),
-            daemon=True,
-        ).start()
+    # ── توليد المعاينة بجودة حقيقية ──────────────────────────────────────────
+    # نولّد متزامناً لإرسال الشرائح مع الـ response مباشرة
+    preview_token, preview_slides = generate_preview_sync(
+        presentation_id, str(pptx_path)
+    )
 
-    b64 = base64.b64encode(result.data).decode("ascii")
     elapsed = time.monotonic() - t0
+    log.info(f"Generated: id={presentation_id} slides={result.slide_count} "
+             f"preview_slides={len(preview_slides)} {elapsed:.2f}s")
 
-    log.info(f"Generated: id={presentation_id} slides={result.slide_count} {elapsed:.2f}s")
+    # ⚠️ لا نُرسل `data` (PPTX) للواجهة الأمامية هنا إطلاقاً
     return jsonify({
         "ok": True,
         "presentation_id": presentation_id,
+        "preview_token": preview_token,           # توكن مؤقت للمعاينة
         "slides": result.slide_count,
         "font": result.font_used,
         "elapsed": round(elapsed, 2),
         "stages": result.stages,
-        "data": b64,
+        # لا يوجد "data" هنا — الملف الحقيقي على السيرفر فقط
         "filename": f"mathkarati_{_safe_filename(req.student_name)}.pptx",
         "student_name": req.student_name,
         "title_ar": req.title_ar,
         "degree": raw.get("degree", "licence"),
-        "preview_slides": preview_slides,
+        "preview_slides": preview_slides,         # صور WebP مع watermark
+        "preview_count": len(preview_slides),
     })
 
 
-# ── Preview endpoint (safe slide images with watermark) ───────────────────────
+# ── Preview — يُرجع صور الشرائح المحمية فقط ──────────────────────────────────
 @app.route("/preview/<presentation_id>", methods=["GET"])
 def get_preview(presentation_id):
     """
-    Returns list of base64 JPEG slide images with watermark.
-    These are safe to show — no raw PPTX data exposed.
+    يُرجع معلومات عن جلسة المعاينة (status, slide_count).
+    لا يُرجع الصور هنا — تُحمَّل عبر /slide/ endpoint مع التوكن.
     """
-    # Validate ID format (UUID)
-    import re
     if not re.match(r'^[0-9a-f\-]{36}$', presentation_id):
         return jsonify({"error": "معرف غير صالح"}), 400
 
-    # Check cache first — if background thread already finished, return immediately
-    cached = get_cached_preview(presentation_id)
-    if cached:
-        return jsonify({"ok": True, "slides": cached, "count": len(cached), "cached": True})
+    session = get_preview_session(presentation_id)
+    if not session:
+        # محاولة توليد on-demand
+        pptx_path = STORAGE_DIR / "pptx" / f"{presentation_id}.pptx"
+        if not pptx_path.exists():
+            return jsonify({"error": "العرض غير موجود أو انتهت صلاحيته"}), 404
+        token = generate_preview_async(presentation_id, str(pptx_path))
+        return jsonify({
+            "ok": True,
+            "status": "pending",
+            "preview_token": token,
+            "slide_count": 0,
+            "processing": True,
+        })
 
-    # Find the PPTX file
-    pptx_path = STORAGE_DIR / "pptx" / f"{presentation_id}.pptx"
-    if not pptx_path.exists():
-        return jsonify({"error": "العرض غير موجود أو انتهت صلاحيته"}), 404
+    status = session.get("status", "pending")
+    resp = {
+        "ok": True,
+        "status": status,
+        "slide_count": session.get("slide_count", 0),
+        "processing": status == "pending",
+    }
 
-    # Generate on-demand if not cached yet
-    try:
-        slides = pptx_to_preview_images(str(pptx_path), watermark=True)
-        set_cached_preview(presentation_id, slides)
-        if slides:
-            return jsonify({"ok": True, "slides": slides, "count": len(slides), "cached": False})
-    except Exception as exc:
-        log.warning(f"On-demand preview failed: {exc}")
+    # أضف الشرائح مباشرة في الـ response (آمن لأنها صور مع watermark وليس PPTX)
+    if status == "ready":
+        resp["slides"] = session.get("slides", [])
+        resp["preview_token"] = session.get("token", "")
 
-    return jsonify({"ok": False, "processing": True,
-                    "message": "المعاينة قيد التجهيز، يرجى الانتظار..."}), 202
+    return jsonify(resp)
+
+
+@app.route("/preview/<presentation_id>/slides", methods=["GET"])
+def get_preview_slides_endpoint(presentation_id):
+    """
+    Endpoint مخصص لجلب الشرائح مع التحقق من التوكن.
+    يُرجع الصور كـ base64 WebP.
+    """
+    if not re.match(r'^[0-9a-f\-]{36}$', presentation_id):
+        return jsonify({"error": "معرف غير صالح"}), 400
+
+    token = request.args.get("token", "").strip()
+    if not token:
+        return jsonify({"error": "توكن مطلوب"}), 401
+
+    slides = get_preview_slides(presentation_id, token)
+    if slides is None:
+        return jsonify({"error": "توكن غير صالح أو انتهت الصلاحية"}), 403
+
+    return jsonify({
+        "ok": True,
+        "slides": slides,
+        "count": len(slides),
+    })
 
 
 # ── Orders ────────────────────────────────────────────────────────────────────
@@ -316,6 +340,7 @@ def upload_receipt(order_id):
 
 @app.route("/redeem", methods=["POST"])
 def redeem_by_code():
+    """بعد الدفع فقط — يُرجع ملف PPTX الحقيقي"""
     d = request.get_json(force=True, silent=True) or {}
     code = d.get("code", "").strip().upper()
     if not code:
