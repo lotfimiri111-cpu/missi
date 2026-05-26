@@ -1954,13 +1954,13 @@ function _buildViewerHTML(slideCount) {
     <div class="psv-wrap" id="psvWrap">
       <div class="psv-loading" id="psvLoading">
         <div class="psv-spinner"></div>
-        <div class="psv-loading-txt">جاري تحميل المعاينة الحقيقية...</div>
-        <div class="psv-loading-sub">يُعرض التصميم الفعلي للشرائح</div>
+        <div class="psv-loading-txt">جاري توليد المعاينة الحقيقية...</div>
+        <div class="psv-loading-sub">الشريحة الأولى + الأخيرة بجودة 100% حقيقية</div>
         <div class="psv-progress-bar"><div class="psv-progress-fill" id="psvProgressFill"></div></div>
       </div>
       <div class="psv-stage" id="psvStage" oncontextmenu="return false" ondragstart="return false" ondrop="return false">
         <div class="psv-sec-overlay" oncontextmenu="return false" ondragstart="return false"></div>
-        <div class="psv-badge" id="psvBadge" style="display:none">📊 <span id="psvSlideCount">${sc}</span> شريحة</div>
+        <div class="psv-badge" id="psvBadge" style="display:none">👁️ معاينة — الشريحة الأولى والأخيرة</div>
         <div class="psv-wm" aria-hidden="true">${wmRows}</div>
         <img id="psvImg" class="psv-slide-img" alt="معاينة الشريحة" draggable="false" oncontextmenu="return false" ondragstart="return false">
         <button class="psv-arrow psv-arrow-prev" id="psvPrev" onclick="psvGo(PSV.idx-1)" title="السابقة" disabled>›</button>
