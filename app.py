@@ -182,32 +182,26 @@ def generate():
     pptx_path = STORAGE_DIR / "pptx" / f"{presentation_id}.pptx"
     pptx_path.write_bytes(result.data)
 
-    # ── توليد المعاينة بجودة حقيقية ──────────────────────────────────────────
-    # نولّد متزامناً لإرسال الشرائح مع الـ response مباشرة
-    preview_token, preview_slides = generate_preview_sync(
-        presentation_id, str(pptx_path)
-    )
+    # ── توليد المعاينة في الخلفية (async) لتجنب timeout على Render ───────────
+    preview_token = generate_preview_async(presentation_id, str(pptx_path))
 
     elapsed = time.monotonic() - t0
-    log.info(f"Generated: id={presentation_id} slides={result.slide_count} "
-             f"preview_slides={len(preview_slides)} {elapsed:.2f}s")
+    log.info(f"Generated: id={presentation_id} slides={result.slide_count} elapsed={elapsed:.2f}s")
 
-    # ⚠️ لا نُرسل `data` (PPTX) للواجهة الأمامية هنا إطلاقاً
     return jsonify({
         "ok": True,
         "presentation_id": presentation_id,
-        "preview_token": preview_token,           # توكن مؤقت للمعاينة
+        "preview_token": preview_token,
         "slides": result.slide_count,
         "font": result.font_used,
         "elapsed": round(elapsed, 2),
         "stages": result.stages,
-        # لا يوجد "data" هنا — الملف الحقيقي على السيرفر فقط
         "filename": f"mathkarati_{_safe_filename(req.student_name)}.pptx",
         "student_name": req.student_name,
         "title_ar": req.title_ar,
-        "degree": raw.get("degree", "licence"),
-        "preview_slides": preview_slides,         # صور WebP مع watermark
-        "preview_count": len(preview_slides),
+        "degree": raw.get("degree", raw.get("level", "licence")),
+        "preview_slides": [],
+        "preview_count": result.slide_count,
     })
 
 

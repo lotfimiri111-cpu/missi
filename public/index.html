@@ -1868,7 +1868,7 @@ async function generate(){
     }
     // ── base64 JSON response (يتجاوز مشكلة Render proxy مع binary streams) ──
     const json=await r.json();
-    if(!json.ok || !json.data) throw new Error(json.error||'استجابة غير صالحة من الخادم');
+    if(!json.ok) throw new Error(json.error||'استجابة غير صالحة من الخادم');
     const isFallback = false; // v17: single unified engine, no fallbacks
     // تحويل base64 → Blob (للمعاينة فقط — ملف PPTX الحقيقي على الخادم)
     setP(100,t('modal_ok'));await sl(300);
