@@ -305,7 +305,7 @@ def get_audit(order_id: str) -> list[dict]:
 
 ADMIN_PASSWORD_HASH = os.environ.get(
     "ADMIN_PASSWORD_HASH",
-    "9bf7847c3f1d260cbafe797fd078f34ecce9bbdc5121208452e7528fc73732b7",
+    "ac9689e2272427085e35b9d3e3e8bed88cb3434828b43b86fc0596cad4c6e270",  # admin1234
 )
 
 

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>مذكرتي Pro</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.bunny.net/css?family=cairo:300,400,500,600,700,900&display=swap" rel="stylesheet">
 <style>
 :root{
   --navy:#07172F;--navy-m:#0E274D;--gold:#C6A03C;--gold-l:#E8C97B;
@@ -14,7 +14,7 @@
   --sh:0 2px 8px rgba(7,23,47,.07);--sh-md:0 6px 22px rgba(7,23,47,.11);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Cairo','Inter',system-ui,sans-serif;background:var(--sf);color:var(--text);direction:rtl;min-height:100vh;line-height:1.6}
+body{font-family:'Cairo',system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--sf);color:var(--text);direction:rtl;min-height:100vh;line-height:1.6}
 body.ltr{direction:ltr;text-align:left}
 body.ltr input,body.ltr textarea,body.ltr select{direction:ltr;text-align:left}
 ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:99px}
@@ -1355,15 +1355,6 @@ function t(key) {
   return (I18N[currentLang] || I18N.ar)[key] || I18N.ar[key] || key;
 }
 
-function setLang(lang) {
-  currentLang = lang;
-  document.documentElement.lang = lang;
-  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-  document.body.className = lang === 'ar' ? 'rtl' : 'ltr';
-  applyTranslations();
-  localStorage.setItem('mp_lang', lang);
-}
-
 function applyTranslations() {
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
@@ -1375,10 +1366,6 @@ function applyTranslations() {
     el.placeholder = t(el.getAttribute('data-i18n-ph'));
   });
 }
-
-window.t = t;
-window.setLang = setLang;
-window.applyTranslations = applyTranslations;
 
 // ═══════════════════════════════════════════════════════
 // LANG SWITCHER
@@ -1392,6 +1379,10 @@ function setLang(lang) {
   applyTranslations();
   localStorage.setItem('mp_lang', lang);
 }
+
+window.t = t;
+window.setLang = setLang;
+window.applyTranslations = applyTranslations;
 
 // ═══════════════════════════════════════════════════════
 // SLIDE TOGGLES
@@ -2085,7 +2076,7 @@ async function psvPollPreview(presId, token, attempt) {
       setTimeout(() => psvPollPreview(presId, token, attempt+1), RETRY_MS);
     } else {
       const loading = document.getElementById('psvLoading');
-      if (loading) loading.innerHTML = '<div style="font-size:28px">⚠️</div><div style="font-size:13px;color:rgba(255,200,100,.8);margin-top:8px">تعذّر تحميل المعاينة</div><button onclick="psvPollPreview('' + presId + '','' + token + '',0)" style="margin-top:12px;padding:7px 16px;background:var(--gold);border:none;border-radius:8px;color:var(--navy);font-weight:700;cursor:pointer;font-family:inherit">إعادة المحاولة</button>';
+      if (loading) loading.innerHTML = `<div style="font-size:28px">⚠️</div><div style="font-size:13px;color:rgba(255,200,100,.8);margin-top:8px">تعذّر تحميل المعاينة</div><button onclick="psvPollPreview('${presId}','${token}',0)" style="margin-top:12px;padding:7px 16px;background:var(--gold);border:none;border-radius:8px;color:var(--navy);font-weight:700;cursor:pointer;font-family:inherit">إعادة المحاولة</button>`;
     }
   } catch(e) {
     if (attempt < MAX) setTimeout(() => psvPollPreview(presId, token, attempt+1), RETRY_MS);
