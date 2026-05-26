@@ -182,11 +182,11 @@ def generate():
     pptx_path = STORAGE_DIR / "pptx" / f"{presentation_id}.pptx"
     pptx_path.write_bytes(result.data)
 
-    # ── توليد المعاينة في الخلفية (async) لتجنب timeout على Render ───────────
-    preview_token = generate_preview_async(presentation_id, str(pptx_path))
+    # ── توليد المعاينة بشكل متزامن وإرسال الشرائح مباشرة ────────────────────
+    preview_token, preview_slides = generate_preview_sync(presentation_id, str(pptx_path))
 
     elapsed = time.monotonic() - t0
-    log.info(f"Generated: id={presentation_id} slides={result.slide_count} elapsed={elapsed:.2f}s")
+    log.info(f"Generated: id={presentation_id} slides={result.slide_count} preview={len(preview_slides)} elapsed={elapsed:.2f}s")
 
     return jsonify({
         "ok": True,
@@ -200,8 +200,8 @@ def generate():
         "student_name": req.student_name,
         "title_ar": req.title_ar,
         "degree": raw.get("degree", raw.get("level", "licence")),
-        "preview_slides": [],
-        "preview_count": result.slide_count,
+        "preview_slides": preview_slides,
+        "preview_count": len(preview_slides),
     })
 
 
