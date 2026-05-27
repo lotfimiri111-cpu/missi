@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:800px;height:450px;overflow:hidden;background:transparent}
+body{width:800px;height:450px;background:linear-gradient(180deg,#07172F,#0D2347);font-family:'Cairo',sans-serif;direction:rtl;position:relative}
+/* HEADER */
+.hdr{position:absolute;top:0;right:0;left:0;height:126px;background:linear-gradient(180deg,#1A3A6E,#07172F)}
+.hdr-acc{position:absolute;bottom:0;right:0;left:0;height:8px;background:linear-gradient(90deg,#C6A03C,#E8C96A)}
+.hdr-side{position:absolute;top:0;left:0;width:18px;height:100%;background:linear-gradient(180deg,#C6A03C,#E8C96A)}
+.snum{position:absolute;top:24px;right:18px;width:44px;height:44px;border-radius:50%;background:#C6A03C;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#07172F}
+.ttl{position:absolute;top:28px;left:28px;right:74px;font-size:20px;font-weight:900;color:#F0E8D8;text-align:right}
+.sub{position:absolute;top:64px;left:28px;right:28px;font-size:12px;color:#C6A03C;text-align:right}
+/* ROWS */
+.rows{position:absolute;top:136px;right:16px;left:16px;bottom:12px;display:flex;flex-direction:column;gap:6px}
+.cr{flex:1;display:flex;align-items:center;border-radius:7px;overflow:hidden;min-height:0}
+.cr:nth-child(odd){background:linear-gradient(90deg,#0D2347,#122040)}
+.cr:nth-child(even){background:linear-gradient(90deg,#122040,#0D2347)}
+.cacc{width:10px;height:100%;background:#C6A03C;flex-shrink:0}
+.cnum{width:110px;padding:0 10px;font-size:12px;font-weight:900;color:#C6A03C;text-align:center;direction:rtl;flex-shrink:0}
+.cdv{width:2px;height:55%;background:rgba(138,155,181,.35);flex-shrink:0}
+.cttl{flex:1;font-size:12px;color:#F0E8D8;text-align:right;direction:rtl;padding:0 10px}
+.cpg{padding:0 10px;font-size:10px;color:#8A9BB5;white-space:nowrap}
+/* FOOTER */
+.ftr{position:absolute;bottom:0;right:0;left:0;height:12px;background:#07172F;border-top:2px solid rgba(198,160,60,.4)}
+</style>
+</head>
+<body>
+<div class="hdr"><div class="hdr-acc"></div><div class="hdr-side"></div></div>
+<div class="snum">2</div>
+<div class="ttl">خطة البحث</div>
+<div class="sub">هيكل الدراسة وفصولها · بن خالد نور — ليسانس اقتصاد — جامعة قسنطينة 2</div>
+<div class="rows">
+  <div class="cr"><div class="cacc"></div><div class="cnum">الفصل الأول</div><div class="cdv"></div><div class="cttl">الإطار المنهجي والمفاهيمي للدراسة</div><div class="cpg">ص 1–42</div></div>
+  <div class="cr"><div class="cacc"></div><div class="cnum">الفصل الثاني</div><div class="cdv"></div><div class="cttl">هيكل التمويل والأداء المالي — الإطار النظري</div><div class="cpg">ص 43–98</div></div>
+  <div class="cr"><div class="cacc"></div><div class="cnum">الفصل الثالث</div><div class="cdv"></div><div class="cttl">الدراسات السابقة والفجوة البحثية</div><div class="cpg">ص 99–148</div></div>
+  <div class="cr"><div class="cacc"></div><div class="cnum">الفصل الرابع</div><div class="cdv"></div><div class="cttl">الدراسة التطبيقية — تحليل بيانات البانل</div><div class="cpg">ص 149–210</div></div>
+  <div class="cr"><div class="cacc"></div><div class="cnum">الفصل الخامس</div><div class="cdv"></div><div class="cttl">النتائج والتوصيات وآفاق البحث</div><div class="cpg">ص 211–256</div></div>
+</div>
+<div class="ftr"></div>
+</body></html>

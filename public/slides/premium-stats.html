@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:800px;height:450px;overflow:hidden;background:transparent}
+body{width:800px;height:450px;font-family:'Cairo',sans-serif;direction:rtl;display:flex}
+/* SIDEBAR */
+.sb{width:200px;height:450px;flex-shrink:0;background:linear-gradient(180deg,#0A2E40,#040D1E);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border-left:5px solid #00D4FF;position:relative}
+.sb-ico{width:80px;height:80px;border-radius:50%;background:#00D4FF;display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 0 30px rgba(0,212,255,.5)}
+.sb-t1{font-size:22px;font-weight:900;color:#E8F8FF}
+.sb-t2{font-size:13px;color:#6A9BAB}
+.sb-div{width:120px;height:3px;background:rgba(0,212,255,.35);border-radius:2px}
+.sb-th{font-size:11px;color:#00D4FF;text-align:center}
+.sb-pg{position:absolute;bottom:14px;font-size:11px;color:#6A9BAB}
+/* CONTENT */
+.cnt{flex:1;height:450px;background:linear-gradient(135deg,#040D1E,#06142A);display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:8px;padding:10px;border-top:4px solid rgba(0,212,255,.5)}
+.kc{background:linear-gradient(135deg,#050E1F,#040D1E);border-radius:8px;border-top:3px solid rgba(0,212,255,.85);border-bottom:2px solid rgba(0,212,255,.3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:8px}
+.knum{font-size:26px;font-weight:900;color:#00D4FF;line-height:1}
+.ksub{font-size:9px;color:#6A9BAB;text-align:center}
+.kdiv{width:60%;height:1px;background:rgba(106,155,171,.5)}
+.klbl{font-size:10px;color:#E8F8FF;text-align:center;direction:rtl}
+</style>
+</head>
+<body>
+<div class="sb">
+  <div class="sb-ico">📈</div>
+  <div class="sb-t1">الأرقام</div>
+  <div class="sb-t2">الرئيسية</div>
+  <div class="sb-div"></div>
+  <div class="sb-th">Atlas Corporate</div>
+  <div class="sb-pg">7 / 13</div>
+</div>
+<div class="cnt">
+  <div class="kc"><div class="knum">78.4%</div><div class="kdiv"></div><div class="klbl">معدل العائد ROA</div></div>
+  <div class="kc"><div class="knum">0.814</div><div class="kdiv"></div><div class="klbl">قوة النموذج R²</div></div>
+  <div class="kc"><div class="knum">432</div><div class="ksub">مشاهدة</div><div class="kdiv"></div><div class="klbl">حجم العينة</div></div>
+  <div class="kc"><div class="knum" style="font-size:20px">+15.7%</div><div class="kdiv"></div><div class="klbl">نمو ROE 2020–2023</div></div>
+  <div class="kc"><div class="knum">48</div><div class="ksub">مؤسسة</div><div class="kdiv"></div><div class="klbl">عينة البانل</div></div>
+  <div class="kc"><div class="knum">48.3</div><div class="ksub">F-test ***</div><div class="kdiv"></div><div class="klbl">اختبار فيشر الكلي</div></div>
+</div>
+</body></html>

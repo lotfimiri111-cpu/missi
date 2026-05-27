@@ -816,269 +816,56 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <button class="engine-tab" onclick="showEnginePanel('premium',this)">💎 Premium v3</button>
       <button class="engine-tab" onclick="showEnginePanel('classic',this)">📐 Classic Academic</button>
     </div>
+
     <style>
-/* ══ SAMPLE SLIDES — fully scoped with sd- prefix ══ */
-.sd-wrap{direction:rtl;font-family:'Cairo',sans-serif}
-.sd-gallery{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.sd-item{display:flex;flex-direction:column;gap:6px}
-.sd-lbl{text-align:center;font-size:11px;color:rgba(255,255,255,.6)}
+    .sd-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .sd-item{display:flex;flex-direction:column;gap:5px}
+    .sd-lbl{text-align:center;font-size:11px;color:rgba(255,255,255,.6)}
+    .sd-frame{width:100%;aspect-ratio:16/9;border:none;border-radius:8px;overflow:hidden;display:block;box-shadow:0 6px 24px rgba(0,0,0,.6)}
+    </style>
 
-/* base slide */
-.sd-slide{
-  width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;
-  border-radius:8px;border:1px solid rgba(255,255,255,.12);
-  box-shadow:0 6px 24px rgba(0,0,0,.6);
-  direction:rtl;font-family:'Cairo',sans-serif;
-}
-
-/* ── CANVA STATS ── */
-.sd-cv-stats{background:linear-gradient(135deg,#07172F,#1A3A6E)}
-.sd-cv-stats .sd-hdr{position:absolute;top:0;right:0;left:0;height:28%;background:linear-gradient(135deg,#0D2347,#07172F)}
-.sd-cv-stats .sd-hdr-bar{position:absolute;bottom:0;right:0;left:0;height:5px;background:linear-gradient(90deg,#07172F,#C6A03C 35%,#E8C96A 65%,#07172F)}
-.sd-cv-stats .sd-hdr-side{position:absolute;top:0;left:0;width:4%;height:100%;background:linear-gradient(180deg,#C6A03C,#E8C96A)}
-.sd-cv-stats .sd-num{position:absolute;top:4%;right:3%;width:9%;aspect-ratio:1;border-radius:50%;background:linear-gradient(135deg,#C6A03C,#E8C96A);display:flex;align-items:center;justify-content:center;font-size:1.8vw;font-weight:900;color:#07172F}
-.sd-cv-stats .sd-ttl{position:absolute;top:6%;left:5%;right:14%;font-size:1.7vw;font-weight:900;color:#F0E8D8;text-align:right}
-.sd-cv-stats .sd-sub{position:absolute;top:15%;left:5%;right:14%;font-size:1vw;color:#C6A03C;text-align:right}
-.sd-cv-stats .sd-cards{position:absolute;top:30%;right:2%;left:2%;bottom:2%;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:1.5%}
-.sd-kcard{background:linear-gradient(135deg,#122040,#0D1A35);border-radius:8px;border-top:3px solid #C6A03C;border-bottom:2px solid rgba(198,160,60,.3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6%;padding:3%}
-.sd-knum{font-size:2.6vw;font-weight:900;color:#C6A03C;line-height:1;font-family:'Cairo',sans-serif}
-.sd-kdiv{width:60%;height:1px;background:rgba(138,155,181,.4)}
-.sd-ksub{font-size:.75vw;color:#8A9BB5;text-align:center;line-height:1.3;direction:rtl}
-.sd-ksub2{font-size:.65vw;color:#C6A03C;text-align:center}
-
-/* ── CANVA OBJECTIVES ── */
-.sd-cv-obj{background:linear-gradient(135deg,#0A1F1C,#1A4A42)}
-.sd-cv-obj .sd-hdr{position:absolute;top:0;right:0;left:0;height:28%;background:linear-gradient(135deg,#041510,#0A1F1C)}
-.sd-cv-obj .sd-hdr-bar{position:absolute;bottom:0;right:0;left:0;height:5px;background:linear-gradient(90deg,#0A1F1C,#2EBFA5 35%,#5DD4BE 65%,#0A1F1C)}
-.sd-cv-obj .sd-hdr-side{position:absolute;top:0;right:0;width:4%;height:100%;background:linear-gradient(180deg,#2EBFA5,#5DD4BE)}
-.sd-cv-obj .sd-num{position:absolute;top:4%;left:3%;width:9%;aspect-ratio:1;border-radius:50%;background:linear-gradient(135deg,#2EBFA5,#5DD4BE);display:flex;align-items:center;justify-content:center;font-size:1.8vw;font-weight:900;color:#0A1F1C}
-.sd-cv-obj .sd-ttl{position:absolute;top:6%;right:5%;left:14%;font-size:1.7vw;font-weight:900;color:#E8F5F3;text-align:right}
-.sd-cv-obj .sd-sub{position:absolute;top:15%;right:5%;left:14%;font-size:1vw;color:#2EBFA5;text-align:right}
-.sd-cv-obj .sd-cols{position:absolute;top:30%;right:2%;left:2%;bottom:2%;display:grid;grid-template-columns:1fr 1fr;gap:2%}
-.sd-col{background:linear-gradient(135deg,#122820,#0A1F1C);border-radius:8px;overflow:hidden;display:flex;flex-direction:column}
-.sd-col-hdr{background:#2EBFA5;padding:3% 4%;font-size:1.05vw;font-weight:900;color:#0A1F1C;text-align:center}
-.sd-col-items{flex:1;display:flex;flex-direction:column;padding:2%}
-.sd-col-item{flex:1;display:flex;align-items:center;gap:3%;border-radius:5px;padding:0 3%}
-.sd-col-item:nth-child(odd){background:rgba(4,21,16,.55)}
-.sd-col-item:nth-child(even){background:rgba(15,45,36,.7)}
-.sd-item-n{min-width:1.5vw;width:1.5vw;height:1.5vw;border-radius:50%;background:rgba(46,191,165,.75);display:flex;align-items:center;justify-content:center;font-size:.7vw;font-weight:900;color:#0A1F1C;flex-shrink:0}
-.sd-item-t{font-size:.82vw;color:#E8F5F3;text-align:right;direction:rtl;line-height:1.3}
-
-/* ── PREMIUM STATS ── */
-.sd-pm-stats{display:flex;height:100%}
-.sd-pm-stats .sd-sbar{width:36%;height:100%;flex-shrink:0;background:linear-gradient(180deg,#0A2E40,#040D1E);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3%;border-left:4px solid #00D4FF;position:relative}
-.sd-pm-stats .sd-sbar-ico{width:26%;aspect-ratio:1;border-radius:50%;background:#00D4FF;display:flex;align-items:center;justify-content:center;font-size:2.8vw;box-shadow:0 0 28px rgba(0,212,255,.4)}
-.sd-pm-stats .sd-sbar-t1{font-size:1.7vw;font-weight:900;color:#E8F8FF}
-.sd-pm-stats .sd-sbar-t2{font-size:.9vw;color:#6A9BAB}
-.sd-pm-stats .sd-sbar-div{width:55%;height:3px;background:rgba(0,212,255,.3);border-radius:2px}
-.sd-pm-stats .sd-sbar-th{font-size:.85vw;color:#00D4FF}
-.sd-pm-stats .sd-sbar-pg{position:absolute;bottom:4%;font-size:.85vw;color:#6A9BAB}
-.sd-pm-stats .sd-cnt{flex:1;height:100%;background:linear-gradient(135deg,#040D1E,#06142A);display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:1.2%;padding:1.2%;border-top:3px solid rgba(0,212,255,.4)}
-.sd-pm-kcard{background:linear-gradient(135deg,#050E1F,#040D1E);border-radius:7px;border-top:3px solid rgba(0,212,255,.8);border-bottom:2px solid rgba(0,212,255,.28);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5%;padding:3%}
-.sd-pm-knum{font-size:2.3vw;font-weight:900;color:#00D4FF;line-height:1}
-.sd-pm-ksub{font-size:.65vw;color:#6A9BAB;text-align:center}
-.sd-pm-kdiv{width:55%;height:1px;background:rgba(106,155,171,.5)}
-.sd-pm-klbl{font-size:.75vw;color:#E8F8FF;text-align:center;line-height:1.2;direction:rtl}
-
-/* ── PREMIUM RESULTS ── */
-.sd-pm-res{display:flex;height:100%}
-.sd-pm-res .sd-sbar{width:36%;height:100%;flex-shrink:0;background:linear-gradient(180deg,#1A3A6E,#07172F);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3%;border-left:4px solid #C6A03C;position:relative}
-.sd-pm-res .sd-sbar-ico{width:26%;aspect-ratio:1;border-radius:50%;background:#C6A03C;display:flex;align-items:center;justify-content:center;font-size:2.8vw;box-shadow:0 0 28px rgba(198,160,60,.4)}
-.sd-pm-res .sd-sbar-t1{font-size:1.7vw;font-weight:900;color:#F0E8D8}
-.sd-pm-res .sd-sbar-t2{font-size:.9vw;color:#8A9BB5}
-.sd-pm-res .sd-sbar-div{width:55%;height:3px;background:rgba(198,160,60,.35);border-radius:2px}
-.sd-pm-res .sd-sbar-th{font-size:.85vw;color:#C6A03C}
-.sd-pm-res .sd-sbar-pg{position:absolute;bottom:4%;font-size:.85vw;color:#8A9BB5}
-.sd-pm-res .sd-cnt{flex:1;height:100%;background:linear-gradient(135deg,#07172F,#0D2347);display:flex;flex-direction:column;gap:1%;padding:1%;border-top:3px solid rgba(198,160,60,.5)}
-.sd-pm-row{flex:1;display:flex;align-items:center;border-radius:6px;overflow:hidden}
-.sd-pm-row:nth-child(odd){background:linear-gradient(90deg,#122040,#0D2347)}
-.sd-pm-row:nth-child(even){background:linear-gradient(90deg,#0D2347,#122040)}
-.sd-pm-acc{width:12px;height:100%;background:#C6A03C;flex-shrink:0;opacity:.55}
-.sd-pm-rnum{width:3.2vw;height:3.2vw;border-radius:50%;background:rgba(198,160,60,.75);display:flex;align-items:center;justify-content:center;font-size:1vw;font-weight:900;color:#07172F;flex-shrink:0;margin:0 1.5%}
-.sd-pm-rtxt{flex:1;font-size:.92vw;color:#F0E8D8;text-align:right;direction:rtl;padding:0 1.5%;line-height:1.4}
-
-/* ── CLASSIC PLAN ── */
-.sd-cl-plan{background:linear-gradient(180deg,#07172F,#0D2347)}
-.sd-cl-plan .sd-hdr{position:absolute;top:0;right:0;left:0;height:28%;background:linear-gradient(180deg,#1A3A6E,#07172F)}
-.sd-cl-plan .sd-hdr-acc{position:absolute;bottom:0;right:0;left:0;height:4px;background:linear-gradient(90deg,#C6A03C,#E8C96A)}
-.sd-cl-plan .sd-hdr-side{position:absolute;top:0;left:0;width:3.5%;height:100%;background:linear-gradient(180deg,#C6A03C,#E8C96A)}
-.sd-cl-plan .sd-num{position:absolute;top:4%;right:3%;width:9%;aspect-ratio:1;border-radius:50%;background:#C6A03C;display:flex;align-items:center;justify-content:center;font-size:1.8vw;font-weight:900;color:#07172F}
-.sd-cl-plan .sd-ttl{position:absolute;top:6%;left:5%;right:14%;font-size:1.8vw;font-weight:900;color:#F0E8D8;text-align:right}
-.sd-cl-plan .sd-sub{position:absolute;top:16%;left:5%;right:14%;font-size:.95vw;color:#C6A03C;text-align:right}
-.sd-cl-plan .sd-rows{position:absolute;top:30%;right:3%;left:3%;bottom:5%;display:flex;flex-direction:column;gap:1.5%}
-.sd-chrow{flex:1;display:flex;align-items:center;border-radius:6px;overflow:hidden}
-.sd-chrow:nth-child(odd){background:linear-gradient(90deg,#0D2347,#122040)}
-.sd-chrow:nth-child(even){background:linear-gradient(90deg,#122040,#0D2347)}
-.sd-ch-acc{width:12px;height:100%;background:#C6A03C;flex-shrink:0}
-.sd-ch-num{min-width:16%;padding:0 2%;font-size:.9vw;font-weight:900;color:#C6A03C;text-align:center;direction:rtl}
-.sd-ch-dv{width:2px;height:60%;background:rgba(138,155,181,.35);flex-shrink:0}
-.sd-ch-ttl{flex:1;font-size:.9vw;color:#F0E8D8;text-align:right;direction:rtl;padding:0 2%}
-.sd-ch-pg{padding:0 2%;font-size:.75vw;color:#8A9BB5;direction:ltr;white-space:nowrap}
-.sd-cl-plan .sd-footer{position:absolute;bottom:0;right:0;left:0;height:4%;background:#07172F;border-top:2px solid rgba(198,160,60,.4)}
-
-/* ── CLASSIC CONCLUSION ── */
-.sd-cl-conc{background:linear-gradient(180deg,#0A1F1C,#0F2E29)}
-.sd-cl-conc .sd-hdr{position:absolute;top:0;right:0;left:0;height:28%;background:linear-gradient(180deg,#1A4A42,#0A1F1C)}
-.sd-cl-conc .sd-hdr-acc{position:absolute;bottom:0;right:0;left:0;height:4px;background:linear-gradient(90deg,#2EBFA5,#5DD4BE)}
-.sd-cl-conc .sd-hdr-side{position:absolute;top:0;left:0;width:3.5%;height:100%;background:linear-gradient(180deg,#2EBFA5,#5DD4BE)}
-.sd-cl-conc .sd-num{position:absolute;top:4%;right:3%;width:9%;aspect-ratio:1;border-radius:50%;background:#2EBFA5;display:flex;align-items:center;justify-content:center;font-size:1.8vw;font-weight:900;color:#0A1F1C}
-.sd-cl-conc .sd-ttl{position:absolute;top:6%;left:5%;right:14%;font-size:1.8vw;font-weight:900;color:#E8F5F3;text-align:right}
-.sd-cl-conc .sd-sub{position:absolute;top:16%;left:5%;right:14%;font-size:.95vw;color:#2EBFA5;text-align:right}
-.sd-cl-conc .sd-bcard{position:absolute;top:31%;right:4%;left:4%;bottom:5%;background:linear-gradient(135deg,#122820,#0A1F1C);border-radius:10px;overflow:hidden;border-top:4px solid rgba(46,191,165,.85)}
-.sd-cl-conc .sd-quote{position:absolute;top:5%;left:2%;font-size:3.5vw;color:rgba(46,191,165,.35);line-height:1;font-family:serif}
-.sd-cl-conc .sd-body{position:absolute;top:5%;right:4%;left:4%;bottom:20%;display:flex;flex-direction:column;justify-content:center;gap:4%}
-.sd-cl-conc .sd-bp{font-size:.9vw;color:#E8F5F3;text-align:right;direction:rtl;line-height:1.7}
-.sd-cl-conc .sd-bp-m{font-size:.9vw;color:#7BAAA4;text-align:right;direction:rtl;line-height:1.7}
-.sd-cl-conc .sd-divider{position:absolute;bottom:17%;right:8%;left:8%;height:2px;background:rgba(46,191,165,.35)}
-.sd-cl-conc .sd-sig{position:absolute;bottom:5%;right:0;left:0;text-align:center;font-size:.85vw;font-weight:700;color:#2EBFA5}
-</style>
-
-<!-- Canva Level -->
-<div class="engine-panel active sd-wrap" id="ep-canva">
-  <p style="font-size:11px;color:rgba(255,255,255,.5);text-align:center;margin-bottom:10px">⚙️ python-pptx · زوايا دائرية · تدرجات · ظلال وتوهج</p>
-  <div class="sd-gallery">
-    <div class="sd-item">
-      <div class="sd-slide sd-cv-stats">
-        <div class="sd-hdr"><div class="sd-hdr-bar"></div><div class="sd-hdr-side"></div></div>
-        <div class="sd-num">7</div>
-        <div class="sd-ttl">الأرقام والإحصاءات الرئيسية</div>
-        <div class="sd-sub">مؤشرات الدراسة التطبيقية · بن علي محمد</div>
-        <div class="sd-cards">
-          <div class="sd-kcard"><div class="sd-knum">78.4%</div><div class="sd-kdiv"></div><div class="sd-ksub">معدل العائد على الأصول ROA</div></div>
-          <div class="sd-kcard"><div class="sd-knum">0.814</div><div class="sd-kdiv"></div><div class="sd-ksub">قوة النموذج R²</div></div>
-          <div class="sd-kcard"><div class="sd-knum">432</div><div class="sd-ksub2">مشاهدة</div><div class="sd-kdiv"></div><div class="sd-ksub">عدد المشاهدات</div></div>
-          <div class="sd-kcard"><div class="sd-knum">+15.7%</div><div class="sd-kdiv"></div><div class="sd-ksub">نمو ROE 2020–2023</div></div>
-          <div class="sd-kcard"><div class="sd-knum">48</div><div class="sd-ksub2">مؤسسة</div><div class="sd-kdiv"></div><div class="sd-ksub">حجم العينة</div></div>
-          <div class="sd-kcard"><div class="sd-knum">48.3</div><div class="sd-ksub2">F-test</div><div class="sd-kdiv"></div><div class="sd-ksub">اختبار فيشر ***</div></div>
+    <div class="engine-panel active" id="ep-canva">
+      <p style="font-size:11px;color:rgba(255,255,255,.5);text-align:center;margin-bottom:10px">⚙️ python-pptx · زوايا دائرية · تدرجات · ظلال</p>
+      <div class="sd-grid">
+        <div class="sd-item">
+          <iframe class="sd-frame" src="slides/canva-stats.html" scrolling="no"></iframe>
+          <div class="sd-lbl">الأرقام الإحصائية · NOIR ذهبي</div>
+        </div>
+        <div class="sd-item">
+          <iframe class="sd-frame" src="slides/canva-obj.html" scrolling="no"></iframe>
+          <div class="sd-lbl">الأهداف والفرضيات · VIVID تيل</div>
         </div>
       </div>
-      <div class="sd-lbl">الأرقام · NOIR ذهبي</div>
     </div>
-    <div class="sd-item">
-      <div class="sd-slide sd-cv-obj">
-        <div class="sd-hdr"><div class="sd-hdr-bar"></div><div class="sd-hdr-side"></div></div>
-        <div class="sd-num">4</div>
-        <div class="sd-ttl">أهداف البحث وفرضياته</div>
-        <div class="sd-sub">الغايات العلمية · بوعلام نادية</div>
-        <div class="sd-cols">
-          <div class="sd-col">
-            <div class="sd-col-hdr">🎯 الأهداف</div>
-            <div class="sd-col-items">
-              <div class="sd-col-item"><div class="sd-item-n">1</div><div class="sd-item-t">تحليل أثر التمويل الذاتي على ROA</div></div>
-              <div class="sd-col-item"><div class="sd-item-n">2</div><div class="sd-item-t">قياس علاقة الديون بمؤشر ROE</div></div>
-              <div class="sd-col-item"><div class="sd-item-n">3</div><div class="sd-item-t">تحديد هيكل التمويل الأمثل</div></div>
-              <div class="sd-col-item"><div class="sd-item-n">4</div><div class="sd-item-t">مقارنة النتائج دولياً</div></div>
-              <div class="sd-col-item"><div class="sd-item-n">5</div><div class="sd-item-t">توصيات لصانعي القرار</div></div>
-            </div>
-          </div>
-          <div class="sd-col">
-            <div class="sd-col-hdr">💡 الفرضيات</div>
-            <div class="sd-col-items">
-              <div class="sd-col-item"><div class="sd-item-n" style="font-size:.6vw">H₁</div><div class="sd-item-t">للتمويل الذاتي أثر إيجابي على ROA</div></div>
-              <div class="sd-col-item"><div class="sd-item-n" style="font-size:.6vw">H₂</div><div class="sd-item-t">للديون أثر سلبي على ROE</div></div>
-              <div class="sd-col-item"><div class="sd-item-n" style="font-size:.6vw">H₃</div><div class="sd-item-t">يوجد هيكل أمثل يعظم القيمة</div></div>
-              <div class="sd-col-item"><div class="sd-item-n" style="font-size:.6vw">H₄</div><div class="sd-item-t">يختلف الأثر بحسب القطاع</div></div>
-              <div class="sd-col-item"><div class="sd-item-n" style="font-size:.6vw">H₅</div><div class="sd-item-t">التدخل الحكومي معدّل جوهري</div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="sd-lbl">الأهداف والفرضيات · VIVID تيل</div>
-    </div>
-  </div>
-</div>
 
-<!-- Premium v3 -->
-<div class="engine-panel sd-wrap" id="ep-premium">
-  <p style="font-size:11px;color:rgba(255,255,255,.5);text-align:center;margin-bottom:10px">⚙️ PptxGenJS · شريط جانبي 36% · أيقونة مضيئة</p>
-  <div class="sd-gallery">
-    <div class="sd-item">
-      <div class="sd-slide sd-pm-stats">
-        <div class="sd-sbar">
-          <div class="sd-sbar-ico">📈</div>
-          <div class="sd-sbar-t1">الأرقام</div>
-          <div class="sd-sbar-t2">الرئيسية</div>
-          <div class="sd-sbar-div"></div>
-          <div class="sd-sbar-th">Atlas Corporate</div>
-          <div class="sd-sbar-pg">7 / 13</div>
+    <div class="engine-panel" id="ep-premium">
+      <p style="font-size:11px;color:rgba(255,255,255,.5);text-align:center;margin-bottom:10px">⚙️ PptxGenJS · شريط جانبي 36% · أيقونة مضيئة</p>
+      <div class="sd-grid">
+        <div class="sd-item">
+          <iframe class="sd-frame" src="slides/premium-stats.html" scrolling="no"></iframe>
+          <div class="sd-lbl">الأرقام · Atlas Corporate</div>
         </div>
-        <div class="sd-cnt">
-          <div class="sd-pm-kcard"><div class="sd-pm-knum">78.4%</div><div class="sd-pm-kdiv"></div><div class="sd-pm-klbl">معدل العائد ROA</div></div>
-          <div class="sd-pm-kcard"><div class="sd-pm-knum">0.814</div><div class="sd-pm-kdiv"></div><div class="sd-pm-klbl">قوة النموذج R²</div></div>
-          <div class="sd-pm-kcard"><div class="sd-pm-knum">432</div><div class="sd-pm-ksub">مشاهدة</div><div class="sd-pm-kdiv"></div><div class="sd-pm-klbl">حجم العينة</div></div>
-          <div class="sd-pm-kcard"><div class="sd-pm-knum" style="font-size:1.9vw">+15.7%</div><div class="sd-pm-kdiv"></div><div class="sd-pm-klbl">نمو ROE 2020–2023</div></div>
-          <div class="sd-pm-kcard"><div class="sd-pm-knum">48</div><div class="sd-pm-ksub">مؤسسة</div><div class="sd-pm-kdiv"></div><div class="sd-pm-klbl">عينة البانل</div></div>
-          <div class="sd-pm-kcard"><div class="sd-pm-knum">48.3</div><div class="sd-pm-ksub">F-test</div><div class="sd-pm-kdiv"></div><div class="sd-pm-klbl">اختبار فيشر ***</div></div>
+        <div class="sd-item">
+          <iframe class="sd-frame" src="slides/premium-results.html" scrolling="no"></iframe>
+          <div class="sd-lbl">النتائج · Noir Académique</div>
         </div>
       </div>
-      <div class="sd-lbl">الأرقام · Atlas Corporate</div>
     </div>
-    <div class="sd-item">
-      <div class="sd-slide sd-pm-res">
-        <div class="sd-sbar">
-          <div class="sd-sbar-ico">📊</div>
-          <div class="sd-sbar-t1">نتائج</div>
-          <div class="sd-sbar-t2">البحث</div>
-          <div class="sd-sbar-div"></div>
-          <div class="sd-sbar-th">Noir Académique</div>
-          <div class="sd-sbar-pg">8 / 13</div>
-        </div>
-        <div class="sd-cnt">
-          <div class="sd-pm-row"><div class="sd-pm-acc"></div><div class="sd-pm-rnum">1</div><div class="sd-pm-rtxt">وجود أثر إيجابي دال للتمويل الذاتي على ROA</div></div>
-          <div class="sd-pm-row"><div class="sd-pm-acc" style="opacity:.4"></div><div class="sd-pm-rnum" style="background:rgba(198,160,60,.6)">2</div><div class="sd-pm-rtxt">علاقة عكسية بين الديون طويلة الأجل والأداء</div></div>
-          <div class="sd-pm-row"><div class="sd-pm-acc" style="opacity:.5"></div><div class="sd-pm-rnum" style="background:rgba(198,160,60,.7)">3</div><div class="sd-pm-rtxt">النموذج يفسر 81.4% من التباين (R²=0.814)</div></div>
-          <div class="sd-pm-row"><div class="sd-pm-acc" style="opacity:.35"></div><div class="sd-pm-rnum" style="background:rgba(198,160,60,.55)">4</div><div class="sd-pm-rtxt">قطاع النشاط مُعدِّل جوهري في الآثار الثابتة</div></div>
-          <div class="sd-pm-row"><div class="sd-pm-acc" style="opacity:.28"></div><div class="sd-pm-rnum" style="background:rgba(198,160,60,.5)">5</div><div class="sd-pm-rtxt">اختبار Hausman رجّح الآثار الثابتة (p&lt;0.01)</div></div>
-          <div class="sd-pm-row"><div class="sd-pm-acc" style="opacity:.22"></div><div class="sd-pm-rnum" style="background:rgba(198,160,60,.45)">6</div><div class="sd-pm-rtxt">توصية بتعزيز التمويل الداخلي للمؤسسات</div></div>
-        </div>
-      </div>
-      <div class="sd-lbl">النتائج · Noir Académique</div>
-    </div>
-  </div>
-</div>
 
-<!-- Classic Academic -->
-<div class="engine-panel sd-wrap" id="ep-classic">
-  <p style="font-size:11px;color:rgba(255,255,255,.5);text-align:center;margin-bottom:10px">⚙️ python-pptx · هيدر ثقيل · شريط acc · صفوف متناوبة</p>
-  <div class="sd-gallery">
-    <div class="sd-item">
-      <div class="sd-slide sd-cl-plan">
-        <div class="sd-hdr"><div class="sd-hdr-acc"></div><div class="sd-hdr-side"></div></div>
-        <div class="sd-num">2</div>
-        <div class="sd-ttl">خطة البحث</div>
-        <div class="sd-sub">هيكل الدراسة وفصولها · بن خالد نور</div>
-        <div class="sd-rows">
-          <div class="sd-chrow"><div class="sd-ch-acc"></div><div class="sd-ch-num">الفصل الأول</div><div class="sd-ch-dv"></div><div class="sd-ch-ttl">الإطار المنهجي والمفاهيمي</div><div class="sd-ch-pg">ص 1–42</div></div>
-          <div class="sd-chrow"><div class="sd-ch-acc"></div><div class="sd-ch-num">الفصل الثاني</div><div class="sd-ch-dv"></div><div class="sd-ch-ttl">هيكل التمويل والأداء المالي</div><div class="sd-ch-pg">ص 43–98</div></div>
-          <div class="sd-chrow"><div class="sd-ch-acc"></div><div class="sd-ch-num">الفصل الثالث</div><div class="sd-ch-dv"></div><div class="sd-ch-ttl">الدراسات السابقة والفجوة</div><div class="sd-ch-pg">ص 99–148</div></div>
-          <div class="sd-chrow"><div class="sd-ch-acc"></div><div class="sd-ch-num">الفصل الرابع</div><div class="sd-ch-dv"></div><div class="sd-ch-ttl">الدراسة التطبيقية — البانل</div><div class="sd-ch-pg">ص 149–210</div></div>
-          <div class="sd-chrow"><div class="sd-ch-acc"></div><div class="sd-ch-num">الفصل الخامس</div><div class="sd-ch-dv"></div><div class="sd-ch-ttl">النتائج والتوصيات</div><div class="sd-ch-pg">ص 211–256</div></div>
+    <div class="engine-panel" id="ep-classic">
+      <p style="font-size:11px;color:rgba(255,255,255,.5);text-align:center;margin-bottom:10px">⚙️ python-pptx · هيدر ثقيل · صفوف متناوبة</p>
+      <div class="sd-grid">
+        <div class="sd-item">
+          <iframe class="sd-frame" src="slides/classic-plan.html" scrolling="no"></iframe>
+          <div class="sd-lbl">خطة البحث · navy_gold</div>
         </div>
-        <div class="sd-footer"></div>
-      </div>
-      <div class="sd-lbl">خطة البحث · navy_gold</div>
-    </div>
-    <div class="sd-item">
-      <div class="sd-slide sd-cl-conc">
-        <div class="sd-hdr"><div class="sd-hdr-acc"></div><div class="sd-hdr-side"></div></div>
-        <div class="sd-num">9</div>
-        <div class="sd-ttl">خاتمة البحث</div>
-        <div class="sd-sub">الاستنتاج العام · زروق سارة</div>
-        <div class="sd-bcard">
-          <div class="sd-quote">❝</div>
-          <div class="sd-body">
-            <p class="sd-bp">توصلت الدراسة إلى وجود علاقة ذات دلالة إحصائية بين هيكل التمويل والأداء المالي للمؤسسات الجزائرية 2015–2023.</p>
-            <p class="sd-bp">يُعدّ التمويل الذاتي المحرك الرئيسي للأداء، في حين تُضعف الديون طويلة الأجل قدرة المؤسسة على تحقيق عوائد مستدامة.</p>
-            <p class="sd-bp-m">يُوصي البحث بتعزيز الاحتياطات الداخلية والحدّ من الاعتماد على الاقتراض الخارجي.</p>
-          </div>
-          <div class="sd-divider"></div>
-          <div class="sd-sig">زروق سارة — ماستر إدارة أعمال — جامعة سطيف 1</div>
+        <div class="sd-item">
+          <iframe class="sd-frame" src="slides/classic-conc.html" scrolling="no"></iframe>
+          <div class="sd-lbl">الخاتمة · dark_teal</div>
         </div>
       </div>
-      <div class="sd-lbl">الخاتمة · dark_teal</div>
     </div>
-  </div>
-</div>
+
   </div>
 
   <div class="garea">

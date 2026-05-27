@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:800px;height:450px;overflow:hidden;background:transparent}
+body{
+  width:800px;height:450px;
+  background:linear-gradient(135deg,#07172F,#1A3A6E);
+  font-family:'Cairo',sans-serif;direction:rtl;position:relative;
+}
+/* HEADER */
+.hdr{position:absolute;top:0;right:0;left:0;height:126px;background:linear-gradient(135deg,#0D2347,#07172F)}
+.hdr-bar{position:absolute;bottom:0;right:0;left:0;height:10px;background:linear-gradient(90deg,#07172F,#C6A03C 35%,#E8C96A 65%,#07172F)}
+.hdr-side{position:absolute;top:0;left:0;width:20px;height:100%;background:linear-gradient(180deg,#C6A03C,#E8C96A)}
+.snum{position:absolute;top:22px;right:18px;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#C6A03C,#E8C96A);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#07172F}
+.ttl{position:absolute;top:28px;left:30px;right:74px;font-size:18px;font-weight:900;color:#F0E8D8;text-align:right;white-space:nowrap}
+.sub{position:absolute;top:62px;left:30px;right:30px;font-size:11px;color:#C6A03C;text-align:right}
+/* CARDS GRID */
+.cards{position:absolute;top:134px;right:12px;left:12px;bottom:8px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:8px}
+.kc{background:linear-gradient(135deg,#122040,#0D1A35);border-radius:10px;border-top:3px solid #C6A03C;border-bottom:2px solid rgba(198,160,60,.3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:8px}
+.knum{font-size:28px;font-weight:900;color:#C6A03C;line-height:1}
+.kdiv{width:65%;height:1px;background:rgba(138,155,181,.4)}
+.ksub{font-size:10px;color:#8A9BB5;text-align:center;direction:rtl}
+.ksub2{font-size:9px;color:#C6A03C;text-align:center}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="hdr-bar"></div>
+  <div class="hdr-side"></div>
+</div>
+<div class="snum">7</div>
+<div class="ttl">الأرقام والإحصاءات الرئيسية</div>
+<div class="sub">مؤشرات الدراسة التطبيقية · بن علي محمد · ماستر مالية ومحاسبة</div>
+<div class="cards">
+  <div class="kc"><div class="knum">78.4%</div><div class="kdiv"></div><div class="ksub">معدل العائد على الأصول ROA</div></div>
+  <div class="kc"><div class="knum">0.814</div><div class="kdiv"></div><div class="ksub">قوة النموذج التفسيرية R²</div></div>
+  <div class="kc"><div class="knum">432</div><div class="ksub2">مشاهدة</div><div class="kdiv"></div><div class="ksub">عدد المشاهدات (48×9)</div></div>
+  <div class="kc"><div class="knum">+15.7%</div><div class="kdiv"></div><div class="ksub">نمو ROE خلال 2020–2023</div></div>
+  <div class="kc"><div class="knum">48</div><div class="ksub2">مؤسسة</div><div class="kdiv"></div><div class="ksub">حجم العينة (بانل متوازن)</div></div>
+  <div class="kc"><div class="knum">48.3</div><div class="ksub2">F-test ***</div><div class="kdiv"></div><div class="ksub">اختبار فيشر الكلي</div></div>
+</div>
+</body></html>
