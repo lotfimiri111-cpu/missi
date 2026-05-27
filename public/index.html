@@ -223,6 +223,34 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .bnew{display:block;margin:7px auto 0;padding:7px 18px;border-radius:var(--r);border:1.5px solid var(--bd);background:transparent;color:var(--muted);font-family:inherit;font-size:11px;font-weight:600;cursor:pointer;transition:all .2s}
 .bnew:hover{border-color:var(--gold);color:var(--gold)}
 .fallback-note{margin:10px 0 2px;padding:8px 12px;background:rgba(255,180,0,.12);border:1px solid rgba(255,180,0,.3);border-radius:7px;font-size:11px;color:#e8c060;text-align:center}
+/* ── First-slide preview overlay ─────────────────────────────── */
+.slide-prev-ov{position:fixed;inset:0;background:rgba(7,23,47,.9);backdrop-filter:blur(18px);display:none;align-items:center;justify-content:center;z-index:2500;padding:16px}
+.slide-prev-ov.open{display:flex}
+.slide-prev-box{background:#fff;border-radius:22px;width:100%;max-width:480px;overflow:hidden;box-shadow:0 30px 80px rgba(7,23,47,.45);animation:min .25s ease}
+.sp-head{background:linear-gradient(135deg,var(--navy),#152d58);padding:18px 22px 14px;text-align:center}
+.sp-head h3{color:#fff;font-size:16px;font-weight:800;margin:0 0 3px}
+.sp-head p{color:rgba(255,255,255,.6);font-size:11px;margin:0}
+.sp-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(198,160,60,.22);border:1px solid rgba(198,160,60,.4);border-radius:99px;padding:3px 10px;font-size:10px;color:var(--gold-l);margin-top:6px}
+.sp-img-wrap{background:#0d1a2e;padding:14px;text-align:center;min-height:200px;display:flex;align-items:center;justify-content:center;position:relative}
+.sp-img-wrap img{max-width:100%;max-height:260px;border-radius:8px;display:block;margin:0 auto;box-shadow:0 8px 28px rgba(0,0,0,.4)}
+.sp-img-wrap .sp-wm{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.sp-img-wrap .sp-wm span{font-size:22px;font-weight:900;color:rgba(255,255,255,.08);transform:rotate(-25deg);letter-spacing:4px;text-transform:uppercase}
+.sp-loading{padding:40px 0;text-align:center;color:rgba(255,255,255,.5);font-size:13px}
+.sp-foot{padding:18px 22px;border-top:1px solid var(--bd)}
+.sp-info{background:rgba(198,160,60,.07);border:1px solid rgba(198,160,60,.18);border-radius:10px;padding:12px 14px;font-size:11px;color:var(--navy);margin-bottom:14px;text-align:center}
+.sp-info strong{color:var(--navy);font-size:13px}
+.sp-btns{display:flex;gap:10px}
+.sp-btn-confirm{flex:1;padding:13px;border-radius:11px;background:linear-gradient(135deg,var(--gold),var(--gold-l));color:var(--navy);font-family:inherit;font-size:14px;font-weight:900;border:none;cursor:pointer;transition:all .2s}
+.sp-btn-confirm:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(198,160,60,.4)}
+.sp-btn-cancel{padding:13px 16px;border-radius:11px;border:1.5px solid var(--bd);background:transparent;color:var(--muted);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+/* ── Pending order banner ─────────────────────────────────────── */
+.pending-banner{background:linear-gradient(135deg,#0f2744,#1a3a6b);border:1.5px solid rgba(198,160,60,.35);border-radius:16px;padding:20px 22px;margin:18px 0;text-align:center;animation:fu .4s ease}
+.pending-banner h3{color:var(--gold-l);font-size:15px;font-weight:800;margin:0 0 6px}
+.pending-banner p{color:rgba(255,255,255,.65);font-size:12px;margin:0 0 14px}
+.pb-order{font-family:monospace;font-size:13px;color:rgba(255,255,255,.45);margin-bottom:14px}
+.pb-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.pb-code-btn{padding:11px 22px;border-radius:10px;background:linear-gradient(135deg,var(--gold),var(--gold-l));color:var(--navy);font-family:inherit;font-size:13px;font-weight:800;border:none;cursor:pointer;transition:all .2s}
+.pb-new-btn{padding:11px 18px;border-radius:10px;border:1.5px solid rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.65);font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
 
 /* ══ PAYMENT OVERLAY ══ */
 .pay-ov{position:fixed;inset:0;background:rgba(7,23,47,.82);backdrop-filter:blur(14px);display:none;align-items:center;justify-content:center;z-index:2000;padding:16px}
@@ -891,6 +919,30 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 </div>
 
 <!-- ══ PAYMENT OVERLAY ══ -->
+<!-- ══ First-Slide Preview Overlay ══ -->
+<div class="slide-prev-ov" id="slidePrevOv">
+  <div class="slide-prev-box">
+    <div class="sp-head">
+      <h3>🎓 معاينة العرض</h3>
+      <p>الشريحة الأولى من مذكرتك</p>
+      <div class="sp-badge"><span>🔒</span> معاينة مؤمّنة — الملف الكامل بعد الدفع</div>
+    </div>
+    <div class="sp-img-wrap" id="spImgWrap">
+      <div class="sp-loading" id="spLoading">⏳ تحميل المعاينة...</div>
+    </div>
+    <div class="sp-foot">
+      <div class="sp-info">
+        <strong>✅ تم إنشاء عرضك بنجاح!</strong><br>
+        للحصول على الملف الكامل القابل للتعديل — <strong>800 دج فقط</strong>
+      </div>
+      <div class="sp-btns">
+        <button class="sp-btn-cancel" onclick="closeSlidePrev()">← تعديل</button>
+        <button class="sp-btn-confirm" onclick="confirmAndPay()">💳 موافق — انتقل للدفع</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="pay-ov" id="payOv">
   <div class="pay-box">
     <div class="pay-head" style="position:relative">
@@ -1905,36 +1957,16 @@ async function generate(){
     const isFallback = false; // v17: single unified engine, no fallbacks
     // تحويل base64 → Blob (للمعاينة فقط — ملف PPTX الحقيقي على الخادم)
     setP(100,t('modal_ok'));await sl(300);
-    // v20: لا نستقبل json.data (PPTX) هنا — الملف الحقيقي على السيرفر فقط
-    // v21: no preview — show order panel directly
+    // v22: عرض الشريحة الأولى للموافقة قبل الانتقال للدفع
     localStorage.removeItem('mp_v4');
     _currentPresId = json.presentation_id;
     _currentFilename = json.filename || 'presentation.pptx';
     _currentStudentName = d.studentName;
     _currentDegree = d.degree || 'licence';
     _currentTitleAr = d.titleAr || '';
-    let existingBanner = document.getElementById('resultBanner');
-    if (existingBanner) existingBanner.remove();
-    const banner = document.createElement('div');
-    banner.id = 'resultBanner';
-    banner.style.cssText = 'margin-top:20px;animation:fu .3s ease';
-    banner.innerHTML = `
-      <div class="preview-lock">
-        <div class="pl-icon">✅</div>
-        <div class="pl-text">
-          <h4>تم إنشاء العرض بنجاح!</h4>
-          <p>أدِّ 800 دج للحصول على ملف PPTX الكامل القابل للتعديل</p>
-        </div>
-        <div class="pl-actions">
-          <button class="pl-pay-btn" onclick="openPayOv()">💳 اشتري الآن — 800 دج</button>
-          <button class="pl-code-btn" onclick="openCodeOv()">🔑 عندي كود</button>
-        </div>
-      </div>
-      <button class="bnew" style="margin-top:10px" onclick="if(confirm('سيتم حذف العرض الحالي وإنشاء عرض جديد.')){localStorage.removeItem('mp_v4');location.reload()}">🔄 إنشاء عرض جديد</button>`;
-    const bgen = document.getElementById('bgen');
-    if (bgen && bgen.parentNode) bgen.parentNode.insertBefore(banner, bgen.nextSibling);
-    else document.querySelector('.main').appendChild(banner);
-    setTimeout(() => banner.scrollIntoView({ behavior: 'smooth', block: 'center' }), 150);
+    closeM();
+    // عرض الشريحة الأولى من المعاينة
+    openSlidePrev(json.preview_slides);
   }catch(e){
     clearTimeout(_timeoutId);
     _progStop=true;
@@ -1975,6 +2007,77 @@ function cancelGen(){
 function setP(p,m){document.getElementById('pfill').style.width=p+'%';document.getElementById('plbl').textContent=m||p+'%';}
 // ══ PAYMENT STATE ══
 let _currentPresId = null;
+// ══════════════════════════════════════════════════════════════
+
+// ══ FIRST-SLIDE PREVIEW ══════════════════════════════════════
+function openSlidePrev(previewSlides){
+  const ov = document.getElementById('slidePrevOv');
+  const wrap = document.getElementById('spImgWrap');
+  const loading = document.getElementById('spLoading');
+  wrap.innerHTML = '<div class="sp-loading" id="spLoading">⏳ تحميل المعاينة...</div>';
+
+  if(previewSlides && previewSlides.length > 0){
+    const first = previewSlides[0];
+    const src = first.startsWith('data:') ? first : 'data:image/webp;base64,' + first;
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = 'الشريحة الأولى';
+    img.onload = () => {
+      wrap.innerHTML = '';
+      wrap.appendChild(img);
+      const wm = document.createElement('div');
+      wm.className = 'sp-wm';
+      wm.innerHTML = '<span>معاينة</span>';
+      wrap.appendChild(wm);
+    };
+    img.onerror = () => {
+      wrap.innerHTML = '<div class="sp-loading">✅ تم إنشاء العرض — المعاينة غير متوفرة</div>';
+    };
+  } else {
+    wrap.innerHTML = '<div class="sp-loading">✅ تم إنشاء العرض بنجاح</div>';
+  }
+
+  ov.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSlidePrev(){
+  document.getElementById('slidePrevOv').classList.remove('open');
+  document.body.style.overflow = '';
+  // إظهار البانر للعودة إذا أغلق بدون موافقة
+  _showResultBanner();
+}
+
+function confirmAndPay(){
+  document.getElementById('slidePrevOv').classList.remove('open');
+  document.body.style.overflow = '';
+  openPayOv();
+}
+
+function _showResultBanner(){
+  let existingBanner = document.getElementById('resultBanner');
+  if(existingBanner) return; // موجود بالفعل
+  const banner = document.createElement('div');
+  banner.id = 'resultBanner';
+  banner.style.cssText = 'margin-top:20px;animation:fu .3s ease';
+  banner.innerHTML = `
+    <div class="preview-lock">
+      <div class="pl-icon">✅</div>
+      <div class="pl-text">
+        <h4>العرض جاهز!</h4>
+        <p>أدِّ 800 دج للحصول على ملف PPTX الكامل القابل للتعديل</p>
+      </div>
+      <div class="pl-actions">
+        <button class="pl-pay-btn" onclick="openPayOv()">💳 اشتري الآن — 800 دج</button>
+        <button class="pl-code-btn" onclick="openCodeOv()">🔑 عندي كود</button>
+      </div>
+    </div>
+    <button class="bnew" style="margin-top:10px" onclick="if(confirm('سيتم حذف العرض الحالي وإنشاء عرض جديد.')){localStorage.removeItem('mp_v4');localStorage.removeItem('mp_order');location.reload()}">🔄 إنشاء عرض جديد</button>`;
+  const bgen = document.getElementById('bgen');
+  if(bgen && bgen.parentNode) bgen.parentNode.insertBefore(banner, bgen.nextSibling);
+  else document.querySelector('.main').appendChild(banner);
+  setTimeout(() => banner.scrollIntoView({ behavior:'smooth', block:'center' }), 150);
+}
 // ══════════════════════════════════════════════════════════════
 
 
@@ -2045,6 +2148,12 @@ async function submitOrder(){
     const orderData=await orderResp.json();
     if(!orderData.ok) throw new Error(orderData.error||'فشل في إنشاء الطلب');
     _currentOrderId=orderData.order_id;
+    // حفظ الطلب في localStorage للاسترجاع عند العودة
+    localStorage.setItem('mp_order', JSON.stringify({
+      order_id: _currentOrderId,
+      student_name: name,
+      created_at: Date.now()
+    }));
     const fd=new FormData(); fd.append('receipt',_receiptFile);
     const uploadResp=await fetch('/orders/'+_currentOrderId+'/receipt',{method:'POST',body:fd});
     const uploadData=await uploadResp.json();
@@ -2070,6 +2179,7 @@ async function redeemCode(){
     const resp=await fetch('/redeem',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code})});
     const data=await resp.json();
     if(!data.ok) throw new Error(data.error||'كود غير صحيح');
+    localStorage.removeItem('mp_order'); // مسح الطلب المعلق بعد التحميل
     document.getElementById('codeSuccess').style.display='block';
     const raw=atob(data.data), bytes=new Uint8Array(raw.length);
     for(let i=0;i<raw.length;i++) bytes[i]=raw.charCodeAt(i);
@@ -2115,6 +2225,34 @@ const sl=ms=>new Promise(r=>setTimeout(r,ms));
 
   // Load draft
   loadDraft();
+
+  // ══ فحص طلب معلق من جلسة سابقة ══════════════════
+  (function checkPendingOrder(){
+    const saved = localStorage.getItem('mp_order');
+    if(!saved) return;
+    try{
+      const o = JSON.parse(saved);
+      if(!o.order_id) return;
+      // عرض بانر "لديك طلب معلق"
+      setTimeout(()=>{
+        const main = document.querySelector('.main');
+        if(!main) return;
+        const pb = document.createElement('div');
+        pb.id = 'pendingOrderBanner';
+        pb.className = 'pending-banner';
+        pb.innerHTML = `
+          <h3>🕐 لديك طلب دفع معلق</h3>
+          <p>أرسلت وصل الدفع مسبقاً — في انتظار موافقة الإدارة</p>
+          <div class="pb-order">رقم الطلب: <strong>${o.order_id}</strong></div>
+          <div class="pb-btns">
+            <button class="pb-code-btn" onclick="openCodeOv()">🔑 لديّ كود — تحميل الآن</button>
+            <button class="pb-new-btn" onclick="if(confirm('حذف الطلب القديم وإنشاء عرض جديد؟')){localStorage.removeItem('mp_order');document.getElementById('pendingOrderBanner').remove()}">إنشاء عرض جديد</button>
+          </div>`;
+        main.prepend(pb);
+      }, 600);
+    }catch(e){ localStorage.removeItem('mp_order'); }
+  })();
+  // ══════════════════════════════════════════════════
 
   // Apply initial toggle states
   Object.keys(slideStates).forEach(k=>{
