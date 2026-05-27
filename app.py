@@ -332,6 +332,102 @@ def upload_receipt(order_id):
     return jsonify({"ok": True, "message": "تم رفع الوصل بنجاح، سيتم مراجعته خلال 24 ساعة"})
 
 
+@app.route("/preview-slide/<presentation_id>", methods=["GET"])
+def download_preview_slide(presentation_id):
+    """
+    يُرجع الشريحة الأولى فقط كملف PPTX حقيقي للمعاينة.
+    الشريحة تحتوي على watermark مدمج في نص وليس صورة.
+    """
+    if not re.match(r'^[0-9a-f\-]{36}$', presentation_id):
+        return jsonify({"error": "معرف غير صالح"}), 400
+
+    pptx_path = STORAGE_DIR / "pptx" / f"{presentation_id}.pptx"
+    if not pptx_path.exists():
+        return jsonify({"error": "العرض غير موجود أو انتهت صلاحيته"}), 404
+
+    try:
+        from pptx import Presentation as _Prs
+        from pptx.util import Pt
+        from pptx.dml.color import RGBColor
+        import copy, io as _io
+
+        prs_orig = _Prs(str(pptx_path))
+        # إنشاء عرض جديد بنفس الأبعاد
+        prs_prev = _Prs()
+        prs_prev.slide_width = prs_orig.slide_width
+        prs_prev.slide_height = prs_orig.slide_height
+
+        # نسخ الشريحة الأولى فقط
+        orig_slide = prs_orig.slides[0]
+        slide_layout = prs_prev.slide_layouts[6]  # blank layout
+        new_slide = prs_prev.slides.add_slide(slide_layout)
+
+        # نسخ كل عناصر الشريحة الأصلية
+        from lxml import etree
+        orig_spTree = orig_slide.shapes._spTree
+        new_spTree = new_slide.shapes._spTree
+
+        # نسخ خلفية الشريحة
+        try:
+            orig_bg = orig_slide.background._element
+            new_bg = new_slide.background._element
+            for child in list(orig_bg):
+                new_bg.append(copy.deepcopy(child))
+        except:
+            pass
+
+        # نسخ كل الأشكال
+        for shape_elem in list(orig_spTree)[2:]:  # تخطي sp and grpSpPr
+            try:
+                new_spTree.append(copy.deepcopy(shape_elem))
+            except:
+                pass
+
+        # إضافة watermark نصي واضح
+        from pptx.util import Emu
+        txBox = new_slide.shapes.add_textbox(
+            Emu(0), Emu(prs_prev.slide_height // 2 - 600000),
+            prs_prev.slide_width, Emu(1200000)
+        )
+        tf = txBox.text_frame
+        tf.word_wrap = False
+        p = tf.paragraphs[0]
+        p.alignment = 2  # center
+        run = p.add_run()
+        run.text = "معاينة — مذكرتي Pro"
+        run.font.size = Pt(36)
+        run.font.bold = True
+        run.font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
+        # شفافية عبر XML
+        try:
+            from pptx.oxml.ns import qn
+            rPr = run._r.get_or_add_rPr()
+            solidFill = rPr.find(qn('a:solidFill'))
+            if solidFill is not None:
+                srgbClr = solidFill.find(qn('a:srgbClr'))
+                if srgbClr is not None:
+                    alpha = etree.SubElement(srgbClr, qn('a:alpha'))
+                    alpha.set('val', '45000')  # ~45% شفاف
+        except:
+            pass
+
+        buf = _io.BytesIO()
+        prs_prev.save(buf)
+        buf.seek(0)
+        data = buf.read()
+
+        log.info(f"Preview PPTX served: {presentation_id} ({len(data)//1024}KB)")
+        return send_file(
+            _io.BytesIO(data),
+            mimetype="application/vnd.openxmlformats-officedocument.presentationml.presentation",
+            as_attachment=True,
+            download_name=f"معاينة-مذكرتي.pptx",
+        )
+    except Exception as e:
+        log.error(f"Preview slide export failed: {e}")
+        return jsonify({"error": "فشل تصدير المعاينة"}), 500
+
+
 @app.route("/redeem", methods=["POST"])
 def redeem_by_code():
     """بعد الدفع فقط — يُرجع ملف PPTX الحقيقي"""

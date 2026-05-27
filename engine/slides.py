@@ -150,7 +150,6 @@ def make_cover(prs, req: PresentationRequest, T: Theme):
     if req.supervisor:     rows.append(("المشرف",req.supervisor))
     if req.co_supervisor:  rows.append(("المشرف المساعد",req.co_supervisor))
     if req.specialization: rows.append(("التخصص",req.specialization))
-    if req.year:           rows.append(("السنة",req.year))
 
     rh=info_h/max(len(rows),1)
     for i,(lbl,val) in enumerate(rows):

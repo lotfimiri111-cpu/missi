@@ -248,9 +248,12 @@ let _currentFilter = null;
 let _currentOrderData = null;
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
+let _refreshInterval = null;
 async function doLogin(){
   const pass = document.getElementById('loginPass').value;
   if(!pass) return;
+  const loginBtn = document.querySelector('.login-box button');
+  if(loginBtn){loginBtn.disabled=true;loginBtn.textContent='⏳';}
   try{
     const r = await fetch('/admin/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pass})});
     const d = await r.json();
@@ -260,9 +263,12 @@ async function doLogin(){
     document.getElementById('loginScreen').style.display='none';
     document.getElementById('app').style.display='block';
     loadDashboard();
-    setInterval(loadDashboard,60000);
+    if(_refreshInterval) clearInterval(_refreshInterval);
+    _refreshInterval = setInterval(loadDashboard,60000);
   }catch(e){
     document.getElementById('loginErr').style.display='block';
+  }finally{
+    if(loginBtn){loginBtn.disabled=false;loginBtn.textContent='دخول';}
   }
 }
 
@@ -273,6 +279,7 @@ async function checkAuth(){
 }
 
 function logout(){
+  if(_refreshInterval){clearInterval(_refreshInterval);_refreshInterval=null;}
   localStorage.removeItem('admin_token');
   _token='';
   document.getElementById('loginScreen').style.display='flex';
@@ -325,7 +332,9 @@ async function loadTable(containerId, status){
   const url = status ? '/admin/orders?status='+status : '/admin/orders';
   try{
     const r = await fetch(url,{headers:{'X-Admin-Token':_token}});
+    if(r.status===401){logout();return;}
     const orders = await r.json();
+    if(!Array.isArray(orders)) throw new Error('استجابة غير صالحة');
     document.getElementById(containerId).innerHTML = `
       <div class="table-wrap">
         <div class="table-toolbar">
@@ -334,7 +343,9 @@ async function loadTable(containerId, status){
         </div>
         ${buildTable(orders)}
       </div>`;
-  }catch(e){}
+  }catch(e){
+    document.getElementById(containerId).innerHTML=`<div class="empty-state" style="color:var(--err)">❌ خطأ في تحميل الطلبات: ${escHtml(e.message)}</div>`;
+  }
 }
 
 function buildTable(orders){
@@ -471,6 +482,7 @@ async function rejectOrder(orderId){
     const d = await r.json();
     if(!d.ok) throw new Error(d.error);
     closeModal(); showToast('تم رفض الطلب','ok'); await loadDashboard();
+    loadTable('ordersTable',null);
   }catch(e){showToast('❌ '+e.message,'err');}
 }
 
@@ -538,7 +550,8 @@ function showToast(msg, type='ok'){
     document.getElementById('loginScreen').style.display='none';
     document.getElementById('app').style.display='block';
     loadDashboard();
-    setInterval(loadDashboard,60000);
+    if(_refreshInterval) clearInterval(_refreshInterval);
+    _refreshInterval = setInterval(loadDashboard,60000);
   }
   document.getElementById('loginPass').addEventListener('keydown',e=>e.key==='Enter'&&doLogin());
 })();

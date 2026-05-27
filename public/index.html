@@ -236,6 +236,15 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
 .sp-img-wrap .sp-wm{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
 .sp-img-wrap .sp-wm span{font-size:22px;font-weight:900;color:rgba(255,255,255,.08);transform:rotate(-25deg);letter-spacing:4px;text-transform:uppercase}
 .sp-loading{padding:40px 0;text-align:center;color:rgba(255,255,255,.5);font-size:13px}
+/* ── PPTX Download Preview Zone ── */
+.sp-dl-zone{background:#0d1a2e;padding:28px 22px;text-align:center;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.sp-dl-icon{font-size:52px;margin-bottom:4px}
+.sp-dl-title{color:#fff;font-size:15px;font-weight:800;margin:0}
+.sp-dl-sub{color:rgba(255,255,255,.55);font-size:11px;margin:0;max-width:300px;line-height:1.5}
+.sp-dl-btn{display:inline-flex;align-items:center;gap:8px;padding:13px 24px;border-radius:12px;border:none;background:linear-gradient(135deg,#10B981,#059669);color:#fff;font-family:inherit;font-size:13px;font-weight:800;cursor:pointer;margin-top:4px;transition:all .2s;box-shadow:0 6px 20px rgba(16,185,129,.35)}
+.sp-dl-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(16,185,129,.45)}
+.sp-dl-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.sp-dl-note{color:rgba(255,255,255,.3);font-size:10px;margin:0}
 .sp-foot{padding:18px 22px;border-top:1px solid var(--bd)}
 .sp-info{background:rgba(198,160,60,.07);border:1px solid rgba(198,160,60,.18);border-radius:10px;padding:12px 14px;font-size:11px;color:var(--navy);margin-bottom:14px;text-align:center}
 .sp-info strong{color:var(--navy);font-size:13px}
@@ -924,11 +933,18 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
   <div class="slide-prev-box">
     <div class="sp-head">
       <h3>🎓 معاينة العرض</h3>
-      <p>الشريحة الأولى من مذكرتك</p>
-      <div class="sp-badge"><span>🔒</span> معاينة مؤمّنة — الملف الكامل بعد الدفع</div>
+      <p>الشريحة الأولى من مذكرتك بجودة حقيقية</p>
+      <div class="sp-badge"><span>🔒</span> معاينة — الملف الكامل بعد الدفع</div>
     </div>
-    <div class="sp-img-wrap" id="spImgWrap">
-      <div class="sp-loading" id="spLoading">⏳ تحميل المعاينة...</div>
+    <!-- منطقة المعاينة: تحميل PPTX حقيقي -->
+    <div class="sp-dl-zone" id="spDlZone">
+      <div class="sp-dl-icon">📊</div>
+      <p class="sp-dl-title">جاهز للمعاينة الحقيقية!</p>
+      <p class="sp-dl-sub">حمّل ملف PowerPoint للشريحة الأولى فقط وشاهد جودة العرض بنفسك</p>
+      <button class="sp-dl-btn" id="spDlBtn" onclick="downloadPreviewSlide()">
+        ⬇️ تحميل معاينة الشريحة الأولى (.pptx)
+      </button>
+      <p class="sp-dl-note">ملف مجاني — يحتوي على الشريحة الأولى فقط مع علامة مائية</p>
     </div>
     <div class="sp-foot">
       <div class="sp-info">
@@ -2006,39 +2022,45 @@ function cancelGen(){
 }
 function setP(p,m){document.getElementById('pfill').style.width=p+'%';document.getElementById('plbl').textContent=m||p+'%';}
 // ══ PAYMENT STATE ══
-let _currentPresId = null;
+let _currentPresId      = null;
+let _currentFilename    = 'presentation.pptx';
+let _currentStudentName = '';
+let _currentDegree      = 'licence';
+let _currentTitleAr     = '';
+let _currentOrderId     = null;
+let _selectedMethod     = null;
+let _receiptFile        = null;
 // ══════════════════════════════════════════════════════════════
 
 // ══ FIRST-SLIDE PREVIEW ══════════════════════════════════════
 function openSlidePrev(previewSlides){
+  // v22+: نعرض زر تحميل PPTX حقيقي بدل الصورة المشوهة
   const ov = document.getElementById('slidePrevOv');
-  const wrap = document.getElementById('spImgWrap');
-  const loading = document.getElementById('spLoading');
-  wrap.innerHTML = '<div class="sp-loading" id="spLoading">⏳ تحميل المعاينة...</div>';
-
-  if(previewSlides && previewSlides.length > 0){
-    const first = previewSlides[0];
-    const src = first.startsWith('data:') ? first : 'data:image/webp;base64,' + first;
-    const img = document.createElement('img');
-    img.src = src;
-    img.alt = 'الشريحة الأولى';
-    img.onload = () => {
-      wrap.innerHTML = '';
-      wrap.appendChild(img);
-      const wm = document.createElement('div');
-      wm.className = 'sp-wm';
-      wm.innerHTML = '<span>معاينة</span>';
-      wrap.appendChild(wm);
-    };
-    img.onerror = () => {
-      wrap.innerHTML = '<div class="sp-loading">✅ تم إنشاء العرض — المعاينة غير متوفرة</div>';
-    };
-  } else {
-    wrap.innerHTML = '<div class="sp-loading">✅ تم إنشاء العرض بنجاح</div>';
+  // إعادة تهيئة زر التحميل
+  const btn = document.getElementById('spDlBtn');
+  if(btn){
+    btn.disabled = false;
+    btn.textContent = '⬇️ تحميل معاينة الشريحة الأولى (.pptx)';
   }
-
   ov.classList.add('open');
   document.body.style.overflow = 'hidden';
+}
+
+function downloadPreviewSlide(){
+  if(!_currentPresId) return;
+  const btn = document.getElementById('spDlBtn');
+  if(btn){ btn.disabled = true; btn.textContent = '⏳ جاري التحضير...'; }
+  // تحميل مباشر عبر رابط
+  const url = `/preview-slide/${_currentPresId}`;
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'معاينة-مذكرتي.pptx';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => {
+    if(btn){ btn.disabled = false; btn.textContent = '⬇️ تحميل مجدداً'; }
+  }, 3000);
 }
 
 function closeSlidePrev(){
@@ -2095,6 +2117,21 @@ const BARID_INFO=`<div class="pi-row"><span class="pi-label">رقم BaridiMob</s
 
 function openPayOv(){
   if(!_currentPresId){alert('يجب إنشاء العرض أولاً');return;}
+  // إعادة تهيئة كاملة للخطوات
+  document.getElementById('payStep1').style.display='';
+  document.getElementById('payStep2').style.display='none';
+  document.getElementById('payStep3').style.display='none';
+  document.getElementById('ps1').className='ps-step act';
+  document.getElementById('ps2').className='ps-step';
+  document.getElementById('ps3').className='ps-step';
+  _selectedMethod=null;
+  _receiptFile=null;
+  const rf=document.getElementById('receiptFile'); if(rf) rf.value='';
+  document.getElementById('uploadPreview').style.display='none';
+  document.querySelectorAll('.pm-card').forEach(c=>c.classList.remove('sel'));
+  document.getElementById('payInfoBox').style.display='none';
+  const submitBtn=document.getElementById('paySubmitBtn');
+  if(submitBtn){submitBtn.disabled=false;submitBtn.textContent='📤 إرسال الطلب';}
   document.getElementById('payOv').classList.add('open');
   document.body.style.overflow='hidden';
   const n=document.getElementById('pay-name');
@@ -2102,7 +2139,16 @@ function openPayOv(){
 }
 function closePayOv(){document.getElementById('payOv').classList.remove('open');document.body.style.overflow='';}
 function openCodeOv(){document.getElementById('codeOv').classList.add('open');document.body.style.overflow='hidden';setTimeout(()=>document.getElementById('codeInput').focus(),100);}
-function closeCodeOv(){document.getElementById('codeOv').classList.remove('open');document.body.style.overflow='';}
+function closeCodeOv(){
+  document.getElementById('codeOv').classList.remove('open');
+  document.body.style.overflow='';
+  // إعادة تهيئة النموذج
+  document.getElementById('codeInput').value='';
+  document.getElementById('codeErr').style.display='none';
+  document.getElementById('codeSuccess').style.display='none';
+  const btn=document.querySelector('.code-btn');
+  if(btn){btn.disabled=false;btn.textContent='✓ تحقق';}
+}
 
 function selectMethod(method){
   _selectedMethod=method;
@@ -2179,8 +2225,13 @@ async function redeemCode(){
     const resp=await fetch('/redeem',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code})});
     const data=await resp.json();
     if(!data.ok) throw new Error(data.error||'كود غير صحيح');
-    localStorage.removeItem('mp_order'); // مسح الطلب المعلق بعد التحميل
-    document.getElementById('codeSuccess').style.display='block';
+    localStorage.removeItem('mp_order');
+    localStorage.removeItem('mp_v4');
+    const successEl=document.getElementById('codeSuccess');
+    successEl.style.display='block';
+    successEl.textContent='✅ جاري تحميل ملفك...';
+    btn.textContent='✅ تم';
+    // تحميل الملف
     const raw=atob(data.data), bytes=new Uint8Array(raw.length);
     for(let i=0;i<raw.length;i++) bytes[i]=raw.charCodeAt(i);
     const blob=new Blob([bytes],{type:'application/vnd.openxmlformats-officedocument.presentationml.presentation'});
@@ -2188,7 +2239,8 @@ async function redeemCode(){
     const a=document.createElement('a'); a.href=url; a.download=data.filename||'mathkarati.pptx';
     document.body.appendChild(a); a.click();
     setTimeout(()=>{URL.revokeObjectURL(url);a.remove();},5000);
-    setTimeout(()=>closeCodeOv(),2500);
+    successEl.textContent='✅ تم تحميل ملفك بنجاح! تحقق من مجلد التنزيلات.';
+    setTimeout(()=>closeCodeOv(),3500);
   }catch(e){
     errEl.style.display='block'; errEl.textContent='❌ '+e.message;
     btn.disabled=false; btn.textContent='✓ تحقق';
