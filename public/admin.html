@@ -340,7 +340,7 @@ async function loadTable(containerId, status){
 function buildTable(orders){
   if(!orders.length) return '<div class="empty-state">📭 لا توجد طلبات</div>';
   return `<table><thead><tr>
-    <th>رقم الطلب</th><th>الطالب</th><th>الدرجة</th><th>الدفع</th><th>الحالة</th><th>التاريخ</th><th>إجراء</th>
+    <th>رقم الطلب</th><th>الطالب</th><th>الدرجة</th><th>الدفع</th><th>الحالة</th><th>كود التحميل</th><th>التاريخ</th><th>إجراء</th>
   </tr></thead><tbody>`+
   orders.map(o=>`<tr>
     <td><span class="order-id">${o.id}</span></td>
@@ -348,6 +348,13 @@ function buildTable(orders){
     <td>${degreeLabel(o.degree)}</td>
     <td><span class="method-badge">${o.payment_method?.toUpperCase()||'—'}</span></td>
     <td>${statusBadge(o.status)}</td>
+    <td>${o.download_code
+      ? `<div style="display:flex;align-items:center;gap:5px">
+           <span style="font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:800;color:var(--ok);letter-spacing:3px;background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.3);border-radius:6px;padding:3px 8px">${o.download_code}</span>
+           <button class="copy-btn" style="margin:0;padding:3px 8px;font-size:10px" onclick="copyCode('${o.download_code}')">📋</button>
+         </div>`
+      : `<span style="color:var(--muted);font-size:11px">—</span>`
+    }</td>
     <td style="font-size:10px;color:var(--muted)">${fmtDate(o.created_at)}</td>
     <td><div class="action-btns">
       <button class="act-btn view" onclick="openDetail('${o.id}')">عرض</button>
