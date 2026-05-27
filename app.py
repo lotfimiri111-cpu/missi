@@ -335,8 +335,10 @@ def upload_receipt(order_id):
 @app.route("/preview-slide/<presentation_id>", methods=["GET"])
 def download_preview_slide(presentation_id):
     """
-    يُرجع الشريحة الأولى فقط كملف PPTX حقيقي للمعاينة.
-    الشريحة تحتوي على watermark مدمج في نص وليس صورة.
+    يُرجع الشريحة الأولى كملف PPTX صالح للقراءة.
+    الطريقة: نسخ الملف الأصلي كاملاً ثم حذف الشرائح 2..N من الـ ZIP مباشرة،
+    مع تحديث presentation.xml و [Content_Types].xml لتعكس شريحة واحدة فقط.
+    هذا يضمن أن كل الـ relationships (صور، خطوط، themes) تبقى سليمة.
     """
     if not re.match(r'^[0-9a-f\-]{36}$', presentation_id):
         return jsonify({"error": "معرف غير صالح"}), 400
@@ -346,85 +348,99 @@ def download_preview_slide(presentation_id):
         return jsonify({"error": "العرض غير موجود أو انتهت صلاحيته"}), 404
 
     try:
-        from pptx import Presentation as _Prs
-        from pptx.util import Pt
-        from pptx.dml.color import RGBColor
-        import copy, io as _io
+        import zipfile as _zf
+        import io as _io
+        from lxml import etree as _et
 
-        prs_orig = _Prs(str(pptx_path))
-        # إنشاء عرض جديد بنفس الأبعاد
-        prs_prev = _Prs()
-        prs_prev.slide_width = prs_orig.slide_width
-        prs_prev.slide_height = prs_orig.slide_height
+        src_data = pptx_path.read_bytes()
 
-        # نسخ الشريحة الأولى فقط
-        orig_slide = prs_orig.slides[0]
-        slide_layout = prs_prev.slide_layouts[6]  # blank layout
-        new_slide = prs_prev.slides.add_slide(slide_layout)
+        # ── اقرأ الملف الأصلي ──────────────────────────────────────────
+        with _zf.ZipFile(_io.BytesIO(src_data)) as zin:
+            all_names = zin.namelist()
+            all_files = {n: zin.read(n) for n in all_names}
 
-        # نسخ كل عناصر الشريحة الأصلية
-        from lxml import etree
-        orig_spTree = orig_slide.shapes._spTree
-        new_spTree = new_slide.shapes._spTree
-
-        # نسخ خلفية الشريحة
-        try:
-            orig_bg = orig_slide.background._element
-            new_bg = new_slide.background._element
-            for child in list(orig_bg):
-                new_bg.append(copy.deepcopy(child))
-        except:
-            pass
-
-        # نسخ كل الأشكال
-        for shape_elem in list(orig_spTree)[2:]:  # تخطي sp and grpSpPr
-            try:
-                new_spTree.append(copy.deepcopy(shape_elem))
-            except:
-                pass
-
-        # إضافة watermark نصي واضح
-        from pptx.util import Emu
-        txBox = new_slide.shapes.add_textbox(
-            Emu(0), Emu(prs_prev.slide_height // 2 - 600000),
-            prs_prev.slide_width, Emu(1200000)
+        # ── اكتشف أسماء الشرائح المرتبة ────────────────────────────────
+        import re as _re
+        slide_names = sorted(
+            [n for n in all_names if _re.match(r'ppt/slides/slide\d+\.xml$', n)],
+            key=lambda x: int(_re.search(r'\d+', x.split('/')[-1]).group())
         )
-        tf = txBox.text_frame
-        tf.word_wrap = False
-        p = tf.paragraphs[0]
-        p.alignment = 2  # center
-        run = p.add_run()
-        run.text = "معاينة — مذكرتي Pro"
-        run.font.size = Pt(36)
-        run.font.bold = True
-        run.font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
-        # شفافية عبر XML
-        try:
-            from pptx.oxml.ns import qn
-            rPr = run._r.get_or_add_rPr()
-            solidFill = rPr.find(qn('a:solidFill'))
-            if solidFill is not None:
-                srgbClr = solidFill.find(qn('a:srgbClr'))
-                if srgbClr is not None:
-                    alpha = etree.SubElement(srgbClr, qn('a:alpha'))
-                    alpha.set('val', '45000')  # ~45% شفاف
-        except:
-            pass
+        # الشرائح التي سنحذفها (كل شيء ما عدا الأولى)
+        slides_to_remove = set(slide_names[1:])
+        # rels المقابلة
+        def _rels_path(slide_path):
+            parts = slide_path.rsplit('/', 1)
+            return parts[0] + '/_rels/' + parts[1] + '.rels'
+        rels_to_remove = {_rels_path(s) for s in slides_to_remove}
+        to_remove = slides_to_remove | rels_to_remove
 
-        buf = _io.BytesIO()
-        prs_prev.save(buf)
-        buf.seek(0)
-        data = buf.read()
+        # ── أنشئ الـ ZIP الجديد بدون الشرائح المحذوفة ──────────────────
+        out_buf = _io.BytesIO()
+        with _zf.ZipFile(out_buf, 'w', _zf.ZIP_DEFLATED) as zout:
+            for name, data in all_files.items():
+                if name in to_remove:
+                    continue
 
-        log.info(f"Preview PPTX served: {presentation_id} ({len(data)//1024}KB)")
-        return send_file(
-            _io.BytesIO(data),
-            mimetype="application/vnd.openxmlformats-officedocument.presentationml.presentation",
-            as_attachment=True,
-            download_name=f"معاينة-مذكرتي.pptx",
-        )
+                if name == 'ppt/presentation.xml':
+                    # حذف مراجع الشرائح 2..N من sldIdLst
+                    root = _et.fromstring(data)
+                    ns = 'http://schemas.openxmlformats.org/presentationml/2006/main'
+                    sldIdLst = root.find(f'{{{ns}}}sldIdLst')
+                    if sldIdLst is not None:
+                        children = list(sldIdLst)
+                        # احتفظ فقط بالأولى
+                        for child in children[1:]:
+                            sldIdLst.remove(child)
+                    data = _et.tostring(root, xml_declaration=True,
+                                        encoding='UTF-8', standalone=True)
+
+                elif name == '[Content_Types].xml':
+                    # حذف Override للشرائح المحذوفة
+                    root = _et.fromstring(data)
+                    ct_ns = 'http://schemas.openxmlformats.org/package/2006/content-types'
+                    for child in list(root):
+                        part_name = child.get('PartName', '')
+                        # /ppt/slides/slideN.xml → ppt/slides/slideN.xml
+                        normalized = part_name.lstrip('/')
+                        if normalized in to_remove:
+                            root.remove(child)
+                    data = _et.tostring(root, xml_declaration=True,
+                                        encoding='UTF-8', standalone=True)
+
+                elif name == 'ppt/_rels/presentation.xml.rels':
+                    # حذف relationships للشرائح المحذوفة
+                    root = _et.fromstring(data)
+                    rel_ns = 'http://schemas.openxmlformats.org/package/2006/relationships'
+                    slide_ct = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships/slide'
+                    kept = 0
+                    for child in list(root):
+                        if child.get('Type') == slide_ct:
+                            target = child.get('Target', '')
+                            # Target بصيغة slides/slideN.xml
+                            full = 'ppt/' + target
+                            if full in slides_to_remove:
+                                root.remove(child)
+                                continue
+                            kept += 1
+                    data = _et.tostring(root, xml_declaration=True,
+                                        encoding='UTF-8', standalone=True)
+
+                zout.writestr(name, data)
+
+        preview_data = out_buf.getvalue()
+        import base64 as _b64
+        b64 = _b64.b64encode(preview_data).decode('ascii')
+        log.info(f"Preview PPTX served: {presentation_id} "
+                 f"({len(preview_data)//1024}KB, 1 slide)")
+
+        return jsonify({
+            "ok": True,
+            "data": b64,
+            "filename": "preview-mathkarati.pptx",
+            "size": len(preview_data),
+        })
     except Exception as e:
-        log.error(f"Preview slide export failed: {e}")
+        log.error(f"Preview slide export failed: {e}", exc_info=True)
         return jsonify({"error": "فشل تصدير المعاينة"}), 500
 
 

@@ -2046,21 +2046,33 @@ function openSlidePrev(previewSlides){
   document.body.style.overflow = 'hidden';
 }
 
-function downloadPreviewSlide(){
+async function downloadPreviewSlide(){
   if(!_currentPresId) return;
   const btn = document.getElementById('spDlBtn');
   if(btn){ btn.disabled = true; btn.textContent = '⏳ جاري التحضير...'; }
-  // تحميل مباشر عبر رابط
-  const url = `/preview-slide/${_currentPresId}`;
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'معاينة-مذكرتي.pptx';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  setTimeout(() => {
+  try{
+    const resp = await fetch(`/preview-slide/${_currentPresId}`);
+    const data = await resp.json();
+    if(!data.ok) throw new Error(data.error || 'فشل تحميل المعاينة');
+    // نفس منطق redeem: base64 → Blob → تحميل
+    const raw = atob(data.data);
+    const bytes = new Uint8Array(raw.length);
+    for(let i = 0; i < raw.length; i++) bytes[i] = raw.charCodeAt(i);
+    const blob = new Blob([bytes], {
+      type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'preview-mathkarati.pptx';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 5000);
     if(btn){ btn.disabled = false; btn.textContent = '⬇️ تحميل مجدداً'; }
-  }, 3000);
+  }catch(e){
+    alert('❌ ' + e.message);
+    if(btn){ btn.disabled = false; btn.textContent = '⬇️ تحميل معاينة الشريحة الأولى (.pptx)'; }
+  }
 }
 
 function closeSlidePrev(){
