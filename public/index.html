@@ -816,551 +816,476 @@ select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/
       <button class="engine-tab" onclick="showEnginePanel('premium',this)">💎 Premium v3</button>
       <button class="engine-tab" onclick="showEnginePanel('classic',this)">📐 Classic Academic</button>
     </div>
-
-    <!-- Canva Level -->
     <div class="engine-panel active" id="ep-canva">
-      <p style="font-size:11px;color:rgba(255,255,255,.5);text-align:center;margin-bottom:10px">⚙️ python-pptx · زوايا دائرية · تدرجات متعددة النقاط · ظلال وتوهج</p>
+      <p style="font-size:11px;color:rgba(255,255,255,.5);text-align:center;margin-bottom:10px">⚙️ python-pptx · زوايا دائرية · تدرجات · ظلال</p>
       <div class="slides-grid">
-        <div class="slide-thumb">
-          <svg viewBox="0 0 1333 750" xmlns="http://www.w3.org/2000/svg" font-family="Arial,sans-serif">
+        <div class="slide-thumb"><svg viewBox="0 0 1333 750" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#07172F"/><stop offset="100%" stop-color="#1A3A6E"/></linearGradient>
     <linearGradient id="hg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0D2347"/><stop offset="100%" stop-color="#07172F"/></linearGradient>
     <linearGradient id="acc" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#C6A03C"/><stop offset="100%" stop-color="#E8C96A"/></linearGradient>
-    <linearGradient id="abar" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#07172F"/><stop offset="30%" stop-color="#C6A03C"/><stop offset="60%" stop-color="#E8C96A"/><stop offset="100%" stop-color="#07172F"/></linearGradient>
+    <linearGradient id="abar" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#07172F"/><stop offset="35%" stop-color="#C6A03C"/><stop offset="65%" stop-color="#E8C96A"/><stop offset="100%" stop-color="#07172F"/></linearGradient>
     <linearGradient id="cg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#122040"/><stop offset="100%" stop-color="#0D1A35"/></linearGradient>
-    <linearGradient id="cg2" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="#0D1A35"/><stop offset="100%" stop-color="#122040"/></linearGradient>
-    <filter id="sh1" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="5" stdDeviation="12" flood-color="#000" flood-opacity="0.45"/></filter>
-    <filter id="glow1"><feGaussianBlur stdDeviation="8" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="sh"><feDropShadow dx="0" dy="5" stdDeviation="12" flood-color="#000" flood-opacity="0.45"/></filter>
   </defs>
-
-  <!-- Background -->
   <rect width="1333" height="750" fill="url(#bg1)"/>
-  <ellipse cx="-60" cy="-60" rx="300" ry="300" fill="#1A3A6E" opacity="0.35"/>
-  <ellipse cx="1200" cy="680" rx="350" ry="350" fill="#0D2347" opacity="0.5"/>
-
-  <!-- HEADER (H=290px = 2.9in) -->
-  <rect x="0" y="0" width="1333" height="290" fill="url(#hg1)"/>
-  <!-- accent bottom line -->
-  <rect x="0" y="268" width="1333" height="22" fill="url(#abar)"/>
-  <!-- thin line above accent -->
-  <rect x="0" y="258" width="1333" height="6" fill="#8A9BB5" opacity="0.3"/>
-  <!-- right vertical accent bar (0.52in = 52px) -->
-  <rect x="1281" y="0" width="52" height="290" fill="url(#acc)"/>
-  <!-- decorative oval top-right -->
-  <ellipse cx="1150" cy="-30" rx="200" ry="200" fill="#C6A03C" opacity="0.06"/>
-
-  <!-- Slide number badge (0.72in=72px circle, at x=110, cy=145) -->
-  <circle cx="145" cy="145" r="36" fill="url(#acc)" filter="url(#sh1)"/>
-  <text x="145" y="153" text-anchor="middle" font-size="24" font-weight="bold" fill="#07172F">7</text>
-  <text x="188" y="168" font-size="14" fill="#8A9BB5">/13</text>
-
-  <!-- Title -->
-  <text x="1220" y="112" text-anchor="end" font-size="36" font-weight="bold" fill="#F0E8D8">الأرقام والإحصاءات الرئيسية</text>
-  <!-- decorative dots -->
-  <circle cx="280" cy="240" r="3" fill="#C6A03C" opacity="0.25"/>
-  <circle cx="310" cy="240" r="3" fill="#C6A03C" opacity="0.18"/>
-  <circle cx="340" cy="240" r="3" fill="#C6A03C" opacity="0.12"/>
-
-  <!-- CONTENT AREA — 6 stat cards in 3×2 grid -->
-  <!-- Row 1: y=310, Row 2: y=530 | cols at x=100, 555, 1010 -->
-  <!-- card w=420, h=195 -->
-
-  <!-- Card 1 -->
-  <rect x="100" y="310" width="420" height="195" rx="18" fill="url(#cg1)" filter="url(#sh1)"/>
-  <rect x="100" y="310" width="420" height="20" rx="0" fill="#E8C96A" opacity="0.8"/>
-  <rect x="100" y="484" width="420" height="21" rx="0" fill="#C6A03C" opacity="0.28"/>
-  <text x="310" y="415" text-anchor="middle" font-size="58" font-weight="bold" fill="#C6A03C" font-family="Calibri,Arial">78.4%</text>
-  <rect x="160" y="455" width="300" height="1" fill="#8A9BB5" opacity="0.4"/>
-  <text x="310" y="478" text-anchor="middle" font-size="15" fill="#F0E8D8">معدل العائد على الأصول ROA</text>
-
-  <!-- Card 2 -->
-  <rect x="556" y="310" width="420" height="195" rx="18" fill="url(#cg2)" filter="url(#sh1)"/>
-  <rect x="556" y="310" width="420" height="20" rx="0" fill="#E8C96A" opacity="0.8"/>
-  <rect x="556" y="484" width="420" height="21" rx="0" fill="#C6A03C" opacity="0.28"/>
-  <text x="766" y="415" text-anchor="middle" font-size="58" font-weight="bold" fill="#C6A03C" font-family="Calibri,Arial">0.814</text>
-  <rect x="616" y="455" width="300" height="1" fill="#8A9BB5" opacity="0.4"/>
-  <text x="766" y="478" text-anchor="middle" font-size="15" fill="#F0E8D8">قوة النموذج التفسيرية R²</text>
-
-  <!-- Card 3 -->
-  <rect x="1013" y="310" width="420" height="195" rx="18" fill="url(#cg1)" filter="url(#sh1)"/>
-  <rect x="1013" y="310" width="420" height="20" rx="0" fill="#E8C96A" opacity="0.8"/>
-  <rect x="1013" y="484" width="420" height="21" rx="0" fill="#C6A03C" opacity="0.28"/>
-  <text x="1223" y="415" text-anchor="middle" font-size="58" font-weight="bold" fill="#C6A03C" font-family="Calibri,Arial">432</text>
-  <text x="1223" y="445" text-anchor="middle" font-size="15" fill="#8A9BB5">مشاهدة</text>
-  <rect x="1073" y="455" width="300" height="1" fill="#8A9BB5" opacity="0.4"/>
-  <text x="1223" y="478" text-anchor="middle" font-size="15" fill="#F0E8D8">عدد المشاهدات (48×9)</text>
-
-  <!-- Row 2 -->
-  <!-- Card 4 -->
-  <rect x="100" y="527" width="420" height="195" rx="18" fill="url(#cg2)" filter="url(#sh1)"/>
-  <rect x="100" y="527" width="420" height="20" rx="0" fill="#E8C96A" opacity="0.8"/>
-  <rect x="100" y="701" width="420" height="21" rx="0" fill="#C6A03C" opacity="0.28"/>
-  <text x="310" y="630" text-anchor="middle" font-size="58" font-weight="bold" fill="#C6A03C" font-family="Calibri,Arial">+15.7%</text>
-  <rect x="160" y="672" width="300" height="1" fill="#8A9BB5" opacity="0.4"/>
-  <text x="310" y="695" text-anchor="middle" font-size="15" fill="#F0E8D8">نمو ROE خلال 2020–2023</text>
-
-  <!-- Card 5 -->
-  <rect x="556" y="527" width="420" height="195" rx="18" fill="url(#cg1)" filter="url(#sh1)"/>
-  <rect x="556" y="527" width="420" height="20" rx="0" fill="#E8C96A" opacity="0.8"/>
-  <rect x="556" y="701" width="420" height="21" rx="0" fill="#C6A03C" opacity="0.28"/>
-  <text x="766" y="630" text-anchor="middle" font-size="58" font-weight="bold" fill="#C6A03C" font-family="Calibri,Arial">48</text>
-  <text x="766" y="660" text-anchor="middle" font-size="15" fill="#8A9BB5">مؤسسة</text>
-  <rect x="616" y="672" width="300" height="1" fill="#8A9BB5" opacity="0.4"/>
-  <text x="766" y="695" text-anchor="middle" font-size="15" fill="#F0E8D8">حجم العينة (بانل متوازن)</text>
-
-  <!-- Card 6 -->
-  <rect x="1013" y="527" width="420" height="195" rx="18" fill="url(#cg2)" filter="url(#sh1)"/>
-  <rect x="1013" y="527" width="420" height="20" rx="0" fill="#E8C96A" opacity="0.8"/>
-  <rect x="1013" y="701" width="420" height="21" rx="0" fill="#C6A03C" opacity="0.28"/>
-  <text x="1223" y="630" text-anchor="middle" font-size="58" font-weight="bold" fill="#C6A03C" font-family="Calibri,Arial">2.3×</text>
-  <text x="1223" y="660" text-anchor="middle" font-size="15" fill="#8A9BB5">ضعف</text>
-  <rect x="1073" y="672" width="300" height="1" fill="#8A9BB5" opacity="0.4"/>
-  <text x="1223" y="695" text-anchor="middle" font-size="15" fill="#F0E8D8">تحسن الأداء بعد إعادة الهيكلة</text>
-</svg>
-          <div class="slide-thumb-label">شريحة الأرقام · NOIR ذهبي</div>
-        </div>
-        <div class="slide-thumb">
-          <svg viewBox="0 0 1333 750" xmlns="http://www.w3.org/2000/svg" font-family="Arial,sans-serif">
-  <defs>
-    <linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0A1F1C"/><stop offset="100%" stop-color="#1A4A42"/></linearGradient>
-    <linearGradient id="hg1" x1="1" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#041510"/><stop offset="100%" stop-color="#0A1F1C"/></linearGradient>
-    <linearGradient id="acc" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2EBFA5"/><stop offset="100%" stop-color="#5DD4BE"/></linearGradient>
-    <linearGradient id="abar" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#0A1F1C"/><stop offset="30%" stop-color="#2EBFA5"/><stop offset="60%" stop-color="#5DD4BE"/><stop offset="100%" stop-color="#0A1F1C"/></linearGradient>
-    <linearGradient id="col1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#122820"/><stop offset="100%" stop-color="#0A1F1C"/></linearGradient>
-    <filter id="sh1" x="-15%" y="-15%" width="130%" height="130%"><feDropShadow dx="0" dy="5" stdDeviation="10" flood-color="#000" flood-opacity="0.4"/></filter>
-  </defs>
-
-  <rect width="1333" height="750" fill="url(#bg1)"/>
-  <ellipse cx="-50" cy="-50" rx="250" ry="250" fill="#2EBFA5" opacity="0.05"/>
-  <ellipse cx="1300" cy="700" rx="300" ry="300" fill="#0A2E29" opacity="0.5"/>
-
-  <!-- HEADER (left side accent — side=left) -->
-  <rect x="0" y="0" width="1333" height="290" fill="url(#hg1)"/>
-  <rect x="0" y="268" width="1333" height="22" fill="url(#abar)"/>
-  <rect x="0" y="0" width="52" height="290" fill="url(#acc)"/>
-
+  <!-- HEADER -->
+  <rect x="0" y="0" width="1333" height="270" fill="url(#hg1)"/>
+  <rect x="0" y="250" width="1333" height="20" fill="url(#abar)"/>
+  <rect x="1288" y="0" width="45" height="270" fill="url(#acc)"/>
   <!-- slide number -->
-  <circle cx="1188" cy="145" r="36" fill="url(#acc)" filter="url(#sh1)"/>
-  <text x="1188" y="153" text-anchor="middle" font-size="24" font-weight="bold" fill="#0A1F1C">4</text>
-  <text x="1145" y="168" text-anchor="end" font-size="14" fill="#7BAAA4">/13</text>
+  <circle cx="120" cy="135" r="38" fill="url(#acc)" filter="url(#sh)"/>
+  <text x="120" y="145" text-anchor="middle" font-family="Arial" font-size="26" font-weight="bold" fill="#07172F">7</text>
+  <!-- title RIGHT aligned using x near right -->
+  <text x="1260" y="110" text-anchor="end" font-family="Arial" font-size="34" font-weight="bold" fill="#F0E8D8">الأرقام والإحصاءات الرئيسية</text>
+  <text x="1260" y="155" text-anchor="end" font-family="Arial" font-size="17" fill="#C6A03C">مؤشرات الدراسة التطبيقية</text>
+  <text x="1260" y="185" text-anchor="end" font-family="Arial" font-size="13" fill="#8A9BB5">بن علي محمد — ماستر مالية ومحاسبة — جامعة الجزائر 3</text>
 
-  <text x="113" y="112" text-anchor="start" font-size="36" font-weight="bold" fill="#E8F5F3">أهداف البحث وفرضياته</text>
+  <!-- ROW 1: 3 cards, y=285, h=200, w=390, gaps=20 -->
+  <!-- Card 1: x=30 -->
+  <rect x="30" y="285" width="390" height="200" rx="16" fill="url(#cg1)" filter="url(#sh)"/>
+  <rect x="30" y="285" width="390" height="16" rx="8" fill="#C6A03C" opacity="0.85"/>
+  <rect x="30" y="469" width="390" height="16" rx="8" fill="#C6A03C" opacity="0.3"/>
+  <text x="225" y="398" text-anchor="middle" font-family="Arial" font-size="62" font-weight="bold" fill="#C6A03C">78.4%</text>
+  <rect x="80" y="440" width="290" height="1" fill="#8A9BB5" opacity="0.4"/>
+  <text x="225" y="465" text-anchor="middle" font-family="Arial" font-size="15" fill="#F0E8D8">معدل العائد على الأصول ROA</text>
 
-  <!-- TWO COLUMNS -->
-  <!-- Column 1: أهداف — x=70, w=590 -->
-  <rect x="70" y="315" width="590" height="415" rx="16" fill="url(#col1)" filter="url(#sh1)"/>
-  <!-- column header -->
-  <rect x="70" y="315" width="590" height="62" rx="16" fill="#2EBFA5"/>
-  <rect x="70" y="345" width="590" height="32" fill="#2EBFA5"/>
-  <text x="365" y="356" text-anchor="middle" font-size="22" font-weight="bold" fill="#0A1F1C">🎯  الأهداف</text>
+  <!-- Card 2: x=472 -->
+  <rect x="472" y="285" width="390" height="200" rx="16" fill="url(#cg1)" filter="url(#sh)"/>
+  <rect x="472" y="285" width="390" height="16" rx="8" fill="#C6A03C" opacity="0.85"/>
+  <rect x="472" y="469" width="390" height="16" rx="8" fill="#C6A03C" opacity="0.3"/>
+  <text x="667" y="398" text-anchor="middle" font-family="Arial" font-size="62" font-weight="bold" fill="#C6A03C">0.814</text>
+  <rect x="522" y="440" width="290" height="1" fill="#8A9BB5" opacity="0.4"/>
+  <text x="667" y="465" text-anchor="middle" font-family="Arial" font-size="15" fill="#F0E8D8">قوة النموذج التفسيرية R²</text>
 
-  <!-- items -->
-  <rect x="88" y="390" width="554" height="56" rx="8" fill="#0A1F1C" opacity="0.5"/>
-  <circle cx="608" cy="418" r="16" fill="#2EBFA5" opacity="0.7"/>
-  <text x="608" y="424" text-anchor="middle" font-size="13" font-weight="bold" fill="#0A1F1C">1</text>
-  <text x="590" y="424" text-anchor="end" font-size="16" fill="#E8F5F3">تحليل أثر التمويل الذاتي على مؤشر ROA</text>
+  <!-- Card 3: x=914 -->
+  <rect x="914" y="285" width="390" height="200" rx="16" fill="url(#cg1)" filter="url(#sh)"/>
+  <rect x="914" y="285" width="390" height="16" rx="8" fill="#C6A03C" opacity="0.85"/>
+  <rect x="914" y="469" width="390" height="16" rx="8" fill="#C6A03C" opacity="0.3"/>
+  <text x="1109" y="385" text-anchor="middle" font-family="Arial" font-size="62" font-weight="bold" fill="#C6A03C">432</text>
+  <text x="1109" y="430" text-anchor="middle" font-family="Arial" font-size="16" fill="#8A9BB5">مشاهدة</text>
+  <rect x="964" y="440" width="290" height="1" fill="#8A9BB5" opacity="0.4"/>
+  <text x="1109" y="465" text-anchor="middle" font-family="Arial" font-size="15" fill="#F0E8D8">عدد المشاهدات (48×9)</text>
 
-  <rect x="88" y="454" width="554" height="56" rx="8" fill="#0F2D24" opacity="0.7"/>
-  <circle cx="608" cy="482" r="16" fill="#2EBFA5" opacity="0.5"/>
-  <text x="608" y="488" text-anchor="middle" font-size="13" font-weight="bold" fill="#0A1F1C">2</text>
-  <text x="590" y="488" text-anchor="end" font-size="16" fill="#E8F5F3">قياس علاقة الديون بمؤشر العائد على الحقوق</text>
+  <!-- ROW 2: y=502 -->
+  <!-- Card 4: x=30 -->
+  <rect x="30" y="502" width="390" height="215" rx="16" fill="url(#cg1)" filter="url(#sh)"/>
+  <rect x="30" y="502" width="390" height="16" rx="8" fill="#C6A03C" opacity="0.7"/>
+  <rect x="30" y="701" width="390" height="16" rx="8" fill="#C6A03C" opacity="0.25"/>
+  <text x="225" y="612" text-anchor="middle" font-family="Arial" font-size="54" font-weight="bold" fill="#C6A03C">+15.7%</text>
+  <rect x="80" y="655" width="290" height="1" fill="#8A9BB5" opacity="0.4"/>
+  <text x="225" y="682" text-anchor="middle" font-family="Arial" font-size="15" fill="#F0E8D8">نمو ROE خلال 2020–2023</text>
 
-  <rect x="88" y="518" width="554" height="56" rx="8" fill="#0A1F1C" opacity="0.5"/>
-  <circle cx="608" cy="546" r="16" fill="#2EBFA5" opacity="0.7"/>
-  <text x="608" y="552" text-anchor="middle" font-size="13" font-weight="bold" fill="#0A1F1C">3</text>
-  <text x="590" y="552" text-anchor="end" font-size="16" fill="#E8F5F3">تحديد هيكل التمويل الأمثل للمؤسسات</text>
+  <!-- Card 5: x=472 -->
+  <rect x="472" y="502" width="390" height="215" rx="16" fill="url(#cg1)" filter="url(#sh)"/>
+  <rect x="472" y="502" width="390" height="16" rx="8" fill="#C6A03C" opacity="0.7"/>
+  <rect x="472" y="701" width="390" height="16" rx="8" fill="#C6A03C" opacity="0.25"/>
+  <text x="667" y="598" text-anchor="middle" font-family="Arial" font-size="62" font-weight="bold" fill="#C6A03C">48</text>
+  <text x="667" y="645" text-anchor="middle" font-family="Arial" font-size="16" fill="#8A9BB5">مؤسسة</text>
+  <rect x="522" y="655" width="290" height="1" fill="#8A9BB5" opacity="0.4"/>
+  <text x="667" y="682" text-anchor="middle" font-family="Arial" font-size="15" fill="#F0E8D8">حجم العينة (بانل متوازن)</text>
 
-  <rect x="88" y="582" width="554" height="56" rx="8" fill="#0F2D24" opacity="0.7"/>
-  <circle cx="608" cy="610" r="16" fill="#2EBFA5" opacity="0.5"/>
-  <text x="608" y="616" text-anchor="middle" font-size="13" font-weight="bold" fill="#0A1F1C">4</text>
-  <text x="590" y="616" text-anchor="end" font-size="16" fill="#E8F5F3">مقارنة النتائج مع الدراسات الدولية</text>
-
-  <rect x="88" y="646" width="554" height="56" rx="8" fill="#0A1F1C" opacity="0.5"/>
-  <circle cx="608" cy="674" r="16" fill="#2EBFA5" opacity="0.7"/>
-  <text x="608" y="680" text-anchor="middle" font-size="13" font-weight="bold" fill="#0A1F1C">5</text>
-  <text x="590" y="680" text-anchor="end" font-size="16" fill="#E8F5F3">تقديم توصيات لصانعي القرار المالي</text>
-
-  <!-- Column 2: فرضيات — x=690, w=590 -->
-  <rect x="673" y="315" width="590" height="415" rx="16" fill="url(#col1)" filter="url(#sh1)"/>
-  <rect x="673" y="315" width="590" height="62" rx="16" fill="#2EBFA5"/>
-  <rect x="673" y="345" width="590" height="32" fill="#2EBFA5"/>
-  <text x="968" y="356" text-anchor="middle" font-size="22" font-weight="bold" fill="#0A1F1C">💡  الفرضيات</text>
-
-  <rect x="691" y="390" width="554" height="56" rx="8" fill="#0A1F1C" opacity="0.5"/>
-  <circle cx="1211" cy="418" r="16" fill="#2EBFA5" opacity="0.7"/>
-  <text x="1211" y="424" text-anchor="middle" font-size="13" font-weight="bold" fill="#0A1F1C">H₁</text>
-  <text x="1193" y="424" text-anchor="end" font-size="16" fill="#E8F5F3">للتمويل الذاتي أثر إيجابي دال على ROA</text>
-
-  <rect x="691" y="454" width="554" height="56" rx="8" fill="#0F2D24" opacity="0.7"/>
-  <circle cx="1211" cy="482" r="16" fill="#2EBFA5" opacity="0.5"/>
-  <text x="1211" y="488" text-anchor="middle" font-size="13" font-weight="bold" fill="#0A1F1C">H₂</text>
-  <text x="1193" y="488" text-anchor="end" font-size="16" fill="#E8F5F3">للديون طويلة الأجل أثر سلبي على ROE</text>
-
-  <rect x="691" y="518" width="554" height="56" rx="8" fill="#0A1F1C" opacity="0.5"/>
-  <circle cx="1211" cy="546" r="16" fill="#2EBFA5" opacity="0.7"/>
-  <text x="1211" y="552" text-anchor="middle" font-size="13" font-weight="bold" fill="#0A1F1C">H₃</text>
-  <text x="1193" y="552" text-anchor="end" font-size="16" fill="#E8F5F3">يوجد هيكل أمثل يعظم قيمة المؤسسة</text>
-
-  <rect x="691" y="582" width="554" height="56" rx="8" fill="#0F2D24" opacity="0.7"/>
-  <circle cx="1211" cy="610" r="16" fill="#2EBFA5" opacity="0.5"/>
-  <text x="1211" y="616" text-anchor="middle" font-size="13" font-weight="bold" fill="#0A1F1C">H₄</text>
-  <text x="1193" y="616" text-anchor="end" font-size="16" fill="#E8F5F3">يختلف الأثر باختلاف قطاع النشاط</text>
-
-  <rect x="691" y="646" width="554" height="56" rx="8" fill="#0A1F1C" opacity="0.5"/>
-  <circle cx="1211" cy="674" r="16" fill="#2EBFA5" opacity="0.7"/>
-  <text x="1211" y="680" text-anchor="middle" font-size="13" font-weight="bold" fill="#0A1F1C">H₅</text>
-  <text x="1193" y="680" text-anchor="end" font-size="16" fill="#E8F5F3">درجة التدخل الحكومي معدّل جوهري</text>
+  <!-- Card 6: x=914 -->
+  <rect x="914" y="502" width="390" height="215" rx="16" fill="url(#cg1)" filter="url(#sh)"/>
+  <rect x="914" y="502" width="390" height="16" rx="8" fill="#C6A03C" opacity="0.7"/>
+  <rect x="914" y="701" width="390" height="16" rx="8" fill="#C6A03C" opacity="0.25"/>
+  <text x="1109" y="598" text-anchor="middle" font-family="Arial" font-size="62" font-weight="bold" fill="#C6A03C">48.3</text>
+  <text x="1109" y="645" text-anchor="middle" font-family="Arial" font-size="16" fill="#8A9BB5">F-test</text>
+  <rect x="964" y="655" width="290" height="1" fill="#8A9BB5" opacity="0.4"/>
+  <text x="1109" y="682" text-anchor="middle" font-family="Arial" font-size="15" fill="#F0E8D8">اختبار فيشر الكلي ***</text>
 </svg>
-          <div class="slide-thumb-label">شريحة الأهداف · VIVID تيل</div>
-        </div>
+<div class="slide-thumb-label">الأرقام الإحصائية · NOIR ذهبي</div></div>
+        <div class="slide-thumb"><svg viewBox="0 0 1333 750" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0A1F1C"/><stop offset="100%" stop-color="#1A4A42"/></linearGradient>
+    <linearGradient id="hg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#041510"/><stop offset="100%" stop-color="#0A1F1C"/></linearGradient>
+    <linearGradient id="acc" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#2EBFA5"/><stop offset="100%" stop-color="#5DD4BE"/></linearGradient>
+    <linearGradient id="abar" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#0A1F1C"/><stop offset="35%" stop-color="#2EBFA5"/><stop offset="65%" stop-color="#5DD4BE"/><stop offset="100%" stop-color="#0A1F1C"/></linearGradient>
+    <linearGradient id="col" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#122820"/><stop offset="100%" stop-color="#0A1F1C"/></linearGradient>
+    <filter id="sh"><feDropShadow dx="0" dy="5" stdDeviation="10" flood-color="#000" flood-opacity="0.4"/></filter>
+  </defs>
+  <rect width="1333" height="750" fill="url(#bg)"/>
+  <!-- HEADER -->
+  <rect x="0" y="0" width="1333" height="270" fill="url(#hg)"/>
+  <rect x="0" y="250" width="1333" height="20" fill="url(#abar)"/>
+  <!-- left accent bar (side=left) -->
+  <rect x="0" y="0" width="45" height="270" fill="url(#acc)"/>
+  <!-- slide number RIGHT side for left-header -->
+  <circle cx="1213" cy="135" r="38" fill="url(#acc)" filter="url(#sh)"/>
+  <text x="1213" y="145" text-anchor="middle" font-family="Arial" font-size="26" font-weight="bold" fill="#0A1F1C">4</text>
+  <!-- title LEFT aligned -->
+  <text x="72" y="110" text-anchor="start" font-family="Arial" font-size="34" font-weight="bold" fill="#E8F5F3">أهداف البحث وفرضياته</text>
+  <text x="72" y="155" text-anchor="start" font-family="Arial" font-size="17" fill="#2EBFA5">الغايات العلمية والتساؤلات التحليلية</text>
+  <text x="72" y="185" text-anchor="start" font-family="Arial" font-size="13" fill="#7BAAA4">بوعلام نادية — ليسانس إدارة أعمال — 2025</text>
+
+  <!-- COL 1: أهداف — x=30, w=620 -->
+  <rect x="30" y="285" width="620" height="448" rx="14" fill="url(#col)" filter="url(#sh)"/>
+  <!-- col header -->
+  <rect x="30" y="285" width="620" height="58" rx="14" fill="#2EBFA5"/>
+  <rect x="30" y="315" width="620" height="28" fill="#2EBFA5"/>
+  <text x="340" y="323" text-anchor="middle" font-family="Arial" font-size="22" font-weight="bold" fill="#0A1F1C">🎯  الأهداف</text>
+
+  <!-- item rows, h=72 each, y starts at 353 -->
+  <rect x="48" y="353" width="584" height="60" rx="8" fill="#041510" opacity="0.55"/>
+  <circle cx="88" cy="383" r="18" fill="#2EBFA5" opacity="0.75"/>
+  <text x="88" y="389" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#0A1F1C">1</text>
+  <text x="620" y="389" text-anchor="end" font-family="Arial" font-size="16" fill="#E8F5F3">تحليل أثر التمويل الذاتي على مؤشر ROA</text>
+
+  <rect x="48" y="421" width="584" height="60" rx="8" fill="#0F2D24" opacity="0.7"/>
+  <circle cx="88" cy="451" r="18" fill="#2EBFA5" opacity="0.55"/>
+  <text x="88" y="457" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#0A1F1C">2</text>
+  <text x="620" y="457" text-anchor="end" font-family="Arial" font-size="16" fill="#E8F5F3">قياس علاقة الديون بمؤشر ROE</text>
+
+  <rect x="48" y="489" width="584" height="60" rx="8" fill="#041510" opacity="0.55"/>
+  <circle cx="88" cy="519" r="18" fill="#2EBFA5" opacity="0.75"/>
+  <text x="88" y="525" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#0A1F1C">3</text>
+  <text x="620" y="525" text-anchor="end" font-family="Arial" font-size="16" fill="#E8F5F3">تحديد هيكل التمويل الأمثل</text>
+
+  <rect x="48" y="557" width="584" height="60" rx="8" fill="#0F2D24" opacity="0.7"/>
+  <circle cx="88" cy="587" r="18" fill="#2EBFA5" opacity="0.55"/>
+  <text x="88" y="593" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#0A1F1C">4</text>
+  <text x="620" y="593" text-anchor="end" font-family="Arial" font-size="16" fill="#E8F5F3">مقارنة النتائج مع الدراسات الدولية</text>
+
+  <rect x="48" y="625" width="584" height="60" rx="8" fill="#041510" opacity="0.55"/>
+  <circle cx="88" cy="655" r="18" fill="#2EBFA5" opacity="0.75"/>
+  <text x="88" y="661" text-anchor="middle" font-family="Arial" font-size="14" font-weight="bold" fill="#0A1F1C">5</text>
+  <text x="620" y="661" text-anchor="end" font-family="Arial" font-size="16" fill="#E8F5F3">تقديم توصيات لصانعي القرار</text>
+
+  <!-- COL 2: فرضيات — x=683, w=620 -->
+  <rect x="683" y="285" width="620" height="448" rx="14" fill="url(#col)" filter="url(#sh)"/>
+  <rect x="683" y="285" width="620" height="58" rx="14" fill="#2EBFA5"/>
+  <rect x="683" y="315" width="620" height="28" fill="#2EBFA5"/>
+  <text x="993" y="323" text-anchor="middle" font-family="Arial" font-size="22" font-weight="bold" fill="#0A1F1C">💡  الفرضيات</text>
+
+  <rect x="701" y="353" width="584" height="60" rx="8" fill="#041510" opacity="0.55"/>
+  <circle cx="741" cy="383" r="18" fill="#2EBFA5" opacity="0.75"/>
+  <text x="741" y="389" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="#0A1F1C">H₁</text>
+  <text x="1273" y="389" text-anchor="end" font-family="Arial" font-size="16" fill="#E8F5F3">للتمويل الذاتي أثر إيجابي دال على ROA</text>
+
+  <rect x="701" y="421" width="584" height="60" rx="8" fill="#0F2D24" opacity="0.7"/>
+  <circle cx="741" cy="451" r="18" fill="#2EBFA5" opacity="0.55"/>
+  <text x="741" y="457" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="#0A1F1C">H₂</text>
+  <text x="1273" y="457" text-anchor="end" font-family="Arial" font-size="16" fill="#E8F5F3">للديون طويلة الأجل أثر سلبي على ROE</text>
+
+  <rect x="701" y="489" width="584" height="60" rx="8" fill="#041510" opacity="0.55"/>
+  <circle cx="741" cy="519" r="18" fill="#2EBFA5" opacity="0.75"/>
+  <text x="741" y="525" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="#0A1F1C">H₃</text>
+  <text x="1273" y="525" text-anchor="end" font-family="Arial" font-size="16" fill="#E8F5F3">يوجد هيكل أمثل يعظم قيمة المؤسسة</text>
+
+  <rect x="701" y="557" width="584" height="60" rx="8" fill="#0F2D24" opacity="0.7"/>
+  <circle cx="741" cy="587" r="18" fill="#2EBFA5" opacity="0.55"/>
+  <text x="741" y="593" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="#0A1F1C">H₄</text>
+  <text x="1273" y="593" text-anchor="end" font-family="Arial" font-size="16" fill="#E8F5F3">يختلف الأثر باختلاف قطاع النشاط</text>
+
+  <rect x="701" y="625" width="584" height="60" rx="8" fill="#041510" opacity="0.55"/>
+  <circle cx="741" cy="655" r="18" fill="#2EBFA5" opacity="0.75"/>
+  <text x="741" y="661" text-anchor="middle" font-family="Arial" font-size="13" font-weight="bold" fill="#0A1F1C">H₅</text>
+  <text x="1273" y="661" text-anchor="end" font-family="Arial" font-size="16" fill="#E8F5F3">درجة التدخل الحكومي معدّل جوهري</text>
+</svg>
+<div class="slide-thumb-label">الأهداف والفرضيات · VIVID تيل</div></div>
       </div>
     </div>
-
-    <!-- Premium v3 -->
     <div class="engine-panel" id="ep-premium">
-      <p style="font-size:11px;color:rgba(255,255,255,.5);text-align:center;margin-bottom:10px">⚙️ PptxGenJS · شريط جانبي عريض 39% · أيقونة مضيئة · محتوى يميني</p>
+      <p style="font-size:11px;color:rgba(255,255,255,.5);text-align:center;margin-bottom:10px">⚙️ PptxGenJS · شريط جانبي عريض 39% · أيقونة مضيئة</p>
       <div class="slides-grid">
-        <div class="slide-thumb">
-          <svg viewBox="0 0 1333 750" xmlns="http://www.w3.org/2000/svg" font-family="Arial,sans-serif">
+        <div class="slide-thumb"><svg viewBox="0 0 1333 750" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="sbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1A3A6E"/><stop offset="100%" stop-color="#07172F"/></linearGradient>
     <linearGradient id="mbg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#07172F"/><stop offset="100%" stop-color="#0D2347"/></linearGradient>
     <linearGradient id="acc" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#C6A03C"/><stop offset="100%" stop-color="#E8C96A"/></linearGradient>
-    <filter id="sh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="4" stdDeviation="10" flood-color="#000" flood-opacity="0.4"/></filter>
-    <filter id="glow"><feGaussianBlur stdDeviation="12" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <linearGradient id="row1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#122040"/><stop offset="100%" stop-color="#0D2347"/></linearGradient>
+    <linearGradient id="row2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#0D2347"/><stop offset="100%" stop-color="#122040"/></linearGradient>
+    <filter id="sh"><feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.4"/></filter>
+    <filter id="glow"><feGaussianBlur stdDeviation="14" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
   </defs>
 
-  <!-- Sidebar background (SW=520px) -->
-  <rect x="0" y="0" width="520" height="750" fill="url(#sbg)"/>
-  <!-- decorative ovals in sidebar -->
-  <ellipse cx="-80" cy="-80" rx="280" ry="280" fill="#C6A03C" opacity="0.05"/>
-  <ellipse cx="80" cy="680" rx="220" ry="220" fill="#0D2347" opacity="0.5"/>
-  <!-- dots decoration -->
-  <circle cx="55" cy="450" r="4" fill="#C6A03C" opacity="0.2"/>
-  <circle cx="80" cy="480" r="3" fill="#C6A03C" opacity="0.15"/>
-  <circle cx="55" cy="510" r="4" fill="#C6A03C" opacity="0.12"/>
-  <circle cx="80" cy="540" r="3" fill="#C6A03C" opacity="0.1"/>
+  <!-- SIDEBAR left 480px -->
+  <rect x="0" y="0" width="480" height="750" fill="url(#sbg)"/>
+  <ellipse cx="-60" cy="-60" rx="260" ry="260" fill="#C6A03C" opacity="0.05"/>
+  <!-- separator -->
+  <rect x="480" y="0" width="10" height="750" fill="url(#acc)"/>
 
-  <!-- Separator line between sidebar and content -->
-  <rect x="520" y="0" width="12" height="750" fill="url(#acc)"/>
+  <!-- Icon circle centered in sidebar -->
+  <circle cx="240" cy="210" r="105" fill="#C6A03C" filter="url(#glow)" opacity="0.8"/>
+  <text x="240" y="240" text-anchor="middle" font-family="Arial" font-size="68">📊</text>
 
-  <!-- Icon circle in sidebar (centered at x=260, y=185) -->
-  <circle cx="260" cy="200" r="115" fill="#C6A03C" filter="url(#glow)" opacity="0.85"/>
-  <circle cx="260" cy="200" r="115" fill="none" stroke="#E8C96A" stroke-width="2" opacity="0.5"/>
-  <text x="260" y="222" text-anchor="middle" font-size="72" fill="#07172F">📊</text>
+  <!-- Sidebar text — centered -->
+  <text x="240" y="365" text-anchor="middle" font-family="Arial" font-size="28" font-weight="bold" fill="#F0E8D8">نتائج</text>
+  <text x="240" y="400" text-anchor="middle" font-family="Arial" font-size="20" fill="#8A9BB5">البحث</text>
+  <rect x="80" y="428" width="320" height="4" rx="2" fill="#C6A03C" opacity="0.35"/>
 
-  <!-- Sidebar title -->
-  <text x="260" y="370" text-anchor="middle" font-size="28" font-weight="bold" fill="#F0E8D8">نتائج</text>
-  <text x="260" y="408" text-anchor="middle" font-size="22" fill="#8A9BB5">البحث</text>
+  <!-- Sidebar info -->
+  <text x="240" y="480" text-anchor="middle" font-family="Arial" font-size="14" fill="#C6A03C">Noir Académique</text>
+  <text x="240" y="510" text-anchor="middle" font-family="Arial" font-size="13" fill="#8A9BB5">بن علي محمد</text>
+  <text x="240" y="535" text-anchor="middle" font-family="Arial" font-size="13" fill="#8A9BB5">ماستر مالية ومحاسبة</text>
 
-  <!-- divider in sidebar -->
-  <rect x="80" y="435" width="360" height="5" rx="2" fill="#C6A03C" opacity="0.35"/>
+  <!-- Slide number bottom of sidebar -->
+  <text x="240" y="710" text-anchor="middle" font-family="Arial" font-size="15" fill="#8A9BB5">8 / 13</text>
 
-  <!-- Slide number at bottom of sidebar -->
-  <text x="260" y="710" text-anchor="middle" font-size="14" fill="#8A9BB5">8 / 13</text>
+  <!-- CONTENT AREA x=490, w=843 -->
+  <rect x="490" y="0" width="843" height="750" fill="url(#mbg)"/>
+  <rect x="1296" y="0" width="8" height="750" fill="#C6A03C" opacity="0.15"/>
+  <rect x="490" y="0" width="843" height="5" fill="#C6A03C" opacity="0.5"/>
 
-  <!-- CONTENT AREA (x=532 → 1333, w=801) -->
-  <rect x="532" y="0" width="801" height="750" fill="url(#mbg)"/>
-  <ellipse cx="1300" cy="-50" rx="280" ry="280" fill="#C6A03C" opacity="0.03"/>
-  <rect x="1290" y="0" width="8" height="750" fill="#C6A03C" opacity="0.12"/>
-
-  <!-- top accent line in content -->
-  <rect x="532" y="0" width="801" height="6" fill="#C6A03C" opacity="0.5"/>
-
-  <!-- Results rows — 6 rows alternating, row_h=(750-0.65-0.3*5)/6 ≈ 106px each -->
+  <!-- 6 result rows, row_h=112, gap=10, start y=25 -->
   <!-- Row 1 -->
-  <rect x="555" y="35" width="757" height="100" rx="10" fill="#122040" filter="url(#sh)"/>
-  <rect x="1259" y="35" width="28" height="100" fill="#C6A03C" opacity="0.55"/>
-  <circle cx="1215" cy="85" r="26" fill="#C6A03C" opacity="0.8"/>
-  <text x="1215" y="92" text-anchor="middle" font-size="18" font-weight="bold" fill="#07172F">1</text>
-  <text x="1180" y="92" text-anchor="end" font-size="18" fill="#F0E8D8">وجود أثر إيجابي دال إحصائياً للتمويل الذاتي على مؤشر ROA</text>
+  <rect x="508" y="25" width="807" height="105" rx="10" fill="url(#row1)" filter="url(#sh)"/>
+  <rect x="1281" y="25" width="25" height="105" rx="5" fill="#C6A03C" opacity="0.6"/>
+  <circle cx="1248" cy="77" r="24" fill="#C6A03C" opacity="0.85"/>
+  <text x="1248" y="84" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#07172F">1</text>
+  <text x="1215" y="84" text-anchor="end" font-family="Arial" font-size="17" fill="#F0E8D8">وجود أثر إيجابي دال للتمويل الذاتي على مؤشر ROA</text>
 
   <!-- Row 2 -->
-  <rect x="555" y="147" width="757" height="100" rx="10" fill="#0D2347" filter="url(#sh)"/>
-  <rect x="1259" y="147" width="28" height="100" fill="#C6A03C" opacity="0.35"/>
-  <circle cx="1215" cy="197" r="26" fill="#C6A03C" opacity="0.6"/>
-  <text x="1215" y="204" text-anchor="middle" font-size="18" font-weight="bold" fill="#07172F">2</text>
-  <text x="1180" y="204" text-anchor="end" font-size="18" fill="#F0E8D8">علاقة عكسية بين الديون طويلة الأجل والأداء المالي</text>
+  <rect x="508" y="143" width="807" height="105" rx="10" fill="url(#row2)" filter="url(#sh)"/>
+  <rect x="1281" y="143" width="25" height="105" rx="5" fill="#C6A03C" opacity="0.45"/>
+  <circle cx="1248" cy="195" r="24" fill="#C6A03C" opacity="0.7"/>
+  <text x="1248" y="202" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#07172F">2</text>
+  <text x="1215" y="202" text-anchor="end" font-family="Arial" font-size="17" fill="#F0E8D8">علاقة عكسية بين الديون طويلة الأجل والأداء المالي</text>
 
   <!-- Row 3 -->
-  <rect x="555" y="259" width="757" height="100" rx="10" fill="#122040" filter="url(#sh)"/>
-  <rect x="1259" y="259" width="28" height="100" fill="#C6A03C" opacity="0.45"/>
-  <circle cx="1215" cy="309" r="26" fill="#C6A03C" opacity="0.7"/>
-  <text x="1215" y="316" text-anchor="middle" font-size="18" font-weight="bold" fill="#07172F">3</text>
-  <text x="1180" y="316" text-anchor="end" font-size="18" fill="#F0E8D8">النموذج يفسر 81.4% من التباين في الأداء المالي (R²=0.814)</text>
+  <rect x="508" y="261" width="807" height="105" rx="10" fill="url(#row1)" filter="url(#sh)"/>
+  <rect x="1281" y="261" width="25" height="105" rx="5" fill="#C6A03C" opacity="0.55"/>
+  <circle cx="1248" cy="313" r="24" fill="#C6A03C" opacity="0.78"/>
+  <text x="1248" y="320" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#07172F">3</text>
+  <text x="1215" y="313" text-anchor="end" font-family="Arial" font-size="17" fill="#F0E8D8">النموذج يفسر 81.4% من التباين في الأداء (R²=0.814)</text>
 
   <!-- Row 4 -->
-  <rect x="555" y="371" width="757" height="100" rx="10" fill="#0D2347" filter="url(#sh)"/>
-  <rect x="1259" y="371" width="28" height="100" fill="#C6A03C" opacity="0.3"/>
-  <circle cx="1215" cy="421" r="26" fill="#C6A03C" opacity="0.55"/>
-  <text x="1215" y="428" text-anchor="middle" font-size="18" font-weight="bold" fill="#07172F">4</text>
-  <text x="1180" y="428" text-anchor="end" font-size="18" fill="#F0E8D8">قطاع النشاط مُعدِّل جوهري في نموذج الآثار الثابتة</text>
+  <rect x="508" y="379" width="807" height="105" rx="10" fill="url(#row2)" filter="url(#sh)"/>
+  <rect x="1281" y="379" width="25" height="105" rx="5" fill="#C6A03C" opacity="0.38"/>
+  <circle cx="1248" cy="431" r="24" fill="#C6A03C" opacity="0.62"/>
+  <text x="1248" y="438" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#07172F">4</text>
+  <text x="1215" y="431" text-anchor="end" font-family="Arial" font-size="17" fill="#F0E8D8">قطاع النشاط مُعدِّل جوهري في نموذج الآثار الثابتة</text>
 
   <!-- Row 5 -->
-  <rect x="555" y="483" width="757" height="100" rx="10" fill="#122040" filter="url(#sh)"/>
-  <rect x="1259" y="483" width="28" height="100" fill="#C6A03C" opacity="0.25"/>
-  <circle cx="1215" cy="533" r="26" fill="#C6A03C" opacity="0.5"/>
-  <text x="1215" y="540" text-anchor="middle" font-size="18" font-weight="bold" fill="#07172F">5</text>
-  <text x="1180" y="540" text-anchor="end" font-size="18" fill="#F0E8D8">اختبار Hausman رجّح نموذج الآثار الثابتة (p&lt;0.01)</text>
+  <rect x="508" y="497" width="807" height="105" rx="10" fill="url(#row1)" filter="url(#sh)"/>
+  <rect x="1281" y="497" width="25" height="105" rx="5" fill="#C6A03C" opacity="0.3"/>
+  <circle cx="1248" cy="549" r="24" fill="#C6A03C" opacity="0.55"/>
+  <text x="1248" y="556" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#07172F">5</text>
+  <text x="1215" y="549" text-anchor="end" font-family="Arial" font-size="17" fill="#F0E8D8">اختبار Hausman رجّح نموذج الآثار الثابتة (p&lt;0.01)</text>
 
   <!-- Row 6 -->
-  <rect x="555" y="595" width="757" height="100" rx="10" fill="#0D2347" filter="url(#sh)"/>
-  <rect x="1259" y="595" width="28" height="100" fill="#C6A03C" opacity="0.2"/>
-  <circle cx="1215" cy="645" r="26" fill="#C6A03C" opacity="0.45"/>
-  <text x="1215" y="652" text-anchor="middle" font-size="18" font-weight="bold" fill="#07172F">6</text>
-  <text x="1180" y="652" text-anchor="end" font-size="18" fill="#F0E8D8">التوصية بتعزيز التمويل الداخلي للمؤسسات الجزائرية</text>
+  <rect x="508" y="615" width="807" height="105" rx="10" fill="url(#row2)" filter="url(#sh)"/>
+  <rect x="1281" y="615" width="25" height="105" rx="5" fill="#C6A03C" opacity="0.22"/>
+  <circle cx="1248" cy="667" r="24" fill="#C6A03C" opacity="0.45"/>
+  <text x="1248" y="674" text-anchor="middle" font-family="Arial" font-size="16" font-weight="bold" fill="#07172F">6</text>
+  <text x="1215" y="667" text-anchor="end" font-family="Arial" font-size="17" fill="#F0E8D8">توصية بتعزيز التمويل الداخلي للمؤسسات الجزائرية</text>
 </svg>
-          <div class="slide-thumb-label">شريحة النتائج · Noir Académique</div>
-        </div>
-        <div class="slide-thumb">
-          <svg viewBox="0 0 1333 750" xmlns="http://www.w3.org/2000/svg" font-family="Arial,sans-serif">
+<div class="slide-thumb-label">النتائج · Noir Académique</div></div>
+        <div class="slide-thumb"><svg viewBox="0 0 1333 750" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="sbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0A2E40"/><stop offset="100%" stop-color="#040D1E"/></linearGradient>
-    <linearGradient id="mbg" x1="1" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#040D1E"/><stop offset="100%" stop-color="#06142A"/></linearGradient>
+    <linearGradient id="mbg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#040D1E"/><stop offset="100%" stop-color="#06142A"/></linearGradient>
     <linearGradient id="acc" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#00D4FF"/><stop offset="100%" stop-color="#4DEEFF"/></linearGradient>
     <linearGradient id="cg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#050E1F"/><stop offset="100%" stop-color="#040D1E"/></linearGradient>
     <filter id="sh"><feDropShadow dx="0" dy="4" stdDeviation="10" flood-color="#000" flood-opacity="0.45"/></filter>
     <filter id="glow"><feGaussianBlur stdDeviation="14" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
   </defs>
 
-  <rect x="0" y="0" width="520" height="750" fill="url(#sbg)"/>
+  <!-- SIDEBAR -->
+  <rect x="0" y="0" width="480" height="750" fill="url(#sbg)"/>
   <ellipse cx="-60" cy="-60" rx="260" ry="260" fill="#00D4FF" opacity="0.04"/>
-  <ellipse cx="100" cy="700" rx="200" ry="200" fill="#06142A" opacity="0.6"/>
-  <circle cx="60" cy="460" r="4" fill="#00D4FF" opacity="0.18"/>
-  <circle cx="85" cy="492" r="3" fill="#00D4FF" opacity="0.13"/>
-  <circle cx="60" cy="524" r="4" fill="#00D4FF" opacity="0.1"/>
+  <rect x="480" y="0" width="10" height="750" fill="url(#acc)"/>
 
-  <rect x="520" y="0" width="12" height="750" fill="url(#acc)"/>
+  <circle cx="240" cy="210" r="105" fill="#00D4FF" filter="url(#glow)" opacity="0.75"/>
+  <text x="240" y="240" text-anchor="middle" font-family="Arial" font-size="68">📈</text>
 
-  <!-- Icon circle -->
-  <circle cx="260" cy="200" r="115" fill="#00D4FF" filter="url(#glow)" opacity="0.8"/>
-  <text x="260" y="222" text-anchor="middle" font-size="72" fill="#040D1E">📈</text>
+  <text x="240" y="365" text-anchor="middle" font-family="Arial" font-size="28" font-weight="bold" fill="#E8F8FF">الأرقام</text>
+  <text x="240" y="400" text-anchor="middle" font-family="Arial" font-size="20" fill="#6A9BAB">الرئيسية</text>
+  <rect x="80" y="428" width="320" height="4" rx="2" fill="#00D4FF" opacity="0.3"/>
+  <text x="240" y="480" text-anchor="middle" font-family="Arial" font-size="14" fill="#00D4FF">Atlas Corporate</text>
+  <text x="240" y="510" text-anchor="middle" font-family="Arial" font-size="13" fill="#6A9BAB">بن علي محمد</text>
+  <text x="240" y="710" text-anchor="middle" font-family="Arial" font-size="15" fill="#6A9BAB">7 / 13</text>
 
-  <text x="260" y="370" text-anchor="middle" font-size="28" font-weight="bold" fill="#E8F8FF">الأرقام</text>
-  <text x="260" y="408" text-anchor="middle" font-size="22" fill="#6A9BAB">الرئيسية</text>
-  <rect x="80" y="435" width="360" height="5" rx="2" fill="#00D4FF" opacity="0.3"/>
-  <text x="260" y="710" text-anchor="middle" font-size="14" fill="#6A9BAB">7 / 13</text>
+  <!-- CONTENT AREA x=490 -->
+  <rect x="490" y="0" width="843" height="750" fill="url(#mbg)"/>
+  <rect x="1296" y="0" width="8" height="750" fill="#00D4FF" opacity="0.1"/>
+  <rect x="490" y="0" width="843" height="5" fill="#00D4FF" opacity="0.4"/>
 
-  <!-- CONTENT AREA -->
-  <rect x="532" y="0" width="801" height="750" fill="url(#mbg)"/>
-  <rect x="1290" y="0" width="8" height="750" fill="#00D4FF" opacity="0.1"/>
-  <rect x="532" y="0" width="801" height="6" fill="#00D4FF" opacity="0.4"/>
+  <!-- 6 cards 3×2 | card w=255, h=330, gap=16 -->
+  <!-- Row 1 y=20, Row 2 y=368 -->
 
-  <!-- 6 stat cards, 3×2 -->
-  <!-- Row 1 y=35, Row 2 y=405, card w=237, h=320, gaps=15 -->
-  <!-- Card 1 -->
-  <rect x="552" y="35" width="237" height="320" rx="14" fill="url(#cg)" filter="url(#sh)"/>
-  <rect x="552" y="35" width="237" height="18" rx="14" fill="#00D4FF" opacity="0.8"/>
-  <rect x="552" y="337" width="237" height="18" rx="14" fill="#00D4FF" opacity="0.28"/>
-  <text x="670" y="210" text-anchor="middle" font-size="62" font-weight="bold" fill="#00D4FF" font-family="Calibri,Arial">78.4%</text>
-  <rect x="592" y="280" width="157" height="1" fill="#6A9BAB" opacity="0.5"/>
-  <text x="670" y="316" text-anchor="middle" font-size="14" fill="#E8F8FF">معدل العائد ROA</text>
+  <!-- Card 1 x=508 -->
+  <rect x="508" y="20" width="255" height="330" rx="14" fill="url(#cg)" filter="url(#sh)"/>
+  <rect x="508" y="20" width="255" height="16" rx="8" fill="#00D4FF" opacity="0.8"/>
+  <rect x="508" y="334" width="255" height="16" rx="8" fill="#00D4FF" opacity="0.28"/>
+  <text x="635" y="205" text-anchor="middle" font-family="Arial" font-size="56" font-weight="bold" fill="#00D4FF">78.4%</text>
+  <rect x="548" y="278" width="175" height="1" fill="#6A9BAB" opacity="0.5"/>
+  <text x="635" y="320" text-anchor="middle" font-family="Arial" font-size="14" fill="#E8F8FF">معدل العائد ROA</text>
 
-  <!-- Card 2 -->
-  <rect x="805" y="35" width="237" height="320" rx="14" fill="url(#cg)" filter="url(#sh)"/>
-  <rect x="805" y="35" width="237" height="18" rx="14" fill="#00D4FF" opacity="0.8"/>
-  <rect x="805" y="337" width="237" height="18" rx="14" fill="#00D4FF" opacity="0.28"/>
-  <text x="923" y="210" text-anchor="middle" font-size="62" font-weight="bold" fill="#00D4FF" font-family="Calibri,Arial">0.814</text>
-  <rect x="845" y="280" width="157" height="1" fill="#6A9BAB" opacity="0.5"/>
-  <text x="923" y="316" text-anchor="middle" font-size="14" fill="#E8F8FF">قوة النموذج R²</text>
+  <!-- Card 2 x=779 -->
+  <rect x="779" y="20" width="255" height="330" rx="14" fill="url(#cg)" filter="url(#sh)"/>
+  <rect x="779" y="20" width="255" height="16" rx="8" fill="#00D4FF" opacity="0.8"/>
+  <rect x="779" y="334" width="255" height="16" rx="8" fill="#00D4FF" opacity="0.28"/>
+  <text x="906" y="205" text-anchor="middle" font-family="Arial" font-size="56" font-weight="bold" fill="#00D4FF">0.814</text>
+  <rect x="819" y="278" width="175" height="1" fill="#6A9BAB" opacity="0.5"/>
+  <text x="906" y="320" text-anchor="middle" font-family="Arial" font-size="14" fill="#E8F8FF">قوة النموذج R²</text>
 
-  <!-- Card 3 -->
-  <rect x="1058" y="35" width="237" height="320" rx="14" fill="url(#cg)" filter="url(#sh)"/>
-  <rect x="1058" y="35" width="237" height="18" rx="14" fill="#00D4FF" opacity="0.8"/>
-  <rect x="1058" y="337" width="237" height="18" rx="14" fill="#00D4FF" opacity="0.28"/>
-  <text x="1176" y="200" text-anchor="middle" font-size="62" font-weight="bold" fill="#00D4FF" font-family="Calibri,Arial">432</text>
-  <text x="1176" y="250" text-anchor="middle" font-size="16" fill="#6A9BAB">مشاهدة</text>
-  <rect x="1098" y="280" width="157" height="1" fill="#6A9BAB" opacity="0.5"/>
-  <text x="1176" y="316" text-anchor="middle" font-size="14" fill="#E8F8FF">حجم العينة</text>
+  <!-- Card 3 x=1050 -->
+  <rect x="1050" y="20" width="255" height="330" rx="14" fill="url(#cg)" filter="url(#sh)"/>
+  <rect x="1050" y="20" width="255" height="16" rx="8" fill="#00D4FF" opacity="0.8"/>
+  <rect x="1050" y="334" width="255" height="16" rx="8" fill="#00D4FF" opacity="0.28"/>
+  <text x="1177" y="190" text-anchor="middle" font-family="Arial" font-size="56" font-weight="bold" fill="#00D4FF">432</text>
+  <text x="1177" y="235" text-anchor="middle" font-family="Arial" font-size="16" fill="#6A9BAB">مشاهدة</text>
+  <rect x="1090" y="278" width="175" height="1" fill="#6A9BAB" opacity="0.5"/>
+  <text x="1177" y="320" text-anchor="middle" font-family="Arial" font-size="14" fill="#E8F8FF">حجم العينة</text>
 
-  <!-- Row 2 -->
-  <!-- Card 4 -->
-  <rect x="552" y="395" width="237" height="320" rx="14" fill="url(#cg)" filter="url(#sh)"/>
-  <rect x="552" y="395" width="237" height="18" rx="14" fill="#00D4FF" opacity="0.8"/>
-  <rect x="552" y="697" width="237" height="18" rx="14" fill="#00D4FF" opacity="0.28"/>
-  <text x="670" y="560" text-anchor="middle" font-size="52" font-weight="bold" fill="#00D4FF" font-family="Calibri,Arial">+15.7%</text>
-  <rect x="592" y="638" width="157" height="1" fill="#6A9BAB" opacity="0.5"/>
-  <text x="670" y="675" text-anchor="middle" font-size="14" fill="#E8F8FF">نمو ROE 2020–2023</text>
+  <!-- Row 2 y=368 -->
+  <!-- Card 4 x=508 -->
+  <rect x="508" y="368" width="255" height="330" rx="14" fill="url(#cg)" filter="url(#sh)"/>
+  <rect x="508" y="368" width="255" height="16" rx="8" fill="#00D4FF" opacity="0.8"/>
+  <rect x="508" y="682" width="255" height="16" rx="8" fill="#00D4FF" opacity="0.28"/>
+  <text x="635" y="545" text-anchor="middle" font-family="Arial" font-size="46" font-weight="bold" fill="#00D4FF">+15.7%</text>
+  <rect x="548" y="626" width="175" height="1" fill="#6A9BAB" opacity="0.5"/>
+  <text x="635" y="668" text-anchor="middle" font-family="Arial" font-size="14" fill="#E8F8FF">نمو ROE 2020–2023</text>
 
-  <!-- Card 5 -->
-  <rect x="805" y="395" width="237" height="320" rx="14" fill="url(#cg)" filter="url(#sh)"/>
-  <rect x="805" y="395" width="237" height="18" rx="14" fill="#00D4FF" opacity="0.8"/>
-  <rect x="805" y="697" width="237" height="18" rx="14" fill="#00D4FF" opacity="0.28"/>
-  <text x="923" y="550" text-anchor="middle" font-size="62" font-weight="bold" fill="#00D4FF" font-family="Calibri,Arial">48</text>
-  <text x="923" y="598" text-anchor="middle" font-size="16" fill="#6A9BAB">مؤسسة</text>
-  <rect x="845" y="638" width="157" height="1" fill="#6A9BAB" opacity="0.5"/>
-  <text x="923" y="675" text-anchor="middle" font-size="14" fill="#E8F8FF">حجم العينة البانل</text>
+  <!-- Card 5 x=779 -->
+  <rect x="779" y="368" width="255" height="330" rx="14" fill="url(#cg)" filter="url(#sh)"/>
+  <rect x="779" y="368" width="255" height="16" rx="8" fill="#00D4FF" opacity="0.8"/>
+  <rect x="779" y="682" width="255" height="16" rx="8" fill="#00D4FF" opacity="0.28"/>
+  <text x="906" y="535" text-anchor="middle" font-family="Arial" font-size="56" font-weight="bold" fill="#00D4FF">48</text>
+  <text x="906" y="580" text-anchor="middle" font-family="Arial" font-size="16" fill="#6A9BAB">مؤسسة</text>
+  <rect x="819" y="626" width="175" height="1" fill="#6A9BAB" opacity="0.5"/>
+  <text x="906" y="668" text-anchor="middle" font-family="Arial" font-size="14" fill="#E8F8FF">حجم عينة البانل</text>
 
-  <!-- Card 6 -->
-  <rect x="1058" y="395" width="237" height="320" rx="14" fill="url(#cg)" filter="url(#sh)"/>
-  <rect x="1058" y="395" width="237" height="18" rx="14" fill="#00D4FF" opacity="0.8"/>
-  <rect x="1058" y="697" width="237" height="18" rx="14" fill="#00D4FF" opacity="0.28"/>
-  <text x="1176" y="550" text-anchor="middle" font-size="62" font-weight="bold" fill="#00D4FF" font-family="Calibri,Arial">48.3</text>
-  <text x="1176" y="598" text-anchor="middle" font-size="16" fill="#6A9BAB">F-test ***</text>
-  <rect x="1098" y="638" width="157" height="1" fill="#6A9BAB" opacity="0.5"/>
-  <text x="1176" y="675" text-anchor="middle" font-size="14" fill="#E8F8FF">اختبار فيشر الكلي</text>
+  <!-- Card 6 x=1050 -->
+  <rect x="1050" y="368" width="255" height="330" rx="14" fill="url(#cg)" filter="url(#sh)"/>
+  <rect x="1050" y="368" width="255" height="16" rx="8" fill="#00D4FF" opacity="0.8"/>
+  <rect x="1050" y="682" width="255" height="16" rx="8" fill="#00D4FF" opacity="0.28"/>
+  <text x="1177" y="535" text-anchor="middle" font-family="Arial" font-size="56" font-weight="bold" fill="#00D4FF">48.3</text>
+  <text x="1177" y="580" text-anchor="middle" font-family="Arial" font-size="16" fill="#6A9BAB">F-test ***</text>
+  <rect x="1090" y="626" width="175" height="1" fill="#6A9BAB" opacity="0.5"/>
+  <text x="1177" y="668" text-anchor="middle" font-family="Arial" font-size="14" fill="#E8F8FF">اختبار فيشر الكلي</text>
 </svg>
-          <div class="slide-thumb-label">شريحة الأرقام · Atlas Corporate</div>
-        </div>
+<div class="slide-thumb-label">الأرقام · Atlas Corporate</div></div>
       </div>
     </div>
-
-    <!-- Classic Academic -->
     <div class="engine-panel" id="ep-classic">
-      <p style="font-size:11px;color:rgba(255,255,255,.5);text-align:center;margin-bottom:10px">⚙️ python-pptx · هيدر ثقيل · شريط acc يميني · صفوف محتوى متناوبة</p>
+      <p style="font-size:11px;color:rgba(255,255,255,.5);text-align:center;margin-bottom:10px">⚙️ python-pptx · هيدر ثقيل · صفوف متناوبة</p>
       <div class="slides-grid">
-        <div class="slide-thumb">
-          <svg viewBox="0 0 1333 750" xmlns="http://www.w3.org/2000/svg" font-family="Arial,sans-serif">
+        <div class="slide-thumb"><svg viewBox="0 0 1333 750" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="hbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1A3A6E"/><stop offset="100%" stop-color="#07172F"/></linearGradient>
     <linearGradient id="cbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#07172F"/><stop offset="100%" stop-color="#0D2347"/></linearGradient>
     <linearGradient id="acc" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#C6A03C"/><stop offset="100%" stop-color="#E8C96A"/></linearGradient>
-    <linearGradient id="fbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0D2347"/><stop offset="100%" stop-color="#07172F"/></linearGradient>
     <linearGradient id="r1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#0D2347"/><stop offset="100%" stop-color="#122040"/></linearGradient>
     <linearGradient id="r2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#122040"/><stop offset="100%" stop-color="#0D2347"/></linearGradient>
   </defs>
-
-  <!-- Content background -->
   <rect width="1333" height="750" fill="url(#cbg)"/>
 
-  <!-- HEADER (H=255px) -->
+  <!-- HEADER H=255 -->
   <rect x="0" y="0" width="1333" height="255" fill="url(#hbg)"/>
-  <!-- accent bottom -->
   <rect x="0" y="237" width="1333" height="18" fill="url(#acc)"/>
-  <!-- thin line -->
-  <rect x="0" y="227" width="1333" height="6" fill="#8A9BB5" opacity="0.25"/>
-  <!-- right accent bar (45px) -->
-  <rect x="1288" y="0" width="45" height="255" fill="url(#acc)"/>
-  <!-- oval decoration -->
-  <ellipse cx="1180" cy="-30" rx="200" ry="200" fill="#C6A03C" opacity="0.06"/>
-  <!-- dots -->
-  <circle cx="148" cy="80" r="5" fill="#C6A03C" opacity="0.22"/>
-  <circle cx="178" cy="80" r="4" fill="#C6A03C" opacity="0.15"/>
-  <circle cx="205" cy="80" r="4" fill="#C6A03C" opacity="0.1"/>
+  <!-- right accent bar -->
+  <rect x="1290" y="0" width="43" height="255" fill="url(#acc)"/>
 
-  <!-- Slide number badge -->
-  <rect x="28" y="88" width="78" height="78" rx="39" fill="#C6A03C"/>
-  <text x="67" y="136" text-anchor="middle" font-size="28" font-weight="bold" fill="#07172F">2</text>
-  <text x="113" y="150" font-size="14" fill="#8A9BB5">/13</text>
+  <!-- slide number badge -->
+  <circle cx="80" cy="127" r="38" fill="#C6A03C"/>
+  <text x="80" y="137" text-anchor="middle" font-family="Arial" font-size="26" font-weight="bold" fill="#07172F">2</text>
 
-  <!-- Header title -->
-  <text x="1270" y="120" text-anchor="end" font-size="38" font-weight="bold" fill="#F0E8D8">خطة البحث</text>
+  <!-- title -->
+  <text x="1270" y="105" text-anchor="end" font-family="Arial" font-size="36" font-weight="bold" fill="#F0E8D8">خطة البحث</text>
+  <text x="1270" y="150" text-anchor="end" font-family="Arial" font-size="18" fill="#C6A03C">هيكل الدراسة وفصولها</text>
+  <text x="1270" y="185" text-anchor="end" font-family="Arial" font-size="13" fill="#8A9BB5">بن خالد نور — ليسانس اقتصاد — جامعة قسنطينة 2</text>
 
-  <!-- FOOTER (H=32px at y=718) -->
-  <rect x="0" y="718" width="1333" height="32" fill="url(#fbg)"/>
-  <rect x="0" y="718" width="1333" height="6" fill="#C6A03C" opacity="0.45"/>
+  <!-- FOOTER H=28 -->
+  <rect x="0" y="722" width="1333" height="28" fill="#07172F"/>
+  <rect x="0" y="722" width="1333" height="5" fill="#C6A03C" opacity="0.45"/>
 
-  <!-- CONTENT: 5 chapter rows -->
-  <!-- each row h = (718-255-32-14*4)/5 = (431-56)/5 = 75px, gap=14px -->
-  <!-- y start=282 -->
-
+  <!-- 5 chapter rows — y=272, row_h=86, gap=12 -->
   <!-- Row 1 -->
-  <rect x="120" y="282" width="1193" height="72" rx="8" fill="url(#r1)"/>
-  <rect x="1291" y="282" width="22" height="72" fill="#C6A03C" opacity="0.9"/>
-  <text x="250" y="326" text-anchor="middle" font-size="18" font-weight="bold" fill="#C6A03C">الفصل الأول</text>
-  <rect x="370" y="298" width="3" height="40" fill="#8A9BB5" opacity="0.4"/>
-  <text x="1270" y="326" text-anchor="end" font-size="19" fill="#F0E8D8">الإطار المنهجي والمفاهيمي للدراسة</text>
-  <text x="135" y="342" font-size="13" fill="#8A9BB5">ص 1–42</text>
+  <rect x="100" y="272" width="1133" height="82" rx="8" fill="url(#r1)"/>
+  <rect x="1198" y="272" width="20" height="82" fill="#C6A03C" opacity="0.9"/>
+  <text x="220" y="320" text-anchor="middle" font-family="Arial" font-size="17" font-weight="bold" fill="#C6A03C">الفصل الأول</text>
+  <rect x="330" y="290" width="3" height="46" fill="#8A9BB5" opacity="0.4"/>
+  <text x="1185" y="320" text-anchor="end" font-family="Arial" font-size="18" fill="#F0E8D8">الإطار المنهجي والمفاهيمي للدراسة</text>
+  <text x="112" y="338" font-family="Arial" font-size="12" fill="#8A9BB5">ص 1–42</text>
 
   <!-- Row 2 -->
-  <rect x="120" y="368" width="1193" height="72" rx="8" fill="url(#r2)"/>
-  <rect x="1291" y="368" width="22" height="72" fill="#C6A03C" opacity="0.7"/>
-  <text x="250" y="412" text-anchor="middle" font-size="18" font-weight="bold" fill="#C6A03C">الفصل الثاني</text>
-  <rect x="370" y="384" width="3" height="40" fill="#8A9BB5" opacity="0.4"/>
-  <text x="1270" y="412" text-anchor="end" font-size="19" fill="#F0E8D8">هيكل التمويل والأداء المالي — الإطار النظري</text>
-  <text x="135" y="428" font-size="13" fill="#8A9BB5">ص 43–98</text>
+  <rect x="100" y="366" width="1133" height="82" rx="8" fill="url(#r2)"/>
+  <rect x="1198" y="366" width="20" height="82" fill="#C6A03C" opacity="0.7"/>
+  <text x="220" y="414" text-anchor="middle" font-family="Arial" font-size="17" font-weight="bold" fill="#C6A03C">الفصل الثاني</text>
+  <rect x="330" y="384" width="3" height="46" fill="#8A9BB5" opacity="0.4"/>
+  <text x="1185" y="414" text-anchor="end" font-family="Arial" font-size="18" fill="#F0E8D8">هيكل التمويل والأداء المالي — الإطار النظري</text>
+  <text x="112" y="432" font-family="Arial" font-size="12" fill="#8A9BB5">ص 43–98</text>
 
   <!-- Row 3 -->
-  <rect x="120" y="454" width="1193" height="72" rx="8" fill="url(#r1)"/>
-  <rect x="1291" y="454" width="22" height="72" fill="#C6A03C" opacity="0.55"/>
-  <text x="250" y="498" text-anchor="middle" font-size="18" font-weight="bold" fill="#C6A03C">الفصل الثالث</text>
-  <rect x="370" y="470" width="3" height="40" fill="#8A9BB5" opacity="0.4"/>
-  <text x="1270" y="498" text-anchor="end" font-size="19" fill="#F0E8D8">الدراسات السابقة والفجوة البحثية</text>
-  <text x="135" y="514" font-size="13" fill="#8A9BB5">ص 99–148</text>
+  <rect x="100" y="460" width="1133" height="82" rx="8" fill="url(#r1)"/>
+  <rect x="1198" y="460" width="20" height="82" fill="#C6A03C" opacity="0.55"/>
+  <text x="220" y="508" text-anchor="middle" font-family="Arial" font-size="17" font-weight="bold" fill="#C6A03C">الفصل الثالث</text>
+  <rect x="330" y="478" width="3" height="46" fill="#8A9BB5" opacity="0.4"/>
+  <text x="1185" y="508" text-anchor="end" font-family="Arial" font-size="18" fill="#F0E8D8">الدراسات السابقة والفجوة البحثية</text>
+  <text x="112" y="526" font-family="Arial" font-size="12" fill="#8A9BB5">ص 99–148</text>
 
   <!-- Row 4 -->
-  <rect x="120" y="540" width="1193" height="72" rx="8" fill="url(#r2)"/>
-  <rect x="1291" y="540" width="22" height="72" fill="#C6A03C" opacity="0.4"/>
-  <text x="250" y="584" text-anchor="middle" font-size="18" font-weight="bold" fill="#C6A03C">الفصل الرابع</text>
-  <rect x="370" y="556" width="3" height="40" fill="#8A9BB5" opacity="0.4"/>
-  <text x="1270" y="584" text-anchor="end" font-size="19" fill="#F0E8D8">الدراسة التطبيقية — تحليل بيانات البانل</text>
-  <text x="135" y="600" font-size="13" fill="#8A9BB5">ص 149–210</text>
+  <rect x="100" y="554" width="1133" height="82" rx="8" fill="url(#r2)"/>
+  <rect x="1198" y="554" width="20" height="82" fill="#C6A03C" opacity="0.4"/>
+  <text x="220" y="602" text-anchor="middle" font-family="Arial" font-size="17" font-weight="bold" fill="#C6A03C">الفصل الرابع</text>
+  <rect x="330" y="572" width="3" height="46" fill="#8A9BB5" opacity="0.4"/>
+  <text x="1185" y="602" text-anchor="end" font-family="Arial" font-size="18" fill="#F0E8D8">الدراسة التطبيقية — تحليل بيانات البانل</text>
+  <text x="112" y="620" font-family="Arial" font-size="12" fill="#8A9BB5">ص 149–210</text>
 
   <!-- Row 5 -->
-  <rect x="120" y="626" width="1193" height="72" rx="8" fill="url(#r1)"/>
-  <rect x="1291" y="626" width="22" height="72" fill="#C6A03C" opacity="0.28"/>
-  <text x="250" y="670" text-anchor="middle" font-size="18" font-weight="bold" fill="#C6A03C">الفصل الخامس</text>
-  <rect x="370" y="642" width="3" height="40" fill="#8A9BB5" opacity="0.4"/>
-  <text x="1270" y="670" text-anchor="end" font-size="19" fill="#F0E8D8">النتائج والتوصيات وآفاق البحث المستقبلية</text>
-  <text x="135" y="686" font-size="13" fill="#8A9BB5">ص 211–256</text>
+  <rect x="100" y="648" width="1133" height="62" rx="8" fill="url(#r1)"/>
+  <rect x="1198" y="648" width="20" height="62" fill="#C6A03C" opacity="0.28"/>
+  <text x="220" y="685" text-anchor="middle" font-family="Arial" font-size="17" font-weight="bold" fill="#C6A03C">الفصل الخامس</text>
+  <rect x="330" y="660" width="3" height="38" fill="#8A9BB5" opacity="0.4"/>
+  <text x="1185" y="685" text-anchor="end" font-family="Arial" font-size="18" fill="#F0E8D8">النتائج والتوصيات وآفاق البحث</text>
+  <text x="112" y="700" font-family="Arial" font-size="12" fill="#8A9BB5">ص 211–256</text>
 </svg>
-          <div class="slide-thumb-label">شريحة خطة البحث · navy_gold</div>
-        </div>
-        <div class="slide-thumb">
-          <svg viewBox="0 0 1333 750" xmlns="http://www.w3.org/2000/svg" font-family="Arial,sans-serif">
+<div class="slide-thumb-label">خطة البحث · navy_gold</div></div>
+        <div class="slide-thumb"><svg viewBox="0 0 1333 750" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="hbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1A4A42"/><stop offset="100%" stop-color="#0A1F1C"/></linearGradient>
     <linearGradient id="cbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0A1F1C"/><stop offset="100%" stop-color="#0F2E29"/></linearGradient>
     <linearGradient id="acc" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#2EBFA5"/><stop offset="100%" stop-color="#5DD4BE"/></linearGradient>
     <linearGradient id="card" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#122820"/><stop offset="100%" stop-color="#0A1F1C"/></linearGradient>
     <filter id="sh"><feDropShadow dx="0" dy="6" stdDeviation="14" flood-color="#000" flood-opacity="0.5"/></filter>
-    <filter id="glow"><feGaussianBlur stdDeviation="20" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
   </defs>
-
   <rect width="1333" height="750" fill="url(#cbg)"/>
 
-  <!-- HEADER -->
+  <!-- HEADER H=255 -->
   <rect x="0" y="0" width="1333" height="255" fill="url(#hbg)"/>
   <rect x="0" y="237" width="1333" height="18" fill="url(#acc)"/>
-  <rect x="0" y="227" width="1333" height="6" fill="#7BAAA4" opacity="0.25"/>
-  <rect x="1288" y="0" width="45" height="255" fill="url(#acc)"/>
-  <ellipse cx="1180" cy="-30" rx="200" ry="200" fill="#2EBFA5" opacity="0.05"/>
+  <rect x="1290" y="0" width="43" height="255" fill="url(#acc)"/>
 
-  <!-- Slide number -->
-  <rect x="28" y="88" width="78" height="78" rx="39" fill="#2EBFA5"/>
-  <text x="67" y="136" text-anchor="middle" font-size="28" font-weight="bold" fill="#0A1F1C">9</text>
-  <text x="113" y="150" font-size="14" fill="#7BAAA4">/13</text>
+  <!-- slide number -->
+  <circle cx="80" cy="127" r="38" fill="#2EBFA5"/>
+  <text x="80" y="137" text-anchor="middle" font-family="Arial" font-size="26" font-weight="bold" fill="#0A1F1C">9</text>
 
-  <text x="1270" y="120" text-anchor="end" font-size="38" font-weight="bold" fill="#E8F5F3">خاتمة البحث</text>
-  <text x="1270" y="170" text-anchor="end" font-size="20" fill="#7BAAA4">الاستنتاج العام للدراسة</text>
+  <!-- title -->
+  <text x="1270" y="105" text-anchor="end" font-family="Arial" font-size="36" font-weight="bold" fill="#E8F5F3">خاتمة البحث</text>
+  <text x="1270" y="150" text-anchor="end" font-family="Arial" font-size="18" fill="#2EBFA5">الاستنتاج العام للدراسة</text>
+  <text x="1270" y="185" text-anchor="end" font-family="Arial" font-size="13" fill="#7BAAA4">زروق سارة — ماستر إدارة أعمال — جامعة سطيف 1</text>
 
   <!-- FOOTER -->
-  <rect x="0" y="718" width="1333" height="32" fill="#041510"/>
-  <rect x="0" y="718" width="1333" height="6" fill="#2EBFA5" opacity="0.45"/>
+  <rect x="0" y="722" width="1333" height="28" fill="#041510"/>
+  <rect x="0" y="722" width="1333" height="5" fill="#2EBFA5" opacity="0.45"/>
 
-  <!-- CONTENT: single large card (conclusion style 'd' with quote) -->
-  <!-- decorative concentric ovals (style d) -->
-  <ellipse cx="666" cy="490" rx="520" ry="200" fill="#2EBFA5" opacity="0.03" filter="url(#glow)"/>
-  <ellipse cx="666" cy="490" rx="400" ry="155" fill="#2EBFA5" opacity="0.03"/>
-  <ellipse cx="666" cy="490" rx="280" ry="110" fill="#2EBFA5" opacity="0.04"/>
+  <!-- Main conclusion card -->
+  <rect x="100" y="278" width="1133" height="432" rx="18" fill="url(#card)" filter="url(#sh)"/>
+  <rect x="100" y="278" width="1133" height="26" rx="18" fill="#2EBFA5" opacity="0.85"/>
+  <rect x="100" y="290" width="1133" height="14" fill="#2EBFA5" opacity="0.85"/>
 
-  <!-- Main card -->
-  <rect x="140" y="278" width="1053" height="425" rx="22" fill="url(#card)" filter="url(#sh)"/>
-  <!-- top accent bar on card -->
-  <rect x="140" y="278" width="1053" height="28" rx="22" fill="#2EBFA5" opacity="0.8"/>
-  <rect x="140" y="290" width="1053" height="16" fill="#2EBFA5" opacity="0.8"/>
-  <!-- diamond decorations -->
-  <rect x="165" y="320" width="55" height="55" rx="4" fill="#2EBFA5" opacity="0.1" transform="rotate(45 192 347)"/>
-  <rect x="1115" y="600" width="45" height="45" rx="4" fill="#2EBFA5" opacity="0.08" transform="rotate(45 1137 622)"/>
+  <!-- quote mark — decorative, inside card left side -->
+  <text x="145" y="380" font-family="Arial" font-size="80" fill="#2EBFA5" opacity="0.5">❝</text>
 
-  <!-- quote mark -->
-  <text x="185" y="395" font-size="72" fill="#2EBFA5" opacity="0.6" font-family="Calibri,Arial">❝</text>
+  <!-- conclusion body text — right-aligned, with generous margins -->
+  <text x="1198" y="345" text-anchor="end" font-family="Arial" font-size="20" fill="#E8F5F3">توصلت هذه الدراسة إلى وجود علاقة ذات دلالة إحصائية بين هيكل التمويل</text>
+  <text x="1198" y="383" text-anchor="end" font-family="Arial" font-size="20" fill="#E8F5F3">والأداء المالي للمؤسسات الاقتصادية الجزائرية خلال الفترة 2015–2023،</text>
+  <text x="1198" y="421" text-anchor="end" font-family="Arial" font-size="20" fill="#E8F5F3">إذ يُعدّ التمويل الذاتي المحرك الرئيسي للأداء، في حين تُضعف الديون</text>
+  <text x="1198" y="459" text-anchor="end" font-family="Arial" font-size="20" fill="#E8F5F3">طويلة الأجل قدرة المؤسسة على تحقيق عوائد مستدامة على المدى البعيد.</text>
 
-  <!-- conclusion text -->
-  <text x="1155" y="390" text-anchor="end" font-size="22" fill="#E8F5F3">توصلت هذه الدراسة إلى وجود علاقة ذات دلالة إحصائية بين هيكل التمويل</text>
-  <text x="1155" y="430" text-anchor="end" font-size="22" fill="#E8F5F3">والأداء المالي للمؤسسات الاقتصادية الجزائرية خلال الفترة 2015–2023،</text>
-  <text x="1155" y="470" text-anchor="end" font-size="22" fill="#E8F5F3">إذ يُعدّ التمويل الذاتي المحرك الرئيسي للأداء، في حين تُضعف الديون</text>
-  <text x="1155" y="510" text-anchor="end" font-size="22" fill="#E8F5F3">طويلة الأجل قدرة المؤسسة على تحقيق عوائد مستدامة على المدى البعيد.</text>
-  <text x="1155" y="550" text-anchor="end" font-size="22" fill="#7BAAA4">يُوصي البحث بتبني سياسة مالية تُعزز الاحتياطات الداخلية وتُحدّ من</text>
-  <text x="1155" y="590" text-anchor="end" font-size="22" fill="#7BAAA4">الاعتماد المفرط على الاقتراض الخارجي لضمان الاستدامة المالية.</text>
+  <rect x="200" y="482" width="933" height="3" fill="#2EBFA5" opacity="0.3"/>
 
-  <!-- divider + student name -->
-  <rect x="340" y="635" width="653" height="4" rx="2" fill="#2EBFA5" opacity="0.4"/>
-  <text x="666" y="680" text-anchor="middle" font-size="20" font-weight="bold" fill="#2EBFA5">بوعلام نور الدين — ماستر مالية ومحاسبة — جامعة الجزائر 3</text>
+  <text x="1198" y="520" text-anchor="end" font-family="Arial" font-size="19" fill="#7BAAA4">يُوصي البحث بتبني سياسة مالية تُعزز الاحتياطات الداخلية</text>
+  <text x="1198" y="556" text-anchor="end" font-family="Arial" font-size="19" fill="#7BAAA4">وتُحدّ من الاعتماد المفرط على الاقتراض الخارجي.</text>
+
+  <!-- divider + student signature -->
+  <rect x="350" y="615" width="633" height="3" rx="1" fill="#2EBFA5" opacity="0.4"/>
+  <text x="666" y="655" text-anchor="middle" font-family="Arial" font-size="18" font-weight="bold" fill="#2EBFA5">زروق سارة — ماستر إدارة أعمال — جامعة سطيف 1</text>
+  <text x="666" y="685" text-anchor="middle" font-family="Arial" font-size="14" fill="#7BAAA4">Classic Academic · dark_teal</text>
 </svg>
-          <div class="slide-thumb-label">شريحة الخاتمة · dark_teal</div>
-        </div>
+<div class="slide-thumb-label">الخاتمة · dark_teal</div></div>
       </div>
     </div>
   </div>
