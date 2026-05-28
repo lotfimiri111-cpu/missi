@@ -165,19 +165,24 @@ def make_cover(prs, req: PresentationRequest, T: Theme):
     if req.specialization: rows.append(("التخصص",req.specialization))
 
     rh=info_h/max(len(rows),1)
+    row_w=W-MX*2
+    lbl_w=3.8; val_w=row_w-lbl_w-0.5
     for i,(lbl,val) in enumerate(rows):
         y=info_y+i*rh
         fill=T.bg2_rgb if i%2==0 else T.card_rgb
-        rb=rect(slide,MX,y,W-MX*2,rh-0.06,fill)
+        rb=rect(slide,MX,y,row_w,rh-0.06,fill)
         acc=rect(slide,W-MX-0.18,y,0.18,rh-0.06,T.accent_rgb)
         if acc: set_solid_alpha(acc,70)
-        txt(slide,lbl,MX+0.2,y,4.2,rh-0.06,
+        # RTL صحيح: التسمية أقصى اليمين، القيمة على اليسار
+        lbl_x=W-MX-lbl_w-0.2   # اليمين
+        val_x=MX+0.3             # اليسار
+        txt(slide,f"{lbl} :",lbl_x,y,lbl_w,rh-0.06,
             font=_FONT,size=max(13,min(15,rh*8.5)),bold=True,
             color=T.accent_rgb,align=PP_ALIGN.RIGHT,rtl=True,vcenter=True,line_spacing=1.0)
-        vline(slide,MX+4.5,y+rh*0.1,rh*0.7,T.muted_rgb,thickness=0.04)
-        txt(slide,val,MX+4.7,y,W-MX*2-5.0,rh-0.06,
+        vline(slide,lbl_x-0.15,y+rh*0.1,rh*0.7,T.muted_rgb,thickness=0.04)
+        txt(slide,val,val_x,y,val_w,rh-0.06,
             font=_FONT,size=max(14,min(16,rh*10)),bold=False,
-            color=T.text_light_rgb,align=PP_ALIGN.RIGHT,rtl=True,vcenter=True,line_spacing=1.0)
+            color=T.text_light_rgb,align=PP_ALIGN.LEFT,rtl=False,vcenter=True,line_spacing=1.0)
 
     return slide
 

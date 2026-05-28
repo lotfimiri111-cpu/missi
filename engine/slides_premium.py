@@ -189,13 +189,17 @@ def make_cover(prs, req: PresentationRequest, T: Theme):
         y=info_y+i*rh
         rb=rrect(slide,mcx+0.25,y+0.04,mcw-0.62,rh-0.08,T.bg_rgb,radius_pct=7)
         if rb: set_solid_alpha(rb,50)
-        txt(slide,f"{lbl} :",mcx+0.42,y+0.04,4.5,rh-0.08,
+        # RTL صحيح: التسمية أقصى اليمين، القيمة على اليسار
+        lbl_w=4.2; val_w=mcw-lbl_w-0.9
+        lbl_x=mcx+mcw-lbl_w-0.3   # التسمية أقصى اليمين
+        val_x=mcx+0.42             # القيمة على اليسار
+        txt(slide,f"{lbl} :",lbl_x,y+0.04,lbl_w,rh-0.08,
             font=_FONT,size=max(13,min(15,rh*8.5)),bold=True,
             color=T.accent_rgb,align=PP_ALIGN.RIGHT,rtl=True,vcenter=True)
-        vline(slide,mcx+5.15,y+rh*0.12,rh*0.76,T.muted_rgb,thickness=0.04)
-        txt(slide,val,mcx+5.35,y+0.04,mcw-6.0,rh-0.08,
+        vline(slide,lbl_x-0.18,y+rh*0.12,rh*0.76,T.muted_rgb,thickness=0.04)
+        txt(slide,val,val_x,y+0.04,val_w,rh-0.08,
             font=_FONT,size=max(14,min(16,rh*10)),bold=False,
-            color=T.text_light_rgb,align=PP_ALIGN.RIGHT,rtl=True,vcenter=True)
+            color=T.text_light_rgb,align=PP_ALIGN.LEFT,rtl=False,vcenter=True)
 
     fb=rrect(slide,mcx,H-0.33,mcw,0.28,T.bg_rgb,radius_pct=0)
     if fb: set_solid_alpha(fb,45)

@@ -2,29 +2,38 @@
 <html dir="rtl" lang="ar">
 <head>
 <meta charset="utf-8">
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:800px;height:450px;overflow:hidden;background:transparent}
-body{width:800px;height:450px;font-family:'Cairo',sans-serif;direction:rtl;display:flex}
-.sb{width:200px;height:450px;flex-shrink:0;background:linear-gradient(180deg,#1A3A6E,#07172F);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border-left:5px solid #C6A03C;position:relative}
-.sb-ico{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,#C6A03C,#E8C96A);display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 0 30px rgba(198,160,60,.5)}
+body{width:800px;height:450px;font-family:'Cairo',sans-serif;direction:rtl;display:flex;background:#07172F}
+
+/* SIDEBAR — اليمين في RTL */
+.sb{width:185px;height:450px;flex-shrink:0;background:linear-gradient(180deg,#1A3A6E,#07172F);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border-left:4px solid rgba(198,160,60,.35);position:relative;overflow:hidden}
+.sb::before{content:'';position:absolute;top:0;right:0;width:3px;height:100%;background:linear-gradient(180deg,#E8C96A,rgba(198,160,60,.2),transparent)}
+.sb-glow{position:absolute;top:-30px;left:50%;transform:translateX(-50%);width:130px;height:130px;border-radius:50%;background:radial-gradient(circle,rgba(198,160,60,.12),transparent 70%);pointer-events:none}
+.sb-ico{width:76px;height:76px;border-radius:50%;background:linear-gradient(135deg,#C6A03C,#E8C96A);display:flex;align-items:center;justify-content:center;font-size:34px;box-shadow:0 0 28px rgba(198,160,60,.5),0 0 55px rgba(198,160,60,.18)}
 .sb-t1{font-size:22px;font-weight:900;color:#F0E8D8}
-.sb-t2{font-size:13px;color:#8A9BB5}
-.sb-div{width:120px;height:3px;background:rgba(198,160,60,.4);border-radius:2px}
-.sb-th{font-size:11px;color:#C6A03C;text-align:center}
-.sb-pg{position:absolute;bottom:14px;font-size:11px;color:#8A9BB5}
-.cnt{flex:1;height:450px;background:linear-gradient(135deg,#07172F,#0D2347);display:flex;flex-direction:column;gap:6px;padding:10px;border-top:4px solid rgba(198,160,60,.5)}
-.row{flex:1;display:flex;align-items:center;border-radius:7px;overflow:hidden;min-height:0}
-.row:nth-child(odd){background:linear-gradient(90deg,#122040,#0D2347)}
-.row:nth-child(even){background:linear-gradient(90deg,#0D2347,#122040)}
-.racc{width:10px;height:100%;background:#C6A03C;flex-shrink:0;opacity:.6}
-.rnum{width:30px;height:30px;border-radius:50%;background:rgba(198,160,60,.8);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#07172F;flex-shrink:0;margin:0 10px}
-.rtxt{flex:1;font-size:12px;color:#F0E8D8;text-align:right;direction:rtl;padding:0 8px;line-height:1.4}
+.sb-t2{font-size:13px;color:#7A8BA5;font-weight:600}
+.sb-div{width:100px;height:2px;background:linear-gradient(90deg,transparent,rgba(198,160,60,.6),transparent);border-radius:2px}
+.sb-th{font-size:11px;color:#C6A03C;text-align:center;font-weight:700}
+.sb-pg{position:absolute;bottom:14px;font-size:11px;color:#6A7A95}
+
+/* RESULTS LIST */
+.cnt{flex:1;height:450px;background:linear-gradient(135deg,#07172F,#0D2040);display:flex;flex-direction:column;gap:5px;padding:10px 10px 10px 14px;border-top:3px solid rgba(198,160,60,.45)}
+.row{flex:1;display:flex;align-items:center;border-radius:7px;overflow:hidden;min-height:0;position:relative}
+.row:nth-child(odd){background:linear-gradient(90deg,#102040,#0D1A35)}
+.row:nth-child(even){background:linear-gradient(90deg,#0D1A35,#091428)}
+/* شريط اللون على اليمين (أول عنصر RTL) */
+.racc{width:4px;height:100%;flex-shrink:0}
+/* رقم الدائرة */
+.rnum{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#07172F;flex-shrink:0;margin:0 8px}
+.rtxt{flex:1;font-size:11.5px;color:#E8F0FF;text-align:right;direction:rtl;padding:0 6px;line-height:1.4}
 </style>
 </head>
 <body>
 <div class="sb">
+  <div class="sb-glow"></div>
   <div class="sb-ico">📊</div>
   <div class="sb-t1">نتائج</div>
   <div class="sb-t2">البحث</div>
@@ -33,11 +42,11 @@ body{width:800px;height:450px;font-family:'Cairo',sans-serif;direction:rtl;displ
   <div class="sb-pg">8 / 13</div>
 </div>
 <div class="cnt">
-  <div class="row"><div class="racc"></div><div class="rnum">1</div><div class="rtxt">وجود أثر إيجابي دال إحصائياً للتمويل الذاتي على مؤشر ROA</div></div>
-  <div class="row"><div class="racc" style="opacity:.45"></div><div class="rnum" style="background:rgba(198,160,60,.65)">2</div><div class="rtxt">علاقة عكسية بين الديون طويلة الأجل والأداء المالي</div></div>
-  <div class="row"><div class="racc" style="opacity:.52"></div><div class="rnum" style="background:rgba(198,160,60,.72)">3</div><div class="rtxt">النموذج يفسر 81.4% من التباين في الأداء (R²=0.814)</div></div>
-  <div class="row"><div class="racc" style="opacity:.38"></div><div class="rnum" style="background:rgba(198,160,60,.58)">4</div><div class="rtxt">قطاع النشاط مُعدِّل جوهري في نموذج الآثار الثابتة</div></div>
-  <div class="row"><div class="racc" style="opacity:.3"></div><div class="rnum" style="background:rgba(198,160,60,.5)">5</div><div class="rtxt">اختبار Hausman رجّح نموذج الآثار الثابتة (p&lt;0.01)</div></div>
-  <div class="row"><div class="racc" style="opacity:.22"></div><div class="rnum" style="background:rgba(198,160,60,.42)">6</div><div class="rtxt">توصية بتعزيز التمويل الداخلي للمؤسسات الجزائرية</div></div>
+  <div class="row"><div class="racc" style="background:linear-gradient(180deg,#E8C96A,#C6A03C)"></div><div class="rnum" style="background:rgba(198,160,60,.9)">1</div><div class="rtxt">وجود أثر إيجابي دال إحصائياً للتمويل الذاتي على مؤشر ROA</div></div>
+  <div class="row"><div class="racc" style="background:linear-gradient(180deg,#C6A03C,#A07E28);opacity:.8"></div><div class="rnum" style="background:rgba(198,160,60,.75)">2</div><div class="rtxt">علاقة عكسية بين الديون طويلة الأجل والأداء المالي</div></div>
+  <div class="row"><div class="racc" style="background:linear-gradient(180deg,#A07E28,#8B6E20);opacity:.7"></div><div class="rnum" style="background:rgba(198,160,60,.65)">3</div><div class="rtxt">النموذج يفسر 81.4% من التباين في الأداء (R²=0.814)</div></div>
+  <div class="row"><div class="racc" style="background:rgba(198,160,60,.5)"></div><div class="rnum" style="background:rgba(198,160,60,.55)">4</div><div class="rtxt">قطاع النشاط مُعدِّل جوهري في نموذج الآثار الثابتة</div></div>
+  <div class="row"><div class="racc" style="background:rgba(198,160,60,.38)"></div><div class="rnum" style="background:rgba(198,160,60,.45)">5</div><div class="rtxt">اختبار Hausman رجّح نموذج الآثار الثابتة (p&lt;0.01)</div></div>
+  <div class="row"><div class="racc" style="background:rgba(198,160,60,.28)"></div><div class="rnum" style="background:rgba(198,160,60,.35)">6</div><div class="rtxt">توصية بتعزيز التمويل الداخلي للمؤسسات الجزائرية</div></div>
 </div>
 </body></html>

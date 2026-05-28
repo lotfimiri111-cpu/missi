@@ -2,36 +2,41 @@
 <html dir="rtl" lang="ar">
 <head>
 <meta charset="utf-8">
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:800px;height:450px;overflow:hidden;background:transparent}
 body{
   width:800px;height:450px;
-  background:linear-gradient(135deg,#07172F,#1A3A6E);
+  background:linear-gradient(150deg,#06142A 0%,#0D2347 60%,#07172F 100%);
   font-family:'Cairo',sans-serif;direction:rtl;position:relative;
 }
+.bg-mesh{position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(198,160,60,.09),transparent 55%),radial-gradient(ellipse at 20% 80%,rgba(198,160,60,.06),transparent 55%);pointer-events:none}
+
 /* HEADER */
-.hdr{position:absolute;top:0;right:0;left:0;height:126px;background:linear-gradient(135deg,#0D2347,#07172F)}
-.hdr-bar{position:absolute;bottom:0;right:0;left:0;height:10px;background:linear-gradient(90deg,#07172F,#C6A03C 35%,#E8C96A 65%,#07172F)}
-.hdr-side{position:absolute;top:0;left:0;width:20px;height:100%;background:linear-gradient(180deg,#C6A03C,#E8C96A)}
-.snum{position:absolute;top:22px;right:18px;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#C6A03C,#E8C96A);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#07172F}
-.ttl{position:absolute;top:28px;left:30px;right:74px;font-size:18px;font-weight:900;color:#F0E8D8;text-align:right;white-space:nowrap}
-.sub{position:absolute;top:62px;left:30px;right:30px;font-size:11px;color:#C6A03C;text-align:right}
+.hdr{position:absolute;top:0;right:0;left:0;height:118px;background:linear-gradient(150deg,#102040,#07172F)}
+.hdr::after{content:'';position:absolute;bottom:0;right:0;left:0;height:3px;background:linear-gradient(90deg,transparent,#C6A03C 30%,#E8C96A 65%,transparent)}
+/* RTL: شريط جانبي على اليمين */
+.hdr-side{position:absolute;top:0;right:0;width:6px;height:100%;background:linear-gradient(180deg,#E8C96A,#C6A03C,#8B6E28)}
+
+/* رقم الشريحة — اليسار */
+.snum{position:absolute;top:22px;left:22px;width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#C6A03C,#E8C96A);display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:900;color:#07172F;box-shadow:0 4px 16px rgba(198,160,60,.5)}
+.ttl{position:absolute;top:20px;left:82px;right:20px;font-size:20px;font-weight:900;color:#F0E8D8;text-align:right}
+.sub{position:absolute;top:63px;left:82px;right:20px;font-size:11px;color:rgba(198,160,60,.85);text-align:right;font-weight:600}
+
 /* CARDS GRID */
-.cards{position:absolute;top:134px;right:12px;left:12px;bottom:8px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:8px}
-.kc{background:linear-gradient(135deg,#122040,#0D1A35);border-radius:10px;border-top:3px solid #C6A03C;border-bottom:2px solid rgba(198,160,60,.3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:8px}
-.knum{font-size:28px;font-weight:900;color:#C6A03C;line-height:1}
-.kdiv{width:65%;height:1px;background:rgba(138,155,181,.4)}
-.ksub{font-size:10px;color:#8A9BB5;text-align:center;direction:rtl}
-.ksub2{font-size:9px;color:#C6A03C;text-align:center}
+.cards{position:absolute;top:128px;right:12px;left:12px;bottom:8px;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);gap:7px}
+.kc{background:linear-gradient(135deg,#0F1E38,#0A1628);border-radius:9px;border-top:2px solid rgba(198,160,60,.8);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:8px;position:relative;overflow:hidden}
+.kc::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(198,160,60,.07),transparent 65%)}
+.knum{font-size:27px;font-weight:900;color:#E8C96A;line-height:1;text-shadow:0 2px 8px rgba(198,160,60,.3)}
+.kdiv{width:65%;height:1px;background:rgba(138,155,181,.3)}
+.ksub{font-size:9.5px;color:#8A9BB5;text-align:center;direction:rtl;line-height:1.3}
+.ksub2{font-size:9px;color:rgba(198,160,60,.8);text-align:center;font-weight:700}
 </style>
 </head>
 <body>
-<div class="hdr">
-  <div class="hdr-bar"></div>
-  <div class="hdr-side"></div>
-</div>
+<div class="bg-mesh"></div>
+<div class="hdr"><div class="hdr-side"></div></div>
 <div class="snum">7</div>
 <div class="ttl">الأرقام والإحصاءات الرئيسية</div>
 <div class="sub">مؤشرات الدراسة التطبيقية · بن علي محمد · ماستر مالية ومحاسبة</div>

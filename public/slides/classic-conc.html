@@ -2,29 +2,43 @@
 <html dir="rtl" lang="ar">
 <head>
 <meta charset="utf-8">
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:800px;height:450px;overflow:hidden;background:transparent}
-body{width:800px;height:450px;background:linear-gradient(180deg,#0A1F1C,#0F2E29);font-family:'Cairo',sans-serif;direction:rtl;position:relative}
-.hdr{position:absolute;top:0;right:0;left:0;height:126px;background:linear-gradient(180deg,#1A4A42,#0A1F1C)}
-.hdr-acc{position:absolute;bottom:0;right:0;left:0;height:8px;background:linear-gradient(90deg,#2EBFA5,#5DD4BE)}
-.hdr-side{position:absolute;top:0;left:0;width:18px;height:100%;background:linear-gradient(180deg,#2EBFA5,#5DD4BE)}
-.snum{position:absolute;top:24px;right:18px;width:44px;height:44px;border-radius:50%;background:#2EBFA5;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#0A1F1C}
-.ttl{position:absolute;top:28px;left:28px;right:74px;font-size:20px;font-weight:900;color:#E8F5F3;text-align:right}
-.sub{position:absolute;top:64px;left:28px;right:28px;font-size:12px;color:#2EBFA5;text-align:right}
+body{width:800px;height:450px;background:linear-gradient(155deg,#071F1C 0%,#0F2E29 60%,#0A2420 100%);font-family:'Cairo',sans-serif;direction:rtl;position:relative}
+
+.bg-orb1{position:absolute;top:-50px;left:-50px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(46,191,165,.1),transparent 70%);pointer-events:none}
+.bg-orb2{position:absolute;bottom:-30px;left:30%;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(46,191,165,.06),transparent 70%);pointer-events:none}
+
+.hdr{position:absolute;top:0;right:0;left:0;height:118px;background:linear-gradient(155deg,#1A4A42 0%,#0A2420 100%)}
+.hdr::after{content:'';position:absolute;bottom:0;right:0;left:0;height:3px;background:linear-gradient(90deg,transparent,#2EBFA5 30%,#5DD4BE 60%,transparent)}
+/* RTL: شريط جانبي على اليمين */
+.hdr-side{position:absolute;top:0;right:0;width:6px;height:100%;background:linear-gradient(180deg,#5DD4BE,#2EBFA5,#1A8E7A)}
+
+.snum{position:absolute;top:22px;left:22px;width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#2EBFA5,#5DD4BE);display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:900;color:#071F1C;box-shadow:0 4px 16px rgba(46,191,165,.5)}
+.ttl{position:absolute;top:20px;left:82px;right:20px;font-size:21px;font-weight:900;color:#E8F5F3;text-align:right;line-height:1.25}
+.sub{position:absolute;top:64px;left:82px;right:20px;font-size:11px;color:rgba(46,191,165,.85);text-align:right;font-weight:600}
+
 /* CARD */
-.card{position:absolute;top:140px;right:20px;left:20px;bottom:16px;background:linear-gradient(135deg,#122820,#0A1F1C);border-radius:12px;overflow:hidden;border-top:4px solid rgba(46,191,165,.9)}
-.qt{position:absolute;top:10px;left:14px;font-size:52px;color:rgba(46,191,165,.3);line-height:1;font-family:serif}
-.body{position:absolute;top:12px;right:16px;left:16px;bottom:36px;display:flex;flex-direction:column;justify-content:center;gap:10px}
-.bp{font-size:12px;color:#E8F5F3;text-align:right;direction:rtl;line-height:1.7}
-.bpm{font-size:12px;color:#7BAAA4;text-align:right;direction:rtl;line-height:1.7}
-.div{position:absolute;bottom:32px;right:10%;left:10%;height:2px;background:rgba(46,191,165,.35)}
-.sig{position:absolute;bottom:8px;right:0;left:0;text-align:center;font-size:11px;font-weight:700;color:#2EBFA5}
+.card{position:absolute;top:128px;right:14px;left:14px;bottom:10px;background:linear-gradient(135deg,#0D2822 0%,#091F1B 100%);border-radius:10px;overflow:hidden;border-top:3px solid rgba(46,191,165,.8);box-shadow:0 6px 24px rgba(0,0,0,.35)}
+.card::before{content:'';position:absolute;top:0;right:0;width:3px;height:100%;background:linear-gradient(180deg,rgba(46,191,165,.6),transparent)}
+
+/* علامة اقتباس */
+.qt{position:absolute;top:6px;left:12px;font-size:60px;color:rgba(46,191,165,.18);line-height:1;font-family:Georgia,serif;user-select:none}
+
+.body{position:absolute;top:10px;right:14px;left:14px;bottom:34px;display:flex;flex-direction:column;justify-content:center;gap:9px}
+.bp{font-size:12px;color:#E8F5F3;text-align:right;direction:rtl;line-height:1.75;padding-right:6px;border-right:2px solid rgba(46,191,165,.35)}
+.bpm{font-size:11.5px;color:rgba(145,195,188,.85);text-align:right;direction:rtl;line-height:1.7;padding-right:6px;border-right:2px solid rgba(46,191,165,.18)}
+
+.div{position:absolute;bottom:28px;right:8%;left:8%;height:1px;background:rgba(46,191,165,.25)}
+.sig{position:absolute;bottom:8px;right:0;left:0;text-align:center;font-size:10px;font-weight:700;color:rgba(46,191,165,.75);letter-spacing:.5px}
 </style>
 </head>
 <body>
-<div class="hdr"><div class="hdr-acc"></div><div class="hdr-side"></div></div>
+<div class="bg-orb1"></div>
+<div class="bg-orb2"></div>
+<div class="hdr"><div class="hdr-side"></div></div>
 <div class="snum">9</div>
 <div class="ttl">خاتمة البحث</div>
 <div class="sub">الاستنتاج العام للدراسة · زروق سارة — ماستر إدارة أعمال — جامعة سطيف 1</div>

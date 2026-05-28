@@ -2,31 +2,39 @@
 <html dir="rtl" lang="ar">
 <head>
 <meta charset="utf-8">
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{width:800px;height:450px;overflow:hidden;background:transparent}
-body{width:800px;height:450px;background:linear-gradient(135deg,#0A1F1C,#1A4A42);font-family:'Cairo',sans-serif;direction:rtl;position:relative}
-.hdr{position:absolute;top:0;right:0;left:0;height:126px;background:linear-gradient(135deg,#041510,#0A1F1C)}
-.hdr-bar{position:absolute;bottom:0;right:0;left:0;height:10px;background:linear-gradient(90deg,#0A1F1C,#2EBFA5 35%,#5DD4BE 65%,#0A1F1C)}
-.hdr-side{position:absolute;top:0;right:0;width:20px;height:100%;background:linear-gradient(180deg,#2EBFA5,#5DD4BE)}
-.snum{position:absolute;top:22px;left:18px;width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#2EBFA5,#5DD4BE);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:900;color:#0A1F1C}
-.ttl{position:absolute;top:28px;right:30px;left:74px;font-size:18px;font-weight:900;color:#E8F5F3;text-align:right}
-.sub{position:absolute;top:62px;right:30px;left:30px;font-size:11px;color:#2EBFA5;text-align:right}
+body{width:800px;height:450px;background:linear-gradient(150deg,#071F1C 0%,#102E28 60%,#0A2320 100%);font-family:'Cairo',sans-serif;direction:rtl;position:relative}
+.bg-mesh{position:absolute;inset:0;background:radial-gradient(ellipse at 80% 20%,rgba(46,191,165,.08),transparent 55%),radial-gradient(ellipse at 15% 80%,rgba(46,191,165,.05),transparent 50%);pointer-events:none}
+
+.hdr{position:absolute;top:0;right:0;left:0;height:118px;background:linear-gradient(150deg,#123A32,#071F1C)}
+.hdr::after{content:'';position:absolute;bottom:0;right:0;left:0;height:3px;background:linear-gradient(90deg,transparent,#2EBFA5 30%,#5DD4BE 65%,transparent)}
+/* RTL: شريط جانبي على اليمين */
+.hdr-side{position:absolute;top:0;right:0;width:6px;height:100%;background:linear-gradient(180deg,#5DD4BE,#2EBFA5,#1A8E7A)}
+
+.snum{position:absolute;top:22px;left:22px;width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#2EBFA5,#5DD4BE);display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:900;color:#071F1C;box-shadow:0 4px 16px rgba(46,191,165,.5)}
+.ttl{position:absolute;top:20px;left:82px;right:20px;font-size:20px;font-weight:900;color:#E8F5F3;text-align:right}
+.sub{position:absolute;top:63px;left:82px;right:20px;font-size:11px;color:rgba(46,191,165,.85);text-align:right;font-weight:600}
+
 /* TWO COLUMNS */
-.cols{position:absolute;top:134px;right:10px;left:10px;bottom:8px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.col{background:linear-gradient(135deg,#122820,#0A1F1C);border-radius:10px;overflow:hidden;display:flex;flex-direction:column}
-.col-hdr{background:#2EBFA5;padding:8px 10px;font-size:13px;font-weight:900;color:#0A1F1C;text-align:center}
-.col-items{flex:1;display:flex;flex-direction:column;padding:4px 6px;gap:3px}
+.cols{position:absolute;top:128px;right:10px;left:10px;bottom:8px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.col{background:linear-gradient(135deg,#0D2822,#091F1B);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 4px 16px rgba(0,0,0,.25)}
+.col-hdr{background:linear-gradient(90deg,#1A6055,#2EBFA5);padding:8px 12px;font-size:13px;font-weight:900;color:#071F1C;text-align:center}
+.col-items{flex:1;display:flex;flex-direction:column;padding:4px 5px;gap:3px}
 .ci{flex:1;display:flex;align-items:center;gap:8px;border-radius:5px;padding:0 8px;min-height:0}
-.ci:nth-child(odd){background:rgba(4,21,16,.55)}
-.ci:nth-child(even){background:rgba(15,45,36,.7)}
-.ciN{width:22px;height:22px;border-radius:50%;background:rgba(46,191,165,.8);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#0A1F1C;flex-shrink:0}
-.ciT{font-size:11px;color:#E8F5F3;text-align:right;direction:rtl;line-height:1.3;flex:1}
+.ci:nth-child(odd){background:rgba(7,31,28,.55)}
+.ci:nth-child(even){background:rgba(15,46,38,.6)}
+/* رقم/حرف الفرضية — على اليمين (أول عنصر RTL) */
+.ciN{width:22px;height:22px;border-radius:50%;background:rgba(46,191,165,.75);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#071F1C;flex-shrink:0}
+/* نص — على اليسار */
+.ciT{font-size:11px;color:#E8F5F3;text-align:right;direction:rtl;line-height:1.35;flex:1}
 </style>
 </head>
 <body>
-<div class="hdr"><div class="hdr-bar"></div><div class="hdr-side"></div></div>
+<div class="bg-mesh"></div>
+<div class="hdr"><div class="hdr-side"></div></div>
 <div class="snum">4</div>
 <div class="ttl">أهداف البحث وفرضياته</div>
 <div class="sub">الغايات العلمية والتساؤلات التحليلية · بوعلام نادية</div>
