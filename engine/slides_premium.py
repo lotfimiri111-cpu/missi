@@ -62,7 +62,7 @@ def _sidebar(slide, T, icon, label1, label2=""):
     # عنوان القسم في الشريط
     label_y = ic_y + 3.2
     txt(slide, label1, 0.2, label_y, SW-0.4, 1.1,
-        font=_FONT, size=SZ_SLIDE_TITLE, bold=True,
+        font=_FONT, size=22, bold=True,
         color=T.text_light_rgb, align=PP_ALIGN.CENTER, rtl=True)
     if label2:
         txt(slide, label2, 0.2, label_y+1.15, SW-0.4, 0.9,
@@ -739,6 +739,10 @@ def make_final(prs, req: PresentationRequest, T: Theme):
         align=PP_ALIGN.CENTER,rtl=False,vcenter=True)
 
     # شكراً وتقديراً
+    # علامة تزيينية
+    txt(slide,"✦",0,0,W,H*0.28,
+        font="Calibri",size=28,bold=False,color=T.accent_rgb,
+        align=PP_ALIGN.CENTER,rtl=False,vcenter=True)
     txt(slide,"شكراً وتقديراً",mcx+0.7,ccy+1.05,mcw-1.4,cch*0.28,
         font=_FONT,size=34,bold=True,color=T.text_light_rgb,
         align=PP_ALIGN.CENTER,rtl=True,vcenter=True,line_spacing=1.1)

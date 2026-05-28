@@ -127,9 +127,9 @@ def make_cover(prs, req: PresentationRequest, T: Theme):
             align=PP_ALIGN.CENTER,rtl=True,vcenter=True)
 
     # عنوان بارتفاع ثابت مناسب للنص + معلومات تملأ الباقي
-    title_y=1.35; title_h=7.5
-    info_y=title_y+title_h+0.18
-    info_h=H-0.36-info_y-0.08
+    title_y=1.25; title_h=7.2
+    info_y=title_y+title_h+0.22
+    info_h=max(0.5, H-0.36-info_y-0.08)
     cx=1.8; cw=W-3.6
 
     mc=rrect(slide,cx,title_y,cw,title_h,T.card_rgb,radius_pct=14)
@@ -248,8 +248,10 @@ def make_intro(prs, req: PresentationRequest, T: Theme):
             multi_stop_gradient(cc,[(0,T.card),(100,T.card)],150)
             shadow(cc,blur=20,dist=7,alpha=0.5)
         # شريط علوي ملوّن
-        tp=rrect(slide,x,card_y,col_w,0.32,T.accent_rgb,radius_pct=0)
-        if tp: multi_stop_gradient(tp,[(0,T.accent),(100,T.accent2)],0)
+        tp=rrect(slide,x,card_y,col_w,0.38,T.accent_rgb,radius_pct=0)
+        if tp:
+            multi_stop_gradient(tp,[(0,T.accent),(50,T.accent2),(100,T.accent)],0)
+            glow(tp,T.accent.lstrip('#'),radius=10,alpha=0.28)
         # دائرة الأيقونة — داخل البطاقة
         ic_x = x + col_w/2 - ic_s/2
         ic_y = card_y + ic_y_offset
@@ -285,7 +287,7 @@ def make_plan(prs, req: PresentationRequest, T: Theme):
         y=CY+i*(row_h+gap)
         even=i%2==0
         # الصف
-        rw=rrect(slide,1.0,y,W-2.0,row_h,T.card_rgb if even else T.bg2_rgb,radius_pct=8)
+        rw=rrect(slide,1.0,y,W-2.0,row_h,T.card_rgb if even else T.bg2_rgb,radius_pct=10)
         if rw:
             stops=[(0,T.card),(100,T.bg2)] if even else [(0,T.bg2),(100,T.card)]
             multi_stop_gradient(rw,stops,0)
@@ -414,7 +416,8 @@ def make_objectives(prs, req: PresentationRequest, T: Theme):
         cc=rrect(slide,x,CY,col_w,CH,T.card_rgb,radius_pct=12)
         if cc:
             multi_stop_gradient(cc,[(0,T.card),(100,T.bg2)],150)
-            shadow(cc,blur=16,dist=5,alpha=0.38)
+            shadow(cc,blur=20,dist=6,alpha=0.44)
+            glow(cc,T.accent.lstrip('#'),radius=16,alpha=0.07)
         # هيدر العمود
         hh=0.74
         hdr=rrect(slide,x,CY,col_w,hh,T.accent_rgb,radius_pct=0)
@@ -458,7 +461,8 @@ def make_importance(prs, req: PresentationRequest, T: Theme):
     for i,item in enumerate(items):
         ci=i%cols; ri=i//cols
         x=1.0+ci*(col_w+0.28); y=CY+ri*(card_h+gv)
-        cc=card_3d(slide,x,y,col_w,card_h,T,radius=10)
+        cc=card_3d(slide,x,y,col_w,card_h,T,radius=12)
+        if cc: shadow(cc,blur=18,dist=5,alpha=0.40)
         acc=rrect(slide,x+col_w-0.28,y,0.28,card_h,T.accent_rgb,radius_pct=0)
         if acc: multi_stop_gradient(acc,[(0,T.accent2),(100,T.accent)],90)
         ic_s=min(1.35,card_h*0.6)
@@ -552,7 +556,7 @@ def make_stats(prs, req: PresentationRequest, T: Theme):
         bp=rrect(slide,x,y+card_h-0.2,col_w,0.2,T.accent_rgb,radius_pct=0)
         if bp: set_solid_alpha(bp,35)
         # القيمة — ضخمة في المنتصف
-        vs=38 if len(stat.value)<=3 else 28 if len(stat.value)<=6 else 20
+        vs=42 if len(stat.value)<=3 else 30 if len(stat.value)<=6 else 22
         txt(slide,stat.value,x+0.15,y+0.28,col_w-0.3,card_h*0.5,
             font="Calibri",size=vs,bold=True,color=T.accent_rgb,
             align=PP_ALIGN.CENTER,rtl=False,vcenter=True)
@@ -587,7 +591,7 @@ def make_results(prs, req: PresentationRequest, T: Theme):
     for i,result in enumerate(results):
         y=CY+i*(row_h+gap)
         even=i%2==0
-        rw=rrect(slide,1.0,y,W-2.0,row_h,T.card_rgb if even else T.bg2_rgb,radius_pct=8)
+        rw=rrect(slide,1.0,y,W-2.0,row_h,T.card_rgb if even else T.bg2_rgb,radius_pct=10)
         if rw:
             stops=[(0,T.card),(100,T.bg2)] if even else [(0,T.bg2),(100,T.card)]
             multi_stop_gradient(rw,stops,0)
@@ -629,7 +633,6 @@ def make_conclusion(prs, req: PresentationRequest, T: Theme):
         font="Calibri",size=48,bold=False,color=T.accent_rgb,
         align=PP_ALIGN.LEFT,rtl=False,vcenter=False)
     # الاستنتاج — يملأ البطاقة مع توسيط
-    # الاستنتاج — يملأ البطاقة مع توسيط
     txt(slide,req.general_conclusion,2.0,CY+0.9,cw-1.2,CH-1.95,
         font=_FONT,size=max(13,min(16,CH*5)),bold=False,
         color=T.text_light_rgb,align=PP_ALIGN.RIGHT,
@@ -638,8 +641,8 @@ def make_conclusion(prs, req: PresentationRequest, T: Theme):
     ny=CY+CH-1.05
     hl=rect(slide,1.4+cw*0.18,ny,cw*0.64,0.06,T.accent_rgb)
     if hl: multi_stop_gradient(hl,[(0,T.bg2),(50,T.accent),(100,T.bg2)],0)
-    txt(slide,req.student_name,1.4,ny+0.12,cw,0.75,
-        font=_FONT,size=SZ_SECTION_LABEL,bold=True,color=T.accent_rgb,
+    txt(slide,req.student_name,1.4,ny+0.1,cw,0.82,
+        font=_FONT,size=22,bold=True,color=T.accent_rgb,
         align=PP_ALIGN.CENTER,rtl=True,vcenter=True)
     pass  # رقم الشريحة مدمج في الهيدر
     return slide
@@ -767,7 +770,7 @@ def make_final(prs, req: PresentationRequest, T: Theme):
     if bp: set_solid_alpha(bp,48)
 
     txt(slide,"✦",cx+cw/2-0.75,cy+0.52,1.5,1.4,
-        font="Calibri",size=26,bold=False,color=T.accent_rgb,
+        font="Calibri",size=32,bold=False,color=T.accent_rgb,
         align=PP_ALIGN.CENTER,rtl=False,vcenter=True)
     txt(slide,"شكراً وتقديراً",cx+0.8,cy+1.15,cw-1.6,2.7,
         font=_FONT,size=SZ_FINAL_TITLE,bold=True,color=T.text_light_rgb,

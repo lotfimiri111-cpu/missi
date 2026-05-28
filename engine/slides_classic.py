@@ -8,7 +8,7 @@ from pptx.enum.text import PP_ALIGN
 from engine.primitives import (
     W, H, rect, rrect, oval, bg, hline, vline,
     gradient_fill, gradient_rect, shadow, set_solid_alpha,
-    multi_stop_gradient, diamond, decorative_dots,
+    multi_stop_gradient, glow, diamond, decorative_dots,
     slide_number, txt, blank_slide,
 )
 from core.themes import Theme
@@ -57,7 +57,7 @@ def _header(slide, T: Theme, title: str, page_num: int = 0, req=None):
     title_w = W - title_x - 0.55
     txt(slide, title, title_x, 0.22, title_w, HEADER_H-0.45,
         font=_FONT, size=SZ_SLIDE_TITLE, bold=True,
-        color=T.text_light_rgb, align=PP_ALIGN.RIGHT, rtl=True)
+        color=T.text_light_rgb, align=PP_ALIGN.RIGHT, rtl=True, vcenter=True)
     # رقم الصفحة — دائرة واحدة فقط في الزاوية اليسرى
     if page_num > 0:
         nb_s = 0.78
@@ -93,6 +93,8 @@ def _content_h():
 def make_cover(prs, req: PresentationRequest, T: Theme):
     slide = blank_slide(prs); bg(slide, T.bg_rgb)
     gradient_rect(slide,0,0,W,H,T.grad1,T.grad2,angle=160)
+    oval(slide,W-9,-2,12,12,T.accent_rgb,alpha=5)
+    oval(slide,-2,H-8,10,10,T.bg2_rgb,alpha=35)
 
     r_top=rect(slide,0,0,W,0.22,T.accent_rgb)
     if r_top: gradient_fill(r_top,T.accent_grad1,T.accent_grad2,0)
@@ -198,10 +200,11 @@ def make_intro(prs, req: PresentationRequest, T: Theme):
     for i, (lbl, val) in enumerate(items[:2]):
         y = cy + i * (card_h + 0.25)
         # بطاقة خلفية
-        cb = rrect(slide, cx, y, cw - 0.4, card_h, T.bg2_rgb if i%2==0 else T.card_rgb, radius_pct=6)
+        cb = rrect(slide, cx, y, cw - 0.4, card_h, T.bg2_rgb if i%2==0 else T.card_rgb, radius_pct=8)
         if cb:
             stops = [(0,T.bg2),(100,T.card)] if i%2==0 else [(0,T.card),(100,T.bg2)]
             multi_stop_gradient(cb, stops, 0)
+            shadow(cb,blur=14,dist=4,alpha=0.32)
         # خط accent يميني
         vline(slide, W - MX - 0.1, y, card_h, T.accent_rgb, thickness=0.12)
         # شريط عنوان
@@ -237,10 +240,11 @@ def make_plan(prs, req: PresentationRequest, T: Theme):
     for i, ch in enumerate(chapters):
         y = CY + i*(row_h+gap)
         fill = T.bg2_rgb if i%2==0 else T.card_rgb
-        rw = rrect(slide, MX, y, W-MX*2, row_h, fill, radius_pct=6)
+        rw = rrect(slide, MX, y, W-MX*2, row_h, fill, radius_pct=8)
         if rw:
             stops = [(0,T.bg2),(100,T.card)] if i%2==0 else [(0,T.card),(100,T.bg2)]
             multi_stop_gradient(rw, stops, 0)
+            shadow(rw,blur=6,dist=2,alpha=0.18)
 
         # خط acc يميني
         acc = rect(slide, W-MX-0.22, y, 0.22, row_h, T.accent_rgb)
@@ -471,7 +475,7 @@ def make_stats(prs, req: PresentationRequest, T: Theme):
         vline(slide, x+cw-0.12, y, ch, T.accent_rgb, thickness=0.12)
 
         # القيمة الرئيسية
-        vs = 36 if len(stat.value)<=3 else 26 if len(stat.value)<=6 else 20
+        vs = 40 if len(stat.value)<=3 else 28 if len(stat.value)<=6 else 22
         txt(slide, stat.value, x+0.15, y+0.2, cw-0.4, ch*0.52,
             font="Calibri", size=vs, bold=True,
             color=T.accent_rgb, align=PP_ALIGN.CENTER, rtl=False, vcenter=True)
@@ -531,10 +535,12 @@ def make_conclusion(prs, req: PresentationRequest, T: Theme):
     CY = _content_y(); CH = _content_h()
     cw = W - MX*2
 
-    cb = rect(slide, MX, CY, cw, CH, T.bg2_rgb)
+    cb = rrect(slide, MX, CY, cw, CH, T.bg2_rgb, radius_pct=8)
+    if cb:
+        multi_stop_gradient(cb,[(0,T.bg2),(100,T.card)],135)
+        shadow(cb,blur=20,dist=5,alpha=0.38)
     acc_r = rect(slide, W-MX-0.2, CY, 0.2, CH, T.accent_rgb)
     if acc_r: gradient_fill(acc_r, T.accent_grad1, T.accent_grad2, 90)
-    acc_l = rect(slide, MX, CY, 0.12, CH, T.bg2_rgb)
 
     txt(slide, "الاستنتاج العام", MX+0.3, CY+0.18, cw-0.6, 0.72,
         font=_FONT, size=14, bold=True,
@@ -549,9 +555,9 @@ def make_conclusion(prs, req: PresentationRequest, T: Theme):
 
     ny = CY + CH - 0.78
     hline(slide, MX+cw*0.18, ny, cw*0.64, T.accent_rgb, thickness=0.06)
-    txt(slide, req.student_name, MX, ny+0.1, cw, 0.62,
-        font=_FONT, size=SZ_SECTION_LABEL, bold=True,
-        color=T.accent_rgb, align=PP_ALIGN.CENTER, rtl=True)
+    txt(slide, req.student_name, MX, ny+0.08, cw, 0.72,
+        font=_FONT, size=22, bold=True,
+        color=T.accent_rgb, align=PP_ALIGN.CENTER, rtl=True, vcenter=True)
 
     pass  # رقم الشريحة في الهيدر
     return slide
@@ -664,8 +670,11 @@ def make_final(prs, req: PresentationRequest, T: Theme):
     cw = W - MX*2
     # بطاقة مركزية تشغل 75% من الشريحة
     cy = H*0.1; ch = H*0.8
-    cb = rect(slide, MX, cy, cw, ch, T.bg2_rgb)
-    if cb: multi_stop_gradient(cb,[(0,T.bg2),(100,T.card)],135)
+    cb = rrect(slide, MX, cy, cw, ch, T.bg2_rgb, radius_pct=10)
+    if cb:
+        multi_stop_gradient(cb,[(0,T.bg2),(100,T.card)],135)
+        shadow(cb,blur=28,dist=8,alpha=0.52)
+        glow(cb,T.accent.lstrip('#'),radius=32,alpha=0.10)
     acc_top = rect(slide, MX, cy, cw, 0.16, T.accent_rgb)
     if acc_top: gradient_fill(acc_top, T.accent_grad1, T.accent_grad2, 0)
     acc_bot = rect(slide, MX, cy+ch-0.16, cw, 0.16, T.accent_rgb)
