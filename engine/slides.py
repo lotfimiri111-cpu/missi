@@ -18,7 +18,18 @@ def set_font(n): global _FONT; _FONT = n
 
 HEADER_H = 2.9
 
-# ── خلفيات ─────────────────────────────────────────────────────────────
+# ── ثوابت الطباعة — Typography Scale ───────────────────────────────────
+SZ_SLIDE_TITLE   = 30   # عنوان الشريحة في الهيدر
+SZ_SLIDE_SUB     = 14   # العنوان الفرعي
+SZ_SECTION_LABEL = 19   # تسمية القسم داخل البطاقة
+SZ_BODY          = 13   # النص العادي
+SZ_BODY_SM       = 11.5 # نص صغير
+SZ_LABEL         = 13   # تسميات الجداول (bold)
+SZ_VALUE         = 15   # قيم الجداول
+SZ_FINAL_TITLE   = 42   # عنوان شريحة الختام
+SZ_FINAL_SUB     = 24   # عنوان فرعي في الختام
+
+
 def _bg(slide, T, style='a'):
     bg(slide, T.bg_rgb)
     gradient_rect(slide,0,0,W,H,T.grad1,T.grad2,
@@ -81,14 +92,14 @@ def _hdr(slide, T, title, sub='', side='right', slide_num=None, total_slides=13,
     # عنوان الشريحة — يبدأ بعد رقم الشريحة دون تداخل
     title_w = W - title_x - 0.8
     txt(slide, title, title_x, 0.2, title_w, HEADER_H*0.62,
-        font=_FONT, size=26, bold=True,
+        font=_FONT, size=SZ_SLIDE_TITLE, bold=True,
         color=T.text_light_rgb, align=PP_ALIGN.RIGHT,
         rtl=True, vcenter=True, line_spacing=1.1)
 
     # عنوان فرعي — أصغر وأشد خفوتاً
     if sub:
         txt(slide, sub, title_x, HEADER_H*0.62, title_w, HEADER_H*0.35,
-            font=_FONT, size=13, bold=False, italic=True,
+            font=_FONT, size=SZ_SLIDE_SUB, bold=False, italic=True,
             color=T.muted_rgb, align=PP_ALIGN.RIGHT,
             rtl=True, vcenter=True, line_spacing=1.0)
 
@@ -129,15 +140,54 @@ def make_cover(prs, req: PresentationRequest, T: Theme):
     if ct: multi_stop_gradient(ct,[(0,T.accent),(50,T.accent2),(100,T.accent)],0)
     vline(slide,cx+cw-0.22,title_y+0.36,title_h-0.36,T.accent_rgb,thickness=0.22)
 
-    ts=24 if len(req.title_ar)<42 else 19 if len(req.title_ar)<65 else 16
-    txt(slide,req.title_ar,cx+0.45,title_y+0.38,cw-0.9,title_h*0.7,
-        font=_FONT,size=ts,bold=True,color=T.text_light_rgb,
-        align=PP_ALIGN.CENTER,rtl=True,vcenter=True,line_spacing=1.2)
+    # ── استخراج السنة من العنوان أو حقل year ──────────────────────────
+    import re as _re
+    _year_pat = _re.compile(r'\b\d{4}\s*[-–—]\s*\d{4}\b')
+
+    # ابحث في title_ar أولاً، ثم في req.year
+    _year_match = _year_pat.search(req.title_ar or '')
+    if _year_match:
+        _year_str  = _year_match.group(0).strip()
+        _title_clean = _year_pat.sub('', req.title_ar).strip(' —–-،, ')
+    elif req.year:
+        _year_str  = req.year.strip()
+        _title_clean = req.title_ar
+    else:
+        _year_str  = ''
+        _title_clean = req.title_ar
+
+    # حجم الخط يعتمد على طول العنوان المنظف
+    ts=24 if len(_title_clean)<42 else 19 if len(_title_clean)<65 else 16
+
+    # منطقة العنوان النصي: 60% من title_h (بدل 70%)
+    _title_text_h = title_h * 0.60
+    txt(slide, _title_clean, cx+0.45, title_y+0.38, cw-0.9, _title_text_h,
+        font=_FONT, size=ts, bold=True, color=T.text_light_rgb,
+        align=PP_ALIGN.CENTER, rtl=True, vcenter=True, line_spacing=1.2)
+
     if req.title_en:
-        txt(slide,req.title_en,cx+0.45,title_y+title_h*0.67,cw-0.9,title_h*0.2,
-            font="Calibri",size=10.5,bold=False,italic=True,
-            color=T.muted_rgb,align=PP_ALIGN.CENTER,rtl=False,vcenter=True)
-    hl=rect(slide,cx+cw*0.1,title_y+title_h*0.88,cw*0.8,0.05,T.accent_rgb)
+        txt(slide, req.title_en, cx+0.45, title_y+_title_text_h+0.3, cw-0.9, title_h*0.14,
+            font="Calibri", size=10.5, bold=False, italic=True,
+            color=T.muted_rgb, align=PP_ALIGN.CENTER, rtl=False, vcenter=True)
+
+    # ── السنة الجامعية أسفل العنوان بين قوسين ────────────────────────
+    if _year_str:
+        _yr_y  = title_y + title_h * 0.75
+        _yr_h  = title_h * 0.14
+        _yr_cx = cx + cw * 0.25
+        _yr_cw = cw * 0.50
+        # خلفية شفافة
+        _yb = rrect(slide, _yr_cx, _yr_y, _yr_cw, _yr_h, T.accent_rgb, radius_pct=50)
+        if _yb: set_solid_alpha(_yb, 28)
+        # خط ذهبي رفيع فوق وتحت
+        hline(slide, _yr_cx + _yr_cw*0.1, _yr_y,          _yr_cw*0.8, T.accent_rgb, thickness=0.03)
+        hline(slide, _yr_cx + _yr_cw*0.1, _yr_y + _yr_h,  _yr_cw*0.8, T.accent_rgb, thickness=0.03)
+        txt(slide, f'( {_year_str} )',
+            _yr_cx, _yr_y, _yr_cw, _yr_h,
+            font=_FONT, size=13, bold=False, italic=True,
+            color=T.accent_rgb, align=PP_ALIGN.CENTER, rtl=False, vcenter=True)
+
+    hl=rect(slide,cx+cw*0.1,title_y+title_h*0.92,cw*0.8,0.05,T.accent_rgb)
     if hl: multi_stop_gradient(hl,[(0,T.bg2),(50,T.accent),(100,T.bg2)],0)
 
     ic=rrect(slide,cx,info_y,cw,info_h,T.card_rgb,radius_pct=12)
@@ -157,11 +207,11 @@ def make_cover(prs, req: PresentationRequest, T: Theme):
         rb=rrect(slide,cx+0.25,y+0.04,cw-0.62,rh-0.08,T.bg_rgb,radius_pct=7)
         if rb: set_solid_alpha(rb,50)
         txt(slide,f"{lbl} :",cx+0.42,y+0.04,4.5,rh-0.08,
-            font=_FONT,size=max(10.5,min(12.5,rh*7.5)),bold=True,
+            font=_FONT,size=max(13,min(15,rh*8.5)),bold=True,
             color=T.accent_rgb,align=PP_ALIGN.RIGHT,rtl=True,vcenter=True)
         vline(slide,cx+5.15,y+rh*0.12,rh*0.76,T.muted_rgb,thickness=0.04)
         txt(slide,val,cx+5.35,y+0.04,cw-6.0,rh-0.08,
-            font=_FONT,size=max(12,min(14.5,rh*9)),bold=False,
+            font=_FONT,size=max(14,min(16,rh*10)),bold=False,
             color=T.text_light_rgb,align=PP_ALIGN.RIGHT,rtl=True,vcenter=True)
     return slide
 
@@ -207,13 +257,13 @@ def make_intro(prs, req: PresentationRequest, T: Theme):
                     T.accent_grad1,T.accent_grad2,icon,max(16,int(ic_s*11)),T)
         # عنوان القسم
         txt(slide,lbl,x+0.22,card_y+lbl_y_offset,col_w-0.44,lbl_h,
-            font=_FONT,size=16,bold=True,color=T.accent_rgb,
+            font=_FONT,size=SZ_SECTION_LABEL,bold=True,color=T.accent_rgb,
             align=PP_ALIGN.CENTER,rtl=True,vcenter=True)
         # خط فاصل
         hline(slide,x+col_w*0.14,card_y+div_y_offset,col_w*0.72,T.accent_rgb,thickness=0.04)
         # المحتوى — داخل البطاقة بالكامل
         txt(slide,val,x+0.28,card_y+txt_y_offset,col_w-0.56,txt_h,
-            font=_FONT,size=max(11,min(13,txt_h*2.2)),bold=False,
+            font=_FONT,size=max(13,min(15,txt_h*2.5)),bold=False,
             color=T.text_light_rgb,align=PP_ALIGN.RIGHT,
             rtl=True,vcenter=True,line_spacing=1.3)
     pass  # رقم الشريحة مدمج في الهيدر
@@ -297,7 +347,7 @@ def make_problem(prs, req: PresentationRequest, T: Theme):
         lb=rrect(slide,W-7.5,cy,5.8,0.52,T.accent_rgb,radius_pct=0)
         if lb: multi_stop_gradient(lb,[(0,T.accent),(100,T.accent2)],0)
         txt(slide,"◆  الإشكالية الرئيسية",W-7.5,cy,5.8,0.52,
-            font=_FONT,size=11.5,bold=True,color=T.text_dark_rgb,
+            font=_FONT,size=SZ_LABEL,bold=True,color=T.text_dark_rgb,
             align=PP_ALIGN.CENTER,rtl=True,vcenter=True)
         # علامة اقتباس كبيرة
         txt(slide,"❝",1.3,cy+0.6,1.4,1.1,
@@ -370,7 +420,7 @@ def make_objectives(prs, req: PresentationRequest, T: Theme):
         hdr=rrect(slide,x,CY,col_w,hh,T.accent_rgb,radius_pct=0)
         if hdr: multi_stop_gradient(hdr,[(0,T.accent2),(100,T.accent)],0)
         txt(slide,lbl,x+0.18,CY,col_w-0.36,hh,
-            font=_FONT,size=15,bold=True,color=T.text_dark_rgb,
+            font=_FONT,size=SZ_SECTION_LABEL,bold=True,color=T.text_dark_rgb,
             align=PP_ALIGN.CENTER,rtl=True,vcenter=True)
         # العناصر
         ia=CH-hh-0.12; n_items=min(len(items),8); ig=0.1
@@ -384,7 +434,7 @@ def make_objectives(prs, req: PresentationRequest, T: Theme):
             number_badge(slide,x+col_w-0.82,iy+(ih-0.52)/2,0.52,j+1,T)
             # النص — توسيط عمودي كامل
             txt(slide,item,x+0.24,iy,col_w-1.26,ih,
-                font=_FONT,size=max(9,min(12,ih*7.5)),bold=False,
+                font=_FONT,size=max(12,min(14,ih*8.5)),bold=False,
                 color=T.text_light_rgb,align=PP_ALIGN.RIGHT,
                 rtl=True,vcenter=True,line_spacing=1.2)
     pass  # رقم الشريحة مدمج في الهيدر
@@ -417,7 +467,7 @@ def make_importance(prs, req: PresentationRequest, T: Theme):
                     max(13,int(ic_s*11)),T)
         # النص مع توسيط عمودي
         txt(slide,item,x+ic_s+0.52,y+0.1,col_w-ic_s-1.05,card_h-0.2,
-            font=_FONT,size=max(10,min(13,card_h*6.5)),bold=False,
+            font=_FONT,size=max(12,min(14,card_h*7)),bold=False,
             color=T.text_light_rgb,align=PP_ALIGN.RIGHT,
             rtl=True,vcenter=True,line_spacing=1.3)
     pass  # رقم الشريحة مدمج في الهيدر
@@ -462,12 +512,12 @@ def make_methodology(prs, req: PresentationRequest, T: Theme):
         # عنوان القسم
         lbl_y=y+ic_s+0.38
         txt(slide,lbl,x+0.22,lbl_y,col_w-0.44,0.68,
-            font=_FONT,size=13.5,bold=True,color=T.accent_rgb,
+            font=_FONT,size=SZ_SECTION_LABEL,bold=True,color=T.accent_rgb,
             align=PP_ALIGN.CENTER,rtl=True,vcenter=True)
         hline(slide,x+col_w*0.15,lbl_y+0.7,col_w*0.7,T.muted_rgb,thickness=0.04)
         # القيمة
         txt(slide,val,x+0.22,lbl_y+0.8,col_w-0.44,card_h-lbl_y+y-0.92,
-            font=_FONT,size=max(9.5,min(12,card_h*4.5)),bold=False,
+            font=_FONT,size=max(12,min(14,card_h*5.5)),bold=False,
             color=T.text_light_rgb,align=PP_ALIGN.CENTER,
             rtl=True,vcenter=True,line_spacing=1.25)
     pass  # رقم الشريحة مدمج في الهيدر
@@ -518,7 +568,7 @@ def make_stats(prs, req: PresentationRequest, T: Theme):
         hline(slide,x+col_w*0.14,y+card_h*0.7,col_w*0.72,T.muted_rgb,thickness=0.04)
         # التسمية — أسفل
         txt(slide,stat.label,x+0.15,y+card_h*0.72,col_w-0.3,card_h*0.26,
-            font=_FONT,size=max(9,min(11,card_h*5)),bold=False,
+            font=_FONT,size=max(12,min(14,card_h*6)),bold=False,
             color=T.text_light_rgb,align=PP_ALIGN.CENTER,
             rtl=True,vcenter=True,line_spacing=1.1)
     pass  # رقم الشريحة مدمج في الهيدر
@@ -550,7 +600,7 @@ def make_results(prs, req: PresentationRequest, T: Theme):
         number_badge(slide,W-3.05,y+(row_h-nd)/2,nd,i+1,T)
         # النتيجة — توسيط عمودي كامل
         txt(slide,result,1.2,y,W-4.95,row_h,
-            font=_FONT,size=max(10,min(13,row_h*7.5)),bold=False,
+            font=_FONT,size=max(13,min(15,row_h*8.5)),bold=False,
             color=T.text_light_rgb,align=PP_ALIGN.RIGHT,
             rtl=True,vcenter=True,line_spacing=1.25)
     pass  # رقم الشريحة مدمج في الهيدر
@@ -581,7 +631,7 @@ def make_conclusion(prs, req: PresentationRequest, T: Theme):
     # الاستنتاج — يملأ البطاقة مع توسيط
     # الاستنتاج — يملأ البطاقة مع توسيط
     txt(slide,req.general_conclusion,2.0,CY+0.9,cw-1.2,CH-1.95,
-        font=_FONT,size=max(12,min(15,CH*4.5)),bold=False,
+        font=_FONT,size=max(13,min(16,CH*5)),bold=False,
         color=T.text_light_rgb,align=PP_ALIGN.RIGHT,
         rtl=True,vcenter=True,line_spacing=1.4)
     # الاسم
@@ -589,7 +639,7 @@ def make_conclusion(prs, req: PresentationRequest, T: Theme):
     hl=rect(slide,1.4+cw*0.18,ny,cw*0.64,0.06,T.accent_rgb)
     if hl: multi_stop_gradient(hl,[(0,T.bg2),(50,T.accent),(100,T.bg2)],0)
     txt(slide,req.student_name,1.4,ny+0.12,cw,0.75,
-        font=_FONT,size=14,bold=True,color=T.accent_rgb,
+        font=_FONT,size=SZ_SECTION_LABEL,bold=True,color=T.accent_rgb,
         align=PP_ALIGN.CENTER,rtl=True,vcenter=True)
     pass  # رقم الشريحة مدمج في الهيدر
     return slide
@@ -617,7 +667,7 @@ def make_recommendations(prs, req: PresentationRequest, T: Theme):
         acc=rect(slide,W-1.3,y,0.26,row_h,T.accent_rgb)
         if acc: gradient_fill(acc,T.accent_grad1,T.accent_grad2,90)
         txt(slide,rec,1.2,y,W-3.55,row_h,
-            font=_FONT,size=max(10,min(13,row_h*7.5)),bold=False,
+            font=_FONT,size=max(13,min(15,row_h*8.5)),bold=False,
             color=T.text_light_rgb,align=PP_ALIGN.RIGHT,
             rtl=True,vcenter=True,line_spacing=1.25)
     pass  # رقم الشريحة مدمج في الهيدر
@@ -650,7 +700,7 @@ def make_future(prs, req: PresentationRequest, T: Theme):
         number_badge(slide,x+col_w/2-nd/2,y+0.36,nd,i+1,T)
         hline(slide,x+col_w*0.18,y+nd+0.5,col_w*0.64,T.muted_rgb,thickness=0.04)
         txt(slide,item,x+0.3,y+nd+0.66,col_w-0.6,card_h-nd-0.84,
-            font=_FONT,size=max(10,min(13,card_h*5)),bold=False,
+            font=_FONT,size=max(12,min(14,card_h*5.5)),bold=False,
             color=T.text_light_rgb,align=PP_ALIGN.CENTER,
             rtl=True,vcenter=True,line_spacing=1.3)
     pass  # رقم الشريحة مدمج في الهيدر
@@ -682,7 +732,7 @@ def make_references(prs, req: PresentationRequest, T: Theme):
             font="Calibri",size=9,bold=True,color=T.accent_rgb,
             align=PP_ALIGN.CENTER,rtl=False,vcenter=True)
         txt(slide,ref,1.95,y+0.05,W-3.45,row_h-0.1,
-            font=_FONT,size=max(9,min(11.5,row_h*7)),bold=False,
+            font=_FONT,size=max(12,min(14,row_h*8)),bold=False,
             color=T.text_light_rgb,align=PP_ALIGN.RIGHT,
             rtl=True,vcenter=True,line_spacing=1.15)
     pass  # رقم الشريحة مدمج في الهيدر
@@ -720,7 +770,7 @@ def make_final(prs, req: PresentationRequest, T: Theme):
         font="Calibri",size=26,bold=False,color=T.accent_rgb,
         align=PP_ALIGN.CENTER,rtl=False,vcenter=True)
     txt(slide,"شكراً وتقديراً",cx+0.8,cy+1.15,cw-1.6,2.7,
-        font=_FONT,size=38,bold=True,color=T.text_light_rgb,
+        font=_FONT,size=SZ_FINAL_TITLE,bold=True,color=T.text_light_rgb,
         align=PP_ALIGN.CENTER,rtl=True,vcenter=True,line_spacing=1.1)
 
     d1=rect(slide,cx+cw*0.14,cy+4.1,cw*0.72,0.06,T.accent_rgb)
@@ -728,7 +778,7 @@ def make_final(prs, req: PresentationRequest, T: Theme):
     rect(slide,cx+cw*0.24,cy+4.22,cw*0.52,0.03,T.muted_rgb)
 
     txt(slide,req.student_name,cx+0.8,cy+4.38,cw-1.6,1.35,
-        font=_FONT,size=22,bold=True,color=T.accent_rgb,
+        font=_FONT,size=SZ_FINAL_SUB,bold=True,color=T.accent_rgb,
         align=PP_ALIGN.CENTER,rtl=True,vcenter=True)
 
     ts=req.title_ar[:72]+("..." if len(req.title_ar)>72 else "")

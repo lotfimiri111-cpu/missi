@@ -13,6 +13,16 @@ from core.themes import Theme
 from core.models import PresentationRequest
 
 _FONT = "Cairo"
+
+# ── ثوابت الطباعة ───────────────────────────────────────────────────────
+SZ_SLIDE_TITLE   = 30
+SZ_SECTION_LABEL = 19
+SZ_BODY          = 13
+SZ_LABEL         = 13
+SZ_VALUE         = 15
+SZ_FINAL_TITLE   = 40
+SZ_FINAL_SUB     = 22
+
 def set_font(n): global _FONT; _FONT = n
 
 SW = 5.2   # عرض الشريط الجانبي — ثابت لكل الشرائح
@@ -52,11 +62,11 @@ def _sidebar(slide, T, icon, label1, label2=""):
     # عنوان القسم في الشريط
     label_y = ic_y + 3.2
     txt(slide, label1, 0.2, label_y, SW-0.4, 1.1,
-        font=_FONT, size=16, bold=True,
+        font=_FONT, size=SZ_SLIDE_TITLE, bold=True,
         color=T.text_light_rgb, align=PP_ALIGN.CENTER, rtl=True)
     if label2:
         txt(slide, label2, 0.2, label_y+1.15, SW-0.4, 0.9,
-            font=_FONT, size=12, bold=False,
+            font=_FONT, size=15, bold=False,
             color=T.muted_rgb, align=PP_ALIGN.CENTER, rtl=True)
 
     # خط فاصل في الشريط
@@ -121,15 +131,46 @@ def make_cover(prs, req: PresentationRequest, T: Theme):
     if ct: multi_stop_gradient(ct,[(0,T.accent),(50,T.accent2),(100,T.accent)],0)
     vline(slide,mcx+mcw-0.2,title_y+0.32,title_h-0.32,T.accent_rgb,thickness=0.2)
 
-    ts=24 if len(req.title_ar)<40 else 19 if len(req.title_ar)<65 else 16
-    txt(slide,req.title_ar,mcx+0.4,title_y+0.38,mcw-0.85,title_h*0.62,
-        font=_FONT,size=ts,bold=True,color=T.text_light_rgb,
-        align=PP_ALIGN.CENTER,rtl=True,vcenter=True,line_spacing=1.2)
+    # ── استخراج السنة ────────────────────────────────────────────────
+    import re as _re
+    _year_pat = _re.compile(r'\b\d{4}\s*[-–—]\s*\d{4}\b')
+    _ym = _year_pat.search(req.title_ar or '')
+    if _ym:
+        _year_str    = _ym.group(0).strip()
+        _title_clean = _year_pat.sub('', req.title_ar).strip(' —–-،, ')
+    elif req.year:
+        _year_str    = req.year.strip()
+        _title_clean = req.title_ar
+    else:
+        _year_str    = ''
+        _title_clean = req.title_ar
+
+    ts=24 if len(_title_clean)<40 else 19 if len(_title_clean)<65 else 16
+    _title_text_h = title_h * (0.58 if _year_str else 0.68)
+    txt(slide, _title_clean, mcx+0.4, title_y+0.38, mcw-0.85, _title_text_h,
+        font=_FONT, size=ts, bold=True, color=T.text_light_rgb,
+        align=PP_ALIGN.CENTER, rtl=True, vcenter=True, line_spacing=1.2)
     if req.title_en:
-        txt(slide,req.title_en,mcx+0.4,title_y+title_h*0.64,mcw-0.85,title_h*0.2,
-            font="Calibri",size=10.5,bold=False,italic=True,
-            color=T.muted_rgb,align=PP_ALIGN.CENTER,rtl=False,vcenter=True)
-    hl=rect(slide,mcx+mcw*0.08,title_y+title_h*0.84,mcw*0.84,0.05,T.accent_rgb)
+        txt(slide, req.title_en, mcx+0.4, title_y+_title_text_h+0.32, mcw-0.85, title_h*0.14,
+            font="Calibri", size=10.5, bold=False, italic=True,
+            color=T.muted_rgb, align=PP_ALIGN.CENTER, rtl=False, vcenter=True)
+
+    # ── شارة السنة أسفل العنوان ──────────────────────────────────────
+    if _year_str:
+        _yr_y  = title_y + title_h * 0.76
+        _yr_h  = title_h * 0.13
+        _yr_cx = mcx + mcw * 0.18
+        _yr_cw = mcw * 0.64
+        _yb = rrect(slide, _yr_cx, _yr_y, _yr_cw, _yr_h, T.accent_rgb, radius_pct=50)
+        if _yb: set_solid_alpha(_yb, 25)
+        hline(slide, _yr_cx + _yr_cw*0.08, _yr_y,         _yr_cw*0.84, T.accent_rgb, thickness=0.03)
+        hline(slide, _yr_cx + _yr_cw*0.08, _yr_y + _yr_h, _yr_cw*0.84, T.accent_rgb, thickness=0.03)
+        txt(slide, f'( {_year_str} )',
+            _yr_cx, _yr_y, _yr_cw, _yr_h,
+            font=_FONT, size=13, bold=False, italic=True,
+            color=T.accent_rgb, align=PP_ALIGN.CENTER, rtl=False, vcenter=True)
+
+    hl=rect(slide,mcx+mcw*0.08,title_y+title_h*0.92,mcw*0.84,0.05,T.accent_rgb)
     if hl: multi_stop_gradient(hl,[(0,T.bg2),(50,T.accent),(100,T.bg2)],0)
 
     ic=rrect(slide,mcx,info_y,mcw,info_h,T.card_rgb,radius_pct=12)
@@ -142,7 +183,6 @@ def make_cover(prs, req: PresentationRequest, T: Theme):
     if req.supervisor:     rows.append(("المشرف",req.supervisor))
     if req.co_supervisor:  rows.append(("المشرف المساعد",req.co_supervisor))
     if req.specialization: rows.append(("التخصص",req.specialization))
-    if req.year:           rows.append(("السنة",req.year))
 
     rh=info_h/max(len(rows),1)
     for i,(lbl,val) in enumerate(rows):
@@ -150,17 +190,17 @@ def make_cover(prs, req: PresentationRequest, T: Theme):
         rb=rrect(slide,mcx+0.25,y+0.04,mcw-0.62,rh-0.08,T.bg_rgb,radius_pct=7)
         if rb: set_solid_alpha(rb,50)
         txt(slide,f"{lbl} :",mcx+0.42,y+0.04,4.5,rh-0.08,
-            font=_FONT,size=max(10.5,min(12.5,rh*7.5)),bold=True,
+            font=_FONT,size=max(13,min(15,rh*8.5)),bold=True,
             color=T.accent_rgb,align=PP_ALIGN.RIGHT,rtl=True,vcenter=True)
         vline(slide,mcx+5.15,y+rh*0.12,rh*0.76,T.muted_rgb,thickness=0.04)
         txt(slide,val,mcx+5.35,y+0.04,mcw-6.0,rh-0.08,
-            font=_FONT,size=max(12,min(14.5,rh*9)),bold=False,
+            font=_FONT,size=max(14,min(16,rh*10)),bold=False,
             color=T.text_light_rgb,align=PP_ALIGN.RIGHT,rtl=True,vcenter=True)
 
     fb=rrect(slide,mcx,H-0.33,mcw,0.28,T.bg_rgb,radius_pct=0)
     if fb: set_solid_alpha(fb,45)
     txt(slide,"✦  مذكرتي Pro",mcx+0.3,H-0.33,mcw-0.6,0.28,
-        font=_FONT,size=11,bold=False,italic=True,color=T.muted_rgb,
+        font=_FONT,size=SZ_BODY,bold=False,italic=True,color=T.muted_rgb,
         align=PP_ALIGN.RIGHT,rtl=True,vcenter=True)
 
     bt=rect(slide,0,H-0.28,W,0.28,T.accent_rgb)
@@ -710,7 +750,7 @@ def make_final(prs, req: PresentationRequest, T: Theme):
 
     # اسم الطالب
     txt(slide,req.student_name,mcx+0.7,ccy+cch*0.42,mcw-1.4,cch*0.15,
-        font=_FONT,size=20,bold=True,color=T.accent_rgb,
+        font=_FONT,size=SZ_FINAL_SUB,bold=True,color=T.accent_rgb,
         align=PP_ALIGN.CENTER,rtl=True,vcenter=True)
 
     # عنوان المذكرة
@@ -727,7 +767,7 @@ def make_final(prs, req: PresentationRequest, T: Theme):
         fb=rrect(slide,mcx+mcw*0.1,ccy+cch*0.82,mcw*0.8,0.62,T.bg_rgb,radius_pct=40)
         if fb: set_solid_alpha(fb,50)
         txt(slide,"  ·  ".join(footer),mcx+0.8,ccy+cch*0.82,mcw-1.6,0.62,
-            font=_FONT,size=11,bold=False,color=T.muted_rgb,
+            font=_FONT,size=SZ_BODY,bold=False,color=T.muted_rgb,
             align=PP_ALIGN.CENTER,rtl=True,vcenter=True)
 
     bt=rect(slide,0,H-0.28,W,0.28,T.accent_rgb)
@@ -764,7 +804,7 @@ def make_intro(prs, req, T):
         icon_circle(slide,x+cw/2-ic_s/2,card_y+ic_y_off,ic_s,
                     T.accent_grad1,T.accent_grad2,icon,max(14,int(ic_s*11)),T)
         txt(slide,lbl,x+0.22,card_y+lbl_y_off,cw-0.44,0.68,
-            font=_FONT,size=14,bold=True,color=T.accent_rgb,
+            font=_FONT,size=SZ_SECTION_LABEL,bold=True,color=T.accent_rgb,
             align=PP_ALIGN.CENTER,rtl=True,vcenter=True)
         rect(slide,x+cw*0.14,card_y+div_y_off,cw*0.72,0.04,T.muted_rgb)
         txt(slide,val,x+0.22,card_y+txt_y_off,cw-0.44,txt_h,
